@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="title_activity_news_detail">Новость подробно</string>
+    <string name="title_activity_event_detail">Событие подробно</string>
+    <string name="title_activity_settings">Настройки</string>
+    <string name="title_activity_info">Информация</string>
+    
+    <string name="tab_name_news">Новости</string>
+    <string name="tab_name_events">Афиша</string>
+    <string name="tab_name_radio">Радио</string>
+    <string name="event_show_info_button_title">Инфо</string>
+    <string name="event_hide_info_button_title">Скрыть</string>
+    
+    <string name="settings_theme_dark">Темная тема</string>
+    <string name="settings_theme_light">Светлая тема</string>
+    
+    <string name="settings_restart_alert">Изменение темы вступит в силу после перезагрузки приложения</string>
+    
+    <string name="about_body">
+        <![CDATA[ 
+            Приложение rock63<br>
+            Сайт - <a href="http://rock63.ru">rock63</a><br>
+            Email: <a href="mailto:info@rock63.ru">info@rock63.ru</a><br><br>
+            Разработка:<br>
+            UksusoFF<br>
+            AmazedEvil (<a href="mailto:cpiteam@yandex.ru">cpiteam@yandex.ru</a>)
+        ]]>
+    </string>
+    
+    <string name="news_no_item_text">Нет новостей</string>
+    <string name="events_no_item_text">Нет событий</string>
+    <string name="events_no_place_text">Место проведения смотрите в описании</string>
+    
+</resources>
