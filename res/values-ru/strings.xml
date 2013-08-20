@@ -28,6 +28,7 @@
         ]]>
     </string>
     
+    <string name="action_settings">Настройки</string>
     <string name="news_no_item_text">Нет новостей</string>
     <string name="events_no_item_text">Нет событий</string>
     <string name="events_no_place_text">Место проведения смотрите в описании</string>
