@@ -6,6 +6,7 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.googlecode.androidannotations.annotations.AfterViews;
 import com.googlecode.androidannotations.annotations.EActivity;
+import com.googlecode.androidannotations.annotations.ViewById;
 import com.googlecode.androidannotations.annotations.sharedpreferences.Pref;
 
 import android.os.Bundle;
@@ -19,6 +20,9 @@ public class SettingsActivity extends SherlockActivity {
     
     @Pref
     ISharedPrefs_ sharedPrefs;
+    
+    @ViewById(R.id.appThemeRadio)
+    RadioGroup themeRadio;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,12 +44,12 @@ public class SettingsActivity extends SherlockActivity {
         
         String theme = sharedPrefs.theme().get();
         
-        if (theme==Settings.ROCK63_PREFS_THEME_OPT_DARK)
+        if (theme.equalsIgnoreCase(Settings.ROCK63_PREFS_THEME_OPT_DARK))
             ((RadioGroup)findViewById(R.id.appThemeRadio)).check(R.id.appThemeRadioDark);
-        else if (theme==Settings.ROCK63_PREFS_THEME_OPT_LIGHT)
+        else if (theme.equalsIgnoreCase(Settings.ROCK63_PREFS_THEME_OPT_LIGHT))
             ((RadioGroup)findViewById(R.id.appThemeRadio)).check(R.id.appThemeRadioLight);
         
-        ((RadioGroup)findViewById(R.id.appThemeRadio)).setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        themeRadio.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {

@@ -19,12 +19,22 @@
     
     <string name="about_body">
         <![CDATA[ 
-            Приложение rock63<br>
-            Сайт - <a href="http://rock63.ru">rock63</a><br>
-            Email: <a href="mailto:info@rock63.ru">info@rock63.ru</a><br><br>
-            Разработка:<br>
-            UksusoFF<br>
-            AmazedEvil (<a href="mailto:cpiteam@yandex.ru">cpiteam@yandex.ru</a>)
+            Приложение rock63.ru это:<br>
+			- всегда свежая и самая полная рок-афиша: Подвала, Звезды и других концертных площадок,<br>
+			- новости рок-культуры Самары,<br>
+			- возможность удобно слушать самарское радио «Время Звучать!».<br>
+			<br>
+			Контактная информация: <br>
+			<a href="http://rock63.ru">http://rock63.ru</a><br>
+			<a href="mailto:info@rock63.ru">info@rock63.ru</a><br>
+			<br>
+			Радио «Время Звучать!»<br>
+			<a href="http://vzradio.ru">http://vzradio.ru</a><br>
+			<a href="mailto:info@vzradio.ru">info@vzradio.ru</a><br>
+			<br>
+			Разработка приложения:<br>
+			AmazedEvil<br>
+			<a href="mailto:cpiteam@yandex.ru">cpiteam@yandex.ru</a><br>
         ]]>
     </string>
     

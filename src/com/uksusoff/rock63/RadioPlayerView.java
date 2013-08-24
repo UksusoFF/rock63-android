@@ -10,6 +10,7 @@ import java.util.TimerTask;
 import com.googlecode.androidannotations.annotations.AfterViews;
 import com.googlecode.androidannotations.annotations.EFragment;
 import com.googlecode.androidannotations.annotations.ViewById;
+import com.uksusoff.rock63.utils.CommonUtils;
 import com.uksusoff.rock63.utils.IcyStreamMeta;
 
 import android.content.ComponentName;
@@ -26,6 +27,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
@@ -38,7 +40,7 @@ public class RadioPlayerView extends Fragment implements OnClickListener, OnSeek
     private RadioPlayingService mBoundService = null;
     private boolean mIsBound = false;
     private Timer loadTitleTimer;
-    
+        
     @ViewById(R.id.radio_track_title)
     TextView trackTitle;
     
@@ -162,11 +164,11 @@ public class RadioPlayerView extends Fragment implements OnClickListener, OnSeek
 
         if (mBoundService.isStreamPlaying()) {
             mBoundService.stopStream();
-            playBtn.setImageResource(R.drawable.fish_play);
+            playBtn.setImageResource(CommonUtils.getThemedResource(getActivity(), R.attr.radio_play));
         } else {
             mBoundService.playStream();
             
-            playBtn.setImageResource(R.drawable.fish_pause);
+            playBtn.setImageResource(CommonUtils.getThemedResource(getActivity(), R.attr.radio_pause));
         }
     }
     
@@ -182,9 +184,9 @@ public class RadioPlayerView extends Fragment implements OnClickListener, OnSeek
             return;
         
         if (mBoundService.isStreamPlaying())
-            RadioPlayerView.this.playBtn.setImageResource(R.drawable.fish_pause);
+            RadioPlayerView.this.playBtn.setImageResource(CommonUtils.getThemedResource(getActivity(), R.attr.radio_pause));
         else
-            RadioPlayerView.this.playBtn.setImageResource(R.drawable.fish_play);
+            RadioPlayerView.this.playBtn.setImageResource(CommonUtils.getThemedResource(getActivity(), R.attr.radio_play));
         
         //TODO: make constant
         

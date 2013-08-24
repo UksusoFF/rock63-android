@@ -2,6 +2,9 @@ package com.uksusoff.rock63.utils;
 
 import java.util.Date;
 
+import android.content.Context;
+import android.util.TypedValue;
+
 public class CommonUtils {
 	public static Date getDateFromTimestamp(int ts) {
 	    
@@ -34,5 +37,13 @@ public class CommonUtils {
 	    noHTMLString = noHTMLString.replaceAll("&.*?;", "");
 	    
         return noHTMLString;
+	}
+	
+	public static int getThemedResource(Context context, int attr) {
+	
+        TypedValue typedvalueattr = new TypedValue();
+        context.getTheme().resolveAttribute(attr, typedvalueattr, true);
+        return typedvalueattr.resourceId;
+	
 	}
 }

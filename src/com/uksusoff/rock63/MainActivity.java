@@ -49,9 +49,9 @@ public class MainActivity extends SherlockFragmentActivity implements OnQueryTex
 	    String theme = sharedPrefs.theme().get();
 
         if (theme.equalsIgnoreCase(Settings.ROCK63_PREFS_THEME_OPT_DARK)) {
-            setTheme(R.style.Theme_Sherlock);
+            setTheme(R.style.AppDarkTheme);
         } else if (theme.equalsIgnoreCase(Settings.ROCK63_PREFS_THEME_OPT_LIGHT)) {
-            setTheme(R.style.Theme_Sherlock_Light);
+            setTheme(R.style.AppLightTheme);
         }
 	            
         super.onCreate(savedInstanceState);
