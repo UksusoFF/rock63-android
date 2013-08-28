@@ -5,15 +5,15 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+
 import org.json.*;
 
 import com.googlecode.androidannotations.annotations.AfterInject;
 import com.googlecode.androidannotations.annotations.EBean;
 import com.googlecode.androidannotations.annotations.RootContext;
-import com.googlecode.androidannotations.api.Scope;
 import com.uksusoff.rock63.data.entities.Event;
 import com.uksusoff.rock63.data.entities.NewsItem;
 import com.uksusoff.rock63.data.entities.Place;
@@ -152,7 +152,7 @@ public class DataSource {
 	                  URL url = null;
 	                  if (lastNewsUpdate!=0) {
 	                      Date d = CommonUtils.getDateFromTimestamp(lastNewsUpdate);
-	                      url = new URL(String.format(NEWS_SOURCE_URL_FROM_DATE, (new SimpleDateFormat("yyyyy/MM/dd")).format(d)));
+	                      url = new URL(String.format(NEWS_SOURCE_URL_FROM_DATE, (new SimpleDateFormat("yyyyy/MM/dd", Locale.getDefault())).format(d)));
 	                  } else
 	                      url = new URL(NEWS_SOURCE_URL);
 	                  conn = url.openConnection();

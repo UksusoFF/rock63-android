@@ -2,10 +2,14 @@ package com.uksusoff.rock63.data.entities;
 
 import java.io.Serializable;
 
-import android.graphics.Bitmap;
-
 public class Place implements Serializable {
-	private int id;
+    
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+    
+    private int id;
 	private String name;
 	private String address;
 	private String url;

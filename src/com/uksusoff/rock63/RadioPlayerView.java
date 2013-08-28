@@ -11,23 +11,18 @@ import com.googlecode.androidannotations.annotations.AfterViews;
 import com.googlecode.androidannotations.annotations.EFragment;
 import com.googlecode.androidannotations.annotations.ViewById;
 import com.uksusoff.rock63.utils.CommonUtils;
-import com.uksusoff.rock63.utils.IcyStreamMeta;
 
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
@@ -165,10 +160,14 @@ public class RadioPlayerView extends Fragment implements OnClickListener, OnSeek
         if (mBoundService.isStreamPlaying()) {
             mBoundService.stopStream();
             playBtn.setImageResource(CommonUtils.getThemedResource(getActivity(), R.attr.radio_play));
+        
+            Flurry.endEvent(getString(R.string.flurry_radio_play));
         } else {
             mBoundService.playStream();
             
             playBtn.setImageResource(CommonUtils.getThemedResource(getActivity(), R.attr.radio_pause));
+        
+            Flurry.logEvent(getString(R.string.flurry_radio_play));
         }
     }
     

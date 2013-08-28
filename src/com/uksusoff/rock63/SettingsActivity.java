@@ -1,28 +1,27 @@
 package com.uksusoff.rock63;
 
-import com.actionbarsherlock.app.SherlockActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
 import com.googlecode.androidannotations.annotations.AfterViews;
 import com.googlecode.androidannotations.annotations.EActivity;
 import com.googlecode.androidannotations.annotations.ViewById;
 import com.googlecode.androidannotations.annotations.sharedpreferences.Pref;
 
 import android.os.Bundle;
-import android.app.Activity;
-import android.content.Intent;
-import android.content.SharedPreferences;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 @EActivity(R.layout.activity_settings)
-public class SettingsActivity extends SherlockActivity {
+public class SettingsActivity extends BaseActivity {
     
     @Pref
     ISharedPrefs_ sharedPrefs;
     
     @ViewById(R.id.appThemeRadio)
     RadioGroup themeRadio;
+    
+    @ViewById(R.id.info_body_text)
+    TextView bodyText;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,14 +61,18 @@ public class SettingsActivity extends SherlockActivity {
                     theme = Settings.ROCK63_PREFS_THEME_OPT_DARK;
                     
                     SettingsActivity.this.getApplication().setTheme(R.style.AppDarkTheme);
-                                        
+                    
+                    Flurry.logEvent(getString(R.string.flurry_change_theme_to_dark));
+                    
                     break;
                 case R.id.appThemeRadioLight:
                     
                     theme = Settings.ROCK63_PREFS_THEME_OPT_LIGHT;
                     
                     SettingsActivity.this.getApplication().setTheme(R.style.AppLightTheme);
-                                        
+                    
+                    Flurry.logEvent(getString(R.string.flurry_change_theme_to_light));
+                    
                     break;
                 }
                 
@@ -78,35 +81,9 @@ public class SettingsActivity extends SherlockActivity {
             }
             
         });
-    }
-    
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getSupportMenuInflater();
-        inflater.inflate(R.menu.settings_menu, menu);
-                
-        return super.onCreateOptionsMenu(menu);
-    }
-    
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
         
-        switch (item.getItemId()) {
-        case R.id.menuAbout:
-            
-            Info_.intent(this).start();
-            
-            break;
-        }
-        
-        return super.onOptionsItemSelected(item);
+        bodyText.setMovementMethod(LinkMovementMethod.getInstance());
+        bodyText.setText(Html.fromHtml(getString(R.string.about_body)));
     }
-
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.settings, menu);
-        return true;
-    }*/
 
 }

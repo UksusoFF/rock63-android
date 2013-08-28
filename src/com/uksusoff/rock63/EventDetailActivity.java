@@ -1,6 +1,7 @@
 package com.uksusoff.rock63;
 
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 import com.googlecode.androidannotations.annotations.AfterViews;
 import com.googlecode.androidannotations.annotations.EActivity;
@@ -8,20 +9,17 @@ import com.googlecode.androidannotations.annotations.Extra;
 import com.googlecode.androidannotations.annotations.sharedpreferences.Pref;
 import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 import com.uksusoff.rock63.data.entities.Event;
-import com.uksusoff.rock63.data.entities.NewsItem;
 
 import android.os.Bundle;
-import android.app.Activity;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
-import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Button;
 
 @EActivity(R.layout.activity_event_detail)
-public class EventDetailActivity extends Activity {
+public class EventDetailActivity extends BaseActivity {
     
     @Extra("event")
     Event event;
@@ -48,8 +46,8 @@ public class EventDetailActivity extends Activity {
     void init() {
                 
         ((TextView)findViewById(R.id.event_detail_title)).setText(event.getTitle());
-        SimpleDateFormat fDate = new SimpleDateFormat("dd.MM.yyyy");
-        SimpleDateFormat fTime = new SimpleDateFormat("HH:mm");
+        SimpleDateFormat fDate = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+        SimpleDateFormat fTime = new SimpleDateFormat("HH:mm", Locale.getDefault());
         if (event.getEnd()!=null) {
             ((TextView)findViewById(R.id.event_detail_datentime)).setText(
                     String.format("%s %s - %s %s", fDate.format(event.getStart()), fTime.format(event.getStart()), fDate.format(event.getEnd()), fTime.format(event.getEnd()))

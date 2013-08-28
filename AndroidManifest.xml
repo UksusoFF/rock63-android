@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.uksusoff.rock63"
-    android:versionCode="4"
+    android:versionCode="6"
     android:versionName="1.0"
     android:installLocation="preferExternal" >
 
@@ -47,11 +47,6 @@
         <activity
             android:name="com.uksusoff.rock63.SettingsActivity_"
             android:label="@string/title_activity_settings"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity
-            android:name="com.uksusoff.rock63.Info_"
-            android:label="@string/title_activity_info"
             android:screenOrientation="portrait" >
         </activity>
     </application>

@@ -4,13 +4,13 @@
     <string name="title_activity_news_detail">Новость подробно</string>
     <string name="title_activity_event_detail">Событие подробно</string>
     <string name="title_activity_settings">Настройки</string>
-    <string name="title_activity_info">Информация</string>
     
     <string name="tab_name_news">Новости</string>
     <string name="tab_name_events">Афиша</string>
     <string name="tab_name_radio">Радио</string>
     <string name="event_show_info_button_title">Инфо</string>
     <string name="event_hide_info_button_title">Скрыть</string>
+    <string name="info_title">Информация</string>
     
     <string name="settings_theme_dark">Темная тема</string>
     <string name="settings_theme_light">Светлая тема</string>

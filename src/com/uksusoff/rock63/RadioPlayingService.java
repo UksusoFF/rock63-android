@@ -1,16 +1,9 @@
 package com.uksusoff.rock63;
 
-import java.io.IOException;
-import java.net.URL;
-
-import com.uksusoff.rock63.utils.IcyStreamMeta;
-
 import android.app.Service;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.media.MediaPlayer.TrackInfo;
-import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.IBinder;
 

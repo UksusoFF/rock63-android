@@ -161,7 +161,7 @@ public class IcyStreamMeta {
 	}
  
 	public static Map<String, String> parseMetadata(String metaString) {
-		Map<String, String> metadata = new HashMap();
+		Map<String, String> metadata = new HashMap<String, String>();
 		String[] metaParts = metaString.split(";");
 		Pattern p = Pattern.compile("^([a-zA-Z]+)=\\'([^\\']*)\\'$");
 		Matcher m;

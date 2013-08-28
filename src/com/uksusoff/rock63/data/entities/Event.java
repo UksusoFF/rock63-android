@@ -4,7 +4,13 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class Event implements Serializable {
-	private int id;
+    
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+    
+    private int id;
 	private String title;
 	private String body;
 	private Date start;

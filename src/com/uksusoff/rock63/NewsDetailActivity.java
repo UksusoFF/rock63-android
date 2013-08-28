@@ -9,15 +9,13 @@ import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 import com.uksusoff.rock63.data.entities.NewsItem;
 
 import android.os.Bundle;
-import android.app.Activity;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
-import android.view.Menu;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 @EActivity (R.layout.news_detail)
-public class NewsDetailActivity extends Activity {
+public class NewsDetailActivity extends BaseActivity {
     
     @Extra("newsItem")
     NewsItem newsItem;

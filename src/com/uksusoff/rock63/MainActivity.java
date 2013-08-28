@@ -1,37 +1,30 @@
 package com.uksusoff.rock63;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 import android.os.Bundle;
 import android.content.Context;
-import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RadioGroup;
 import android.widget.TabHost;
 import android.widget.TabWidget;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.widget.SearchView;
 import com.actionbarsherlock.widget.SearchView.OnQueryTextListener;
 import com.googlecode.androidannotations.annotations.AfterViews;
-import com.googlecode.androidannotations.annotations.Bean;
 import com.googlecode.androidannotations.annotations.EActivity;
 import com.googlecode.androidannotations.annotations.sharedpreferences.Pref;
 import com.uksusoff.rock63.R;
-import com.uksusoff.rock63.data.DataSource;
-import com.uksusoff.rock63.data.entities.Event;
 
 @EActivity(R.layout.activity_main)
-public class MainActivity extends SherlockFragmentActivity implements OnQueryTextListener, TabHost.OnTabChangeListener  {
+public class MainActivity extends BaseFragmentActivity implements OnQueryTextListener, TabHost.OnTabChangeListener  {
     
 	private TabHost mTabHost;
 	private ViewPager  mViewPager;
@@ -119,12 +112,10 @@ public class MainActivity extends SherlockFragmentActivity implements OnQueryTex
         }
 
         static final class TabInfo {
-            private final String tag;
             private final Class<?> clss;
             private final Bundle args;
 
-            TabInfo(String _tag, Class<?> _class, Bundle _args) {
-                tag = _tag;
+            TabInfo(Class<?> _class, Bundle _args) {
                 clss = _class;
                 args = _args;
             }
@@ -158,9 +149,8 @@ public class MainActivity extends SherlockFragmentActivity implements OnQueryTex
 
         public void addTab(TabHost.TabSpec tabSpec, Class<?> clss, Bundle args) {
             tabSpec.setContent(new DummyTabFactory(mContext));
-            String tag = tabSpec.getTag();
 
-            TabInfo info = new TabInfo(tag, clss, args);
+            TabInfo info = new TabInfo(clss, args);
             mTabs.add(info);
             mTabHost.addTab(tabSpec);
             notifyDataSetChanged();
@@ -243,12 +233,6 @@ public class MainActivity extends SherlockFragmentActivity implements OnQueryTex
 	    case R.id.menuPreferences:
 	        
 	        SettingsActivity_.intent(this).start();
-	        
-	        break;
-	        
-	    case R.id.menuAbout:
-	        
-	        Info_.intent(this).start();
 	        
 	        break;
 	    }

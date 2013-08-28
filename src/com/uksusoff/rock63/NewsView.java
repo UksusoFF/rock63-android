@@ -12,20 +12,12 @@ import com.googlecode.androidannotations.annotations.EFragment;
 import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 import com.uksusoff.rock63.data.DataSource;
 import com.uksusoff.rock63.data.INewsDataSourceListener;
-import com.uksusoff.rock63.data.entities.Event;
 import com.uksusoff.rock63.data.entities.NewsItem;
 import com.uksusoff.rock63.utils.CommonUtils;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.os.Bundle;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -79,7 +71,8 @@ public class NewsView extends SherlockListFragment implements INewsDataSourceLis
 	    super.onDestroy();
 	}
 	
-	@Override
+	@SuppressWarnings("unchecked")
+    @Override
 	public void onListItemClick(ListView l, View v, int position, long id)
 	{
 	    super.onListItemClick(l, v, position, id); 

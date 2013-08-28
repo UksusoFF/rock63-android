@@ -20,7 +20,7 @@
     <string name="settings_theme_dark">Dark Theme</string>
     <string name="settings_theme_light">Light Theme</string>
     <string name="settings_restart_alert">Theme change settings will be applied after app restart</string>
-    <string name="title_activity_info">Info</string>
+    <string name="info_title">Info</string>
     
     <string name="about_body">rock63 - application</string>
     <string name="news_no_item_text">No news</string>

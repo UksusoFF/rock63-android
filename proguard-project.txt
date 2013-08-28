@@ -24,4 +24,7 @@
 -keep class com.actionbarsherlock.** { *; }
 -keep interface com.actionbarsherlock.** { *; }
 
+-keep class com.flurry.** { *; }
+-dontwarn com.flurry.**
+
 -keepattributes *Annotation*

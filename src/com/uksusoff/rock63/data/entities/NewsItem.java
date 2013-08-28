@@ -3,11 +3,14 @@ package com.uksusoff.rock63.data.entities;
 import java.io.Serializable;
 import java.util.Date;
 
-import android.graphics.Bitmap;
-
 public class NewsItem implements Serializable {
 	
-	private int id;
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+    
+    private int id;
 	private String title;
 	private String body;
 	private Date date;

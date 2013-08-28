@@ -4,31 +4,23 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.googlecode.androidannotations.annotations.AfterViews;
 import com.googlecode.androidannotations.annotations.Bean;
 import com.googlecode.androidannotations.annotations.EFragment;
-import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 import com.uksusoff.rock63.data.DataSource;
 import com.uksusoff.rock63.data.IEventDataSourceListener;
 import com.uksusoff.rock63.data.entities.Event;
-import com.uksusoff.rock63.data.entities.NewsItem;
-import com.uksusoff.rock63.utils.CommonUtils;
 
 @EFragment
 public class EventsView extends SherlockListFragment implements IEventDataSourceListener, IRefreshableFragment, ISearchableFragment {
@@ -39,7 +31,6 @@ public class EventsView extends SherlockListFragment implements IEventDataSource
     private View progressWrap;
     private ProgressBar progress;
     //private List<Event> mEvents;
-    private View mFilters;
         
     @AfterViews
     void init() {
@@ -71,6 +62,7 @@ public class EventsView extends SherlockListFragment implements IEventDataSource
         super.onDestroy();
     }
     
+    @SuppressWarnings("unchecked")
     @Override
     public void onListItemClick(ListView l, View v, int position, long id)
     {
@@ -143,7 +135,7 @@ public class EventsView extends SherlockListFragment implements IEventDataSource
             Event item = events.get(i);
             Map<String, Object> datum = new HashMap<String, Object>(3);
             datum.put("title", item.getTitle());
-            SimpleDateFormat f = new SimpleDateFormat("dd.MM.yyyy");
+            SimpleDateFormat f = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
             datum.put("date", f.format(item.getStart()));
             if (item.getPlace()!=null)
                 datum.put("place", item.getPlace().getName());
@@ -174,14 +166,14 @@ public class EventsView extends SherlockListFragment implements IEventDataSource
                 if (getListView().getAdapter().getItem(i)==null)
                     continue;
                 
+                @SuppressWarnings("unchecked")
                 Event e = (Event)((Map<String, Object>)getListView().getAdapter().getItem(i)).get("obj");
                 
-                if (e.getTitle().toLowerCase().contains(query.toLowerCase()))
+                if (e.getTitle().toLowerCase(Locale.getDefault()).contains(query.toLowerCase(Locale.getDefault())))
                     return i;
             }
         } catch (Exception e) {
-            int i = 0;
-            i++;
+            e.printStackTrace();
         }
         
         return -1;
