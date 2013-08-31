@@ -246,6 +246,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             	eventsList.add(e);
             } while (cursor.moveToNext());
         }
+        
+        cursor.close();
      
         // return contact list
         return eventsList;
