@@ -78,21 +78,29 @@ public class RadioPlayingService extends Service {
         });
     }
     
+    private MediaPlayer getPlayer() {
+        
+        if (mediaPlayer==null)
+            initMediaPlayer();
+        
+        return mediaPlayer;
+    }
+    
     public boolean isStreamPlaying() {
-        return mediaPlayer.isPlaying();
+        return getPlayer().isPlaying();
     }
     
     public void setStreamVolume(float v) {
         lastVolume = v;
-        mediaPlayer.setVolume(v, v);
+        getPlayer().setVolume(v, v);
     }
         
     public void playStream() {
 
         try {
-            if (!mediaPlayer.isPlaying()) {
-                mediaPlayer.setDataSource(RADIO_URL);
-                mediaPlayer.prepareAsync();
+            if (!getPlayer().isPlaying()) {
+                getPlayer().setDataSource(RADIO_URL);
+                getPlayer().prepareAsync();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -101,7 +109,7 @@ public class RadioPlayingService extends Service {
 
     public void stopStream() {
                 
-        mediaPlayer.stop();
-        mediaPlayer.reset();
+        getPlayer().stop();
+        getPlayer().reset();
     }
 }
