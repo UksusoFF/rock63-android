@@ -22,6 +22,7 @@
         <item name="radio_logo">@drawable/vz_radio_light</item>
         <item name="radio_play">@drawable/play_light</item>
         <item name="radio_pause">@drawable/pause_light</item>
+        <item name="share">@drawable/share_light</item>
     </style>
     
     <style name="AppDarkTheme" parent="Theme.Sherlock">
@@ -29,6 +30,7 @@
         <item name="radio_logo">@drawable/vz_radio_dark</item>
         <item name="radio_play">@drawable/play_dark</item>
         <item name="radio_pause">@drawable/pause_dark</item>
+        <item name="share">@drawable/share_dark</item>
     </style>
 
 </resources>

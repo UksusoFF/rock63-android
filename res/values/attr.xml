@@ -3,4 +3,5 @@
     <attr name="radio_logo" format="reference"/>
     <attr name="radio_play" format="reference"/>
     <attr name="radio_pause" format="reference"/>
+    <attr name="share" format="reference"/>
 </resources>

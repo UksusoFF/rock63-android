@@ -296,6 +296,7 @@ public class DataSource {
                             } else {
                                 e.setPlaceId(NO_PLACE_ID);
                             }
+                            e.setUrl(eventJson.getString("url"));
                             
                             database.addEvent(e);
                         }

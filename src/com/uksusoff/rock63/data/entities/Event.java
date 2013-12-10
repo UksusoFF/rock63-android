@@ -17,7 +17,7 @@ public class Event implements Serializable {
 	private Date end;
 	private int placeId;
 	private String mediumThumbUrl;
-	
+	private String url;
     private Place place;
 	
     public String getMediumThumbUrl() {
@@ -68,4 +68,10 @@ public class Event implements Serializable {
 	public void setEnd(Date end) {
 		this.end = end;
 	}
+	public String getUrl() {
+        return url;
+    }
+    public void setUrl(String url) {
+        this.url = url;
+    }
 }

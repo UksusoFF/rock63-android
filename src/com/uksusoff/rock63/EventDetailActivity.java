@@ -6,10 +6,13 @@ import java.util.Locale;
 import com.googlecode.androidannotations.annotations.AfterViews;
 import com.googlecode.androidannotations.annotations.EActivity;
 import com.googlecode.androidannotations.annotations.Extra;
+import com.googlecode.androidannotations.annotations.OptionsItem;
+import com.googlecode.androidannotations.annotations.OptionsMenu;
 import com.googlecode.androidannotations.annotations.sharedpreferences.Pref;
 import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 import com.uksusoff.rock63.data.entities.Event;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
@@ -19,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Button;
 
 @EActivity(R.layout.activity_event_detail)
+@OptionsMenu(R.menu.menu_event)
 public class EventDetailActivity extends BaseActivity {
     
     @Extra("event")
@@ -97,6 +101,22 @@ public class EventDetailActivity extends BaseActivity {
         } else {
             ((ImageView)findViewById(R.id.event_detail_image)).setVisibility(View.GONE);
         }
+    }
+    
+    @OptionsItem(R.id.menu_share)
+    void menuShare() {
+        shareEvent();
+    }
+    
+    private void shareEvent() {
+        Intent intent=new Intent(android.content.Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+
+        intent.putExtra(Intent.EXTRA_SUBJECT, event.getTitle());
+        intent.putExtra(Intent.EXTRA_TEXT, event.getUrl());
+        
+        startActivity(intent);
     }
     
     /*@Override

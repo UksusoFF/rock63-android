@@ -55,6 +55,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String TABLE_EVENTS_KEY_ENDDATETIME = "end";
     private static final String TABLE_EVENTS_KEY_PLACEID = "placeid";
     private static final String TABLE_EVENTS_KEY_MEDIUM_THUMB_URL = "mediumthumburl";
+    private static final String TABLE_EVENTS_KEY_URL = "url";
      
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -93,7 +94,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         		+ TABLE_EVENTS_KEY_STARTDATETIME + " INTEGER,"
         		+ TABLE_EVENTS_KEY_ENDDATETIME + " INTEGER,"
                 + TABLE_EVENTS_KEY_PLACEID + " INTEGER,"
-        		+ TABLE_EVENTS_KEY_MEDIUM_THUMB_URL + " TEXT" + ")";
+        		+ TABLE_EVENTS_KEY_MEDIUM_THUMB_URL + " TEXT,"
+                + TABLE_EVENTS_KEY_URL + " TEXT" + ")";
         
         db.execSQL(CREATE_EVENTS_TABLE);
         
@@ -216,6 +218,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(TABLE_EVENTS_KEY_ENDDATETIME, CommonUtils.getTimestampFromDate(item.getEnd()));
         values.put(TABLE_EVENTS_KEY_PLACEID, item.getPlaceId());
         values.put(TABLE_EVENTS_KEY_MEDIUM_THUMB_URL, item.getMediumThumbUrl());
+        values.put(TABLE_EVENTS_KEY_URL, item.getUrl());
         
         // Inserting Row
         db.insert(TABLE_EVENTS, null, values);
@@ -228,7 +231,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         // Select All Query
         String selectQuery = "SELECT * FROM " + TABLE_EVENTS;
      
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
      
         // looping through all rows and adding to list
@@ -242,6 +245,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             	e.setEnd(CommonUtils.getDateFromTimestamp(cursor.getInt(cursor.getColumnIndex(TABLE_EVENTS_KEY_ENDDATETIME))));
             	e.setPlaceId(cursor.getInt(cursor.getColumnIndex(TABLE_EVENTS_KEY_PLACEID)));
             	e.setMediumThumbUrl(cursor.getString(cursor.getColumnIndex(TABLE_EVENTS_KEY_MEDIUM_THUMB_URL)));
+            	e.setUrl(cursor.getString(cursor.getColumnIndex(TABLE_EVENTS_KEY_URL)));
             	
             	eventsList.add(e);
             } while (cursor.moveToNext());
@@ -285,7 +289,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         // Select All Query
         String selectQuery = "SELECT * FROM " + TABLE_PLACES;
      
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
      
         // looping through all rows and adding to list
@@ -315,7 +319,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     	
     	String selectQuery = "SELECT id FROM " + TABLE_PLACES;
     	
-    	SQLiteDatabase db = this.getWritableDatabase();
+    	SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
     	
         List<Integer> result = new ArrayList<Integer>();
@@ -336,7 +340,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     	
     	String selectQuery = "SELECT * FROM " + TABLE_PLACES + " WHERE " + TABLE_PLACES_KEY_ID + "=" + Integer.toString(id);
         
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
         
         Place res = null;
