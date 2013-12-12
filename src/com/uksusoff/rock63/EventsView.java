@@ -100,10 +100,26 @@ public class EventsView extends SherlockListFragment implements IEventDataSource
     @Override
     public void onSearch(String query) {
         // TODO Auto-generated method stub
-        int p = searchItemPositionByQuery(query);
+        /*int p = searchItemPositionByQuery(query);
         if (p!=-1) {
             //getListView().smoothScrollToPosition(p);
             getListView().setSelection(p);
+        }*/
+        
+        if (getListView().getAdapter()!=null) {
+            ((SimpleAdapter)getListAdapter()).getFilter().filter(query);
+        }
+    }
+    
+    public void onFilter(String query) {
+        if (getListAdapter()!=null) {
+            ((SimpleAdapter)getListAdapter()).getFilter().filter(query);
+        }
+    }
+    
+    public void onClearFilter() {
+        if (getListAdapter()!=null) {
+            ((SimpleAdapter)getListAdapter()).getFilter().filter("");
         }
     }
     
@@ -155,7 +171,7 @@ public class EventsView extends SherlockListFragment implements IEventDataSource
                                                   new int[] { com.uksusoff.rock63.R.id.event_item_title,
                                                               com.uksusoff.rock63.R.id.event_item_date,
                                                               com.uksusoff.rock63.R.id.event_item_place });
-        
+                
         this.setListAdapter(adapter);
         
         return true;

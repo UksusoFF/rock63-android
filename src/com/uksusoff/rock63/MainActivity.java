@@ -21,6 +21,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.widget.SearchView;
+import com.actionbarsherlock.widget.SearchView.OnCloseListener;
 import com.actionbarsherlock.widget.SearchView.OnQueryTextListener;
 import com.googlecode.androidannotations.annotations.AfterViews;
 import com.googlecode.androidannotations.annotations.EActivity;
@@ -29,7 +30,7 @@ import com.uksusoff.rock63.R;
 
 @EActivity(R.layout.activity_main)
 public class MainActivity extends BaseFragmentActivity implements
-        OnQueryTextListener, TabHost.OnTabChangeListener {
+        OnQueryTextListener, TabHost.OnTabChangeListener, OnCloseListener {
 
     private TabHost mTabHost;
     private ViewPager mViewPager;
@@ -193,7 +194,7 @@ public class MainActivity extends BaseFragmentActivity implements
         }
 
         public Fragment getCurrentItem() {
-            return mFragments.get(mTabHost.getCurrentTab());
+            return mFragments.size()>mTabHost.getCurrentTab() ? mFragments.get(mTabHost.getCurrentTab()) : null;
         }
 
         @Override
@@ -246,6 +247,7 @@ public class MainActivity extends BaseFragmentActivity implements
                 .getActionView();
 
         mSearchView.setOnQueryTextListener(this);
+        mSearchView.setOnCloseListener(this);
 
         if (!currentTab.equalsIgnoreCase("events")) {
             ((SearchView) menu.findItem(R.id.menu_search).getActionView())
@@ -279,25 +281,46 @@ public class MainActivity extends BaseFragmentActivity implements
     @Override
     public boolean onQueryTextChange(String newText) {
         // TODO Auto-generated method stub
+        
+        if (mTabsAdapter.getCurrentItem() instanceof ISearchableFragment) {
+            ((ISearchableFragment) mTabsAdapter.getCurrentItem())
+                    .onFilter(newText);
+            return true;
+        }
+        
+        return false;
+    }
+    
+    @Override
+    public boolean onClose() {
+        
+        if (mTabsAdapter.getCurrentItem() instanceof ISearchableFragment) {
+            ((ISearchableFragment) mTabsAdapter.getCurrentItem()).onClearFilter();
+        }
+        
         return false;
     }
 
     @Override
     public boolean onQueryTextSubmit(String query) {
 
-        if (mTabsAdapter.getCurrentItem() instanceof ISearchableFragment) {
+        /*if (mTabsAdapter.getCurrentItem() instanceof ISearchableFragment) {
             ((ISearchableFragment) mTabsAdapter.getCurrentItem())
                     .onSearch(query);
             mSearchView.clearFocus();
             return true;
-        }
+        }*/
 
         return false;
     }
 
     @Override
     public void onTabChanged(String tabId) {
-
+        
+        if (mSearchView!=null) {
+            mSearchView.setQuery("", false);
+        }
+        
         currentTab = tabId;
 
         getSherlock().dispatchInvalidateOptionsMenu();
@@ -312,5 +335,6 @@ public class MainActivity extends BaseFragmentActivity implements
          * }
          */
     }
+
 
 }
