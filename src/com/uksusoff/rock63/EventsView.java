@@ -8,22 +8,19 @@ import java.util.Locale;
 import java.util.Map;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.SimpleAdapter;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.googlecode.androidannotations.annotations.AfterViews;
 import com.googlecode.androidannotations.annotations.Bean;
 import com.googlecode.androidannotations.annotations.EFragment;
-import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 import com.uksusoff.rock63.data.DataSource;
 import com.uksusoff.rock63.data.IEventDataSourceListener;
 import com.uksusoff.rock63.data.entities.Event;
+import com.uksusoff.rock63.utils.AdvSimpleAdapter;
 
 @EFragment
 public class EventsView extends SherlockListFragment implements IEventDataSourceListener, IRefreshableFragment, ISearchableFragment {
@@ -107,19 +104,20 @@ public class EventsView extends SherlockListFragment implements IEventDataSource
         }*/
         
         if (getListView().getAdapter()!=null) {
-            ((SimpleAdapter)getListAdapter()).getFilter().filter(query);
+            ((AdvSimpleAdapter)getListAdapter()).getFilter().filter(query);
         }
     }
     
     public void onFilter(String query) {
         if (getListAdapter()!=null) {
-            ((SimpleAdapter)getListAdapter()).getFilter().filter(query);
+            ((AdvSimpleAdapter)getListAdapter()).getFilter().filter(query);
+            //((SimpleAdapter)getListAdapter()).
         }
     }
     
     public void onClearFilter() {
         if (getListAdapter()!=null) {
-            ((SimpleAdapter)getListAdapter()).getFilter().filter("");
+            ((AdvSimpleAdapter)getListAdapter()).getFilter().filter("");
         }
     }
     
@@ -165,7 +163,7 @@ public class EventsView extends SherlockListFragment implements IEventDataSource
             data.add(datum);
         }
 
-        SimpleAdapter adapter = new SimpleAdapter(this.getActivity(), data,
+        AdvSimpleAdapter adapter = new AdvSimpleAdapter(this.getActivity(), data,
                                                   com.uksusoff.rock63.R.layout.event_item_view,
                                                   new String[] {"title", "date", "place"},
                                                   new int[] { com.uksusoff.rock63.R.id.event_item_title,
