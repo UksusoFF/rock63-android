@@ -352,7 +352,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         	p.setAddress(cursor.getString(cursor.getColumnIndex(TABLE_PLACES_KEY_ADDRESS)));
         	p.setUrl(cursor.getString(cursor.getColumnIndex(TABLE_PLACES_KEY_SITEURL)));
         	p.setPhone(cursor.getString(cursor.getColumnIndex(TABLE_PLACES_KEY_PHONE)));
-        	
+        	p.setMapImageUrl(cursor.getString(cursor.getColumnIndex(TABLE_PLACES_KEY_MAP_IMAGE_URL)));
+        	p.setVkUrl(cursor.getString(cursor.getColumnIndex(TABLE_PLACES_KEY_VKURL)));
+        	        	
         	res = p;
         }
         
