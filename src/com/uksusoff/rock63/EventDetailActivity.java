@@ -65,10 +65,28 @@ public class EventDetailActivity extends BaseActivity {
         if (event.getPlace()!=null) {
             ((TextView)findViewById(R.id.event_detail_placename)).setText(event.getPlace().getName());
             ((TextView)findViewById(R.id.event_detail_placeaddr)).setText(event.getPlace().getAddress());
-            ((TextView)findViewById(R.id.event_detail_placephone)).setText(event.getPlace().getPhone());
-            ((TextView)findViewById(R.id.event_detail_placelink)).setText(event.getPlace().getUrl());
-            ((TextView)findViewById(R.id.event_detail_placevklink)).setText(event.getPlace().getVkUrl());
-        
+                        
+            if (event.getPlace().getPhone()!=null && !event.getPlace().getPhone().equals("")) {
+                ((TextView)findViewById(R.id.event_detail_placephone)).setVisibility(View.VISIBLE);
+                ((TextView)findViewById(R.id.event_detail_placephone)).setText(event.getPlace().getPhone());
+            } else {
+                ((TextView)findViewById(R.id.event_detail_placephone)).setVisibility(View.GONE);
+            }
+            
+            if (event.getPlace().getUrl()!=null && !event.getPlace().getUrl().equals("")) {
+                ((TextView)findViewById(R.id.event_detail_placelink)).setVisibility(View.VISIBLE);
+                ((TextView)findViewById(R.id.event_detail_placelink)).setText(event.getPlace().getUrl());
+            } else {
+                ((TextView)findViewById(R.id.event_detail_placelink)).setVisibility(View.GONE);
+            }
+            
+            if (event.getPlace().getVkUrl()!=null && !event.getPlace().getVkUrl().equals("")) {
+                ((TextView)findViewById(R.id.event_detail_placevklink)).setVisibility(View.VISIBLE);
+                ((TextView)findViewById(R.id.event_detail_placevklink)).setText(event.getPlace().getVkUrl());
+            } else {
+                ((TextView)findViewById(R.id.event_detail_placevklink)).setVisibility(View.GONE);
+            }
+            
             ((Button)findViewById(R.id.event_detail_infdetailbtn)).setOnClickListener(new View.OnClickListener() {
                 
                 @Override
