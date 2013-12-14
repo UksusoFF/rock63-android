@@ -131,7 +131,7 @@ public class EventDetailActivity extends BaseActivity {
         intent.setType("text/plain");
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
 
-        intent.putExtra(Intent.EXTRA_SUBJECT, event.getTitle());
+        intent.putExtra(Intent.EXTRA_SUBJECT, String.format("%s @ %s", event.getTitle(), event.getPlace().getName()));
         intent.putExtra(Intent.EXTRA_TEXT, event.getUrl());
         
         startActivity(intent);
