@@ -1,22 +1,25 @@
 package com.uksusoff.rock63.data.entities;
 
-import java.io.Serializable;
 import java.util.Date;
 
-public class NewsItem implements Serializable {
-	
-	/**
-     * 
-     */
-    private static final long serialVersionUID = 1L;
-    
-    private int id;
-	private String title;
-	private String body;
-	private Date date;
-	private String smallThumbUrl;
-	private String mediumThumbUrl;
-    private boolean isNew;
+import com.j256.ormlite.field.DatabaseField;
+
+public class NewsItem {
+	    
+    @DatabaseField(generatedId = true)
+    int id;
+    @DatabaseField
+	String title;
+    @DatabaseField
+	String body;
+    @DatabaseField
+	Date date;
+    @DatabaseField
+	String smallThumbUrl;
+    @DatabaseField
+	String mediumThumbUrl;
+    @DatabaseField
+    boolean isNew;
 	
 	public String getSmallThumbUrl() {
         return smallThumbUrl;

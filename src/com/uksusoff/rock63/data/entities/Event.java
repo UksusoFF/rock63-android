@@ -1,24 +1,29 @@
 package com.uksusoff.rock63.data.entities;
 
-import java.io.Serializable;
 import java.util.Date;
 
-public class Event implements Serializable {
-    
-	/**
-     * 
-     */
-    private static final long serialVersionUID = 1L;
-    
-    private int id;
-	private String title;
-	private String body;
-	private Date start;
-	private Date end;
-	private int placeId;
-	private String mediumThumbUrl;
-	private String url;
-    private Place place;
+import com.j256.ormlite.field.DatabaseField;
+
+public class Event {
+        
+    @DatabaseField(generatedId = true)
+    int id;
+    @DatabaseField
+	String title;
+    @DatabaseField
+    String body;
+    @DatabaseField
+	Date start;
+    @DatabaseField
+	Date end;
+    @DatabaseField
+	int placeId;
+    @DatabaseField
+	String mediumThumbUrl;
+    @DatabaseField
+	String url;
+    @DatabaseField(foreign = true,foreignAutoCreate = true,foreignAutoRefresh = true)
+    Place place;
 	
     public String getMediumThumbUrl() {
         return mediumThumbUrl;

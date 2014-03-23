@@ -1,21 +1,23 @@
 package com.uksusoff.rock63.data.entities;
 
-import java.io.Serializable;
+import com.j256.ormlite.field.DatabaseField;
 
-public class Place implements Serializable {
-    
-	/**
-     * 
-     */
-    private static final long serialVersionUID = 1L;
-    
-    private int id;
-	private String name;
-	private String address;
-	private String url;
-	private String phone;
-	private String vkUrl;
-	private String mapImageUrl;
+public class Place {
+        
+    @DatabaseField(generatedId = true)
+    int id;
+    @DatabaseField
+	String name;
+    @DatabaseField
+	String address;
+    @DatabaseField
+	String url;
+    @DatabaseField
+	String phone;
+    @DatabaseField
+	String vkUrl;
+    @DatabaseField
+	String mapImageUrl;
 	
 	public String getMapImageUrl() {
         return mapImageUrl;

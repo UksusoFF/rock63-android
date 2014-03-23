@@ -1,5 +1,6 @@
 package com.uksusoff.rock63;
 
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
@@ -25,8 +26,10 @@ import android.widget.Button;
 @OptionsMenu(R.menu.menu_event)
 public class EventDetailActivity extends BaseActivity {
     
-    @Extra("event")
-    Event event;
+    public static final String EXTRA_ITEM_ID = "eventItem";
+    
+    @Extra(EXTRA_ITEM_ID)
+    int eventId;
     
     @Pref
     ISharedPrefs_ sharedPrefs;
@@ -34,7 +37,7 @@ public class EventDetailActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         
-        String theme = sharedPrefs.theme().get(); //getSharedPreferences(SettingsActivity.ROCK63_PREFS, 0).getString(SettingsActivity.ROCK63_PREFS_THEME, SettingsActivity.ROCK63_PREFS_THEME_OPT_DARK);
+        String theme = sharedPrefs.theme().get();
 
         if (theme.equalsIgnoreCase(Settings.ROCK63_PREFS_THEME_OPT_DARK)) {
             setTheme(R.style.AppDarkTheme);
@@ -45,9 +48,17 @@ public class EventDetailActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         
     }
+    
+    private Event event;
 
     @AfterViews
     void init() {
+        
+        try {
+            event = getHelper().getEventDao().queryForId(eventId);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
                 
         ((TextView)findViewById(R.id.event_detail_title)).setText(event.getTitle());
         SimpleDateFormat fDate = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());

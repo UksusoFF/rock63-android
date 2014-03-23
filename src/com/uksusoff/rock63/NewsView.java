@@ -1,5 +1,6 @@
 package com.uksusoff.rock63;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -73,19 +74,15 @@ public class NewsView extends SherlockListFragment implements INewsDataSourceLis
 	
 	@SuppressWarnings("unchecked")
     @Override
-	public void onListItemClick(ListView l, View v, int position, long id)
-	{
-	    super.onListItemClick(l, v, position, id); 
-	    	    
-	    NewsDetailActivity_.intent(getActivity()).newsItem((NewsItem)((Map<String, Object>)l.getAdapter().getItem(position)).get("obj")).start();
+	public void onListItemClick(ListView l, View v, int position, long id) {
+	    super.onListItemClick(l, v, position, id);
+	    NewsItem item = (NewsItem)((Map<String, Object>)l.getAdapter().getItem(position)).get("obj");
+	    NewsDetailActivity_.intent(getActivity()).newsItemId(item.getId()).start();
 	}
 	
 	@Override
 	public void newsRefreshed(DataSource lSource) {
-		// TODO Auto-geneNewsItemthod stub
-		
 	    loadNewsFromDataSource(lSource);
-	    
 	    if (this.getView()!=null) {
     	    setListShown(true);
     	    progress.setVisibility(View.GONE);
@@ -98,29 +95,22 @@ public class NewsView extends SherlockListFragment implements INewsDataSourceLis
 	
     @Override
     public void onRefresh() {
-        // TODO Auto-generated method stub
         refreshNews();
     }
     
-    public void refreshNews() {
-        
-        // Fake empty container layout
-        /*RelativeLayout lContainerLayout = new RelativeLayout(this);
-        lContainerLayout.setLayoutParams(new RelativeLayout.LayoutParams( LayoutParams.FILL_PARENT , LayoutParams.FILL_PARENT ));
-
-        
-        this.getActivity().addContentView( lContainerLayout, new LayoutParams( LayoutParams.FILL_PARENT , LayoutParams.FILL_PARENT ) )
-        */
-        
+    public void refreshNews() {        
         getListView().scrollTo(getListView().getScrollX(), 0);
         progress.setVisibility(View.VISIBLE);
-                
         source.refreshNews();
     }
     
     public void loadNewsFromDataSource(DataSource lSource) {
-        List<NewsItem> news = lSource.getAllNews();
-        //mNews = news;
+        List<NewsItem> news = null;
+        try {
+            news = lSource.getAllNews();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         
         List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
         for (int i = 0; i<news.size(); i++) {

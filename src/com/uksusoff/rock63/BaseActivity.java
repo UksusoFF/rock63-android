@@ -1,8 +1,13 @@
 package com.uksusoff.rock63;
 
+import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.uksusoff.rock63.data.DBHelper;
+
 import android.app.Activity;
 
 public abstract class BaseActivity extends Activity {
+    
+    private DBHelper dbHelper = null;
     
     @Override
     protected void onStart() {
@@ -18,6 +23,22 @@ public abstract class BaseActivity extends Activity {
         super.onStop();
         
         Flurry.endSession(this);
+    }
+    
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (dbHelper != null) {
+            OpenHelperManager.releaseHelper();
+            dbHelper = null;
+        }
+    }
+
+    protected DBHelper getHelper() {
+        if (dbHelper == null) {
+            dbHelper = (DBHelper)OpenHelperManager.getHelper(this, DBHelper.class);
+        }
+        return dbHelper;
     }
     
 }

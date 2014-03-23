@@ -1,5 +1,7 @@
 package com.uksusoff.rock63;
 
+import java.sql.SQLException;
+
 import com.googlecode.androidannotations.annotations.AfterViews;
 import com.googlecode.androidannotations.annotations.EActivity;
 import com.googlecode.androidannotations.annotations.Extra;
@@ -17,8 +19,10 @@ import android.widget.TextView;
 @EActivity (R.layout.news_detail)
 public class NewsDetailActivity extends BaseActivity {
     
-    @Extra("newsItem")
-    NewsItem newsItem;
+    public static final String EXTRA_ITEM_ID = "newsItem";
+    
+    @Extra(EXTRA_ITEM_ID)
+    int newsItemId;
     
     @Pref
     ISharedPrefs_ sharedPrefs;
@@ -31,6 +35,8 @@ public class NewsDetailActivity extends BaseActivity {
     
     @ViewById(R.id.news_detail_image)
     ImageView image;
+    
+    private NewsItem newsItem;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +60,12 @@ public class NewsDetailActivity extends BaseActivity {
         if (extras == null) {
           return;
         }
+        
+        try {
+            newsItem = getHelper().getNewsItemDao().queryForId(newsItemId);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
                 
         title.setText(newsItem.getTitle());
         body.setMovementMethod(LinkMovementMethod.getInstance());
@@ -61,12 +73,5 @@ public class NewsDetailActivity extends BaseActivity {
         
         UrlImageViewHelper.setUrlDrawable(image, newsItem.getMediumThumbUrl(), R.drawable.news_medium_placeholder);
     }
-
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.news_detail, menu);
-        return false;
-    }*/
 
 }

@@ -1,5 +1,6 @@
 package com.uksusoff.rock63;
 
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -67,8 +68,8 @@ public class EventsView extends SherlockListFragment implements IEventDataSource
     public void onListItemClick(ListView l, View v, int position, long id)
     {
         super.onListItemClick(l, v, position, id); 
-                
-        EventDetailActivity_.intent(getActivity()).event((Event)((Map<String, Object>)l.getAdapter().getItem(position)).get("obj")).start();
+        Event eventItem = (Event)((Map<String, Object>)l.getAdapter().getItem(position)).get("obj");
+        EventDetailActivity_.intent(getActivity()).eventId(eventItem.getId()).start();
     }
     
     @Override
@@ -140,7 +141,12 @@ public class EventsView extends SherlockListFragment implements IEventDataSource
     
     public boolean loadEventsFromDataSource(DataSource lSource) {
         
-        List<Event> events = lSource.getAllEvents();
+        List<Event> events = null;
+        try {
+            events = lSource.getAllEvents();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         
         if (events.size()==0)
             return false;
