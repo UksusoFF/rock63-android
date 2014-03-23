@@ -68,8 +68,11 @@ public class EventsView extends SherlockListFragment implements IEventDataSource
     public void onListItemClick(ListView l, View v, int position, long id)
     {
         super.onListItemClick(l, v, position, id); 
-        Event eventItem = (Event)((Map<String, Object>)l.getAdapter().getItem(position)).get("obj");
-        EventDetailActivity_.intent(getActivity()).eventId(eventItem.getId()).start();
+        Map<String, Object> dataItem = (Map<String, Object>) l.getAdapter().getItem(position);
+        if (dataItem!=null) {
+            Event eventItem = (Event)dataItem.get("obj");
+            EventDetailActivity_.intent(getActivity()).eventId(eventItem.getId()).start();
+        }
     }
     
     @Override
