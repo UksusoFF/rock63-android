@@ -357,7 +357,7 @@ public class DataSource {
 			try {
 				JSONArray places = new JSONArray(contents);
 			
-			//obj.getJSONArray("")
+				database.getPlaceDao().deleteBuilder().delete();
 			
 				for (int i = 0; i<places.length(); i++) {
 					JSONObject placeJson = places.getJSONObject(i);
