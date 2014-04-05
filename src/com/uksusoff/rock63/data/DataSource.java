@@ -33,12 +33,12 @@ import android.os.Environment;
 @EBean(scope = com.googlecode.androidannotations.api.Scope.Singleton)
 public class DataSource {
 		
-	private static final String NEWS_SOURCE_URL = "http://rock63.ru/export/api.php?type=news&from=0&to=15";
-	private static final String NEWS_SOURCE_URL_FROM_DATE = "http://rock63.ru/export/api.php?type=news&date=%s";
+	private static final String NEWS_SOURCE_URL = "http://rock63.iamdrunk.ru/api/news";
+	private static final String NEWS_SOURCE_URL_FROM_DATE = "http://rock63.iamdrunk.ru/api/news";
 	
-	private static final String EVENTS_SOURCE_URL = "http://rock63.ru/export/api.php?type=afisha";
+	private static final String EVENTS_SOURCE_URL = "http://rock63.iamdrunk.ru/api/events";
 	
-	private static final String PLACES_SOURCE_URL = "http://rock63.ru/export/api.php?type=venue";
+	private static final String PLACES_SOURCE_URL = "http://rock63.iamdrunk.ru/api/venues";
 	
 	public static final int NO_PLACE_ID = -1;
 	
@@ -193,13 +193,13 @@ public class DataSource {
 	                          
 	                          NewsItem newsItem = new NewsItem();
 	                          newsItem.setId(id);
-	                          newsItem.setDate(CommonUtils.getDateFromTimestamp(newsItemJson.getInt("created")));
+	                          newsItem.setDate(CommonUtils.getDateFromTimestamp(newsItemJson.getInt("date_p")));
 	                          if (newsItemJson.has("img")) {
-	                              newsItem.setSmallThumbUrl(newsItemJson.getJSONArray("img").getJSONObject(0).getString("thumb_small"));
-	                              newsItem.setMediumThumbUrl(newsItemJson.getJSONArray("img").getJSONObject(0).getString("thumb_medium"));
+	                              newsItem.setSmallThumbUrl(newsItemJson.getJSONObject("img").getString("img_s"));
+	                              newsItem.setMediumThumbUrl(newsItemJson.getJSONObject("img").getString("img_m"));
 	                          }
 	                          newsItem.setTitle(newsItemJson.getString("title"));
-	                          newsItem.setBody(newsItemJson.getString("text"));
+	                          newsItem.setBody(newsItemJson.getString("desc"));
 	                          newsItem.setNew(true);
 	                          
 	                          database.getNewsItemDao().create(newsItem);
@@ -281,20 +281,24 @@ public class DataSource {
                             Event e = new Event();
                             e.setId(eventJson.getInt("id"));
                             e.setTitle(eventJson.getString("title"));
-                            e.setBody(eventJson.getString("datdescription"));
-                            e.setStart(CommonUtils.getDateFromTimestamp(eventJson.getInt("start_time")));
-                            if (eventJson.has("img")) {
-                                e.setMediumThumbUrl(eventJson.getJSONArray("img").getJSONObject(0).getString("thumb_medium"));
+                            if (eventJson.has("desc")) {
+                                e.setBody(eventJson.getString("desc"));
+                            } else {
+                                e.setBody("");
                             }
-                            if (eventJson.has("end_time"))
-                                e.setEnd(CommonUtils.getDateFromTimestamp(eventJson.getInt("end_time")));
-                            if (eventJson.has("locid")) {
-                                Place place = database.getPlaceDao().queryForId(eventJson.getInt("locid"));
+                            e.setStart(CommonUtils.getDateFromTimestamp(eventJson.getJSONObject("date").getInt("s")));
+                            if (eventJson.has("img")) {
+                                e.setMediumThumbUrl(eventJson.getJSONObject("img").getString("img_m"));
+                            }
+                            if (eventJson.getJSONObject("date").has("e"))
+                                e.setEnd(CommonUtils.getDateFromTimestamp(eventJson.getJSONObject("date").getInt("e")));
+                            if (eventJson.has("v_id")) {
+                                Place place = database.getPlaceDao().queryForId(eventJson.getInt("v_id"));
                                 if (place==null) {
                                     if (!refreshPlacesSync()) {
                                         return 1;
                                     }
-                                    place = database.getPlaceDao().queryForId(eventJson.getInt("locid"));
+                                    place = database.getPlaceDao().queryForId(eventJson.getInt("v_id"));
                                 }
                                 e.setPlace(place);
                             } else {
@@ -364,12 +368,11 @@ public class DataSource {
 					
 					Place place = new Place();
 					place.setId(placeJson.getInt("id"));
-					place.setName(placeJson.getString("venue"));
-					place.setAddress(placeJson.getString("city") + " " + placeJson.getString("street"));
-					place.setUrl(placeJson.getString("url"));
-					place.setPhone(placeJson.getString("state"));
-					place.setVkUrl(placeJson.getString("plz"));
-					place.setMapImageUrl(placeJson.getString("locimage"));
+					place.setName(placeJson.getString("title"));
+					place.setAddress(placeJson.getString("address"));
+					place.setUrl(placeJson.getString("site"));
+					place.setPhone(placeJson.getString("phone"));
+					place.setVkUrl(placeJson.getString("vk"));
 										
 					database.getPlaceDao().create(place);
 				}
