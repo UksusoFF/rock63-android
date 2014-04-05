@@ -199,33 +199,33 @@ public class RadioPlayerView extends Fragment implements OnClickListener, OnSeek
     }
     
     public void loadTitle() {
-                
-        try{            
-            BufferedReader in = new BufferedReader(
-                    new InputStreamReader(
-                    (new URL(RADIO_TITLE_URL)).openStream()));
-
-            String str;
-            StringBuilder builder = new StringBuilder();
+        if (getActivity()!=null) {
+            try{            
+                BufferedReader in = new BufferedReader(
+                        new InputStreamReader(
+                        (new URL(RADIO_TITLE_URL)).openStream()));
     
-            while ((str = in.readLine()) != null)
-                builder.append(str);
-            
-            final String res = builder.toString();
-            
-            getActivity().runOnUiThread(new Runnable() {
-
-                @Override
-                public void run() {
-                    // TODO Auto-generated method stub
-                    trackTitle.setText(Html.fromHtml(res));
-                } 
-                
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+                String str;
+                StringBuilder builder = new StringBuilder();
         
+                while ((str = in.readLine()) != null)
+                    builder.append(str);
+                
+                final String res = builder.toString();
+                
+                getActivity().runOnUiThread(new Runnable() {
+    
+                    @Override
+                    public void run() {
+                        // TODO Auto-generated method stub
+                        trackTitle.setText(Html.fromHtml(res));
+                    } 
+                    
+                });
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
     
 }
