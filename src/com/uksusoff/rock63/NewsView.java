@@ -76,7 +76,8 @@ public class NewsView extends SherlockListFragment implements INewsDataSourceLis
     @Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 	    super.onListItemClick(l, v, position, id);
-	    NewsItem item = (NewsItem)((Map<String, Object>)l.getAdapter().getItem(position)).get("obj");
+	    Map<String, Object> dataItem = (Map<String, Object>) l.getAdapter().getItem(position);
+	    NewsItem item = (NewsItem)dataItem.get("obj");
 	    NewsDetailActivity_.intent(getActivity()).newsItemId(item.getId()).start();
 	}
 	

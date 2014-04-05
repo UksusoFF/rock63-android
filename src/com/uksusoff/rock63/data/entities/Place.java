@@ -4,7 +4,7 @@ import com.j256.ormlite.field.DatabaseField;
 
 public class Place {
         
-    @DatabaseField(generatedId = true)
+    @DatabaseField(id = true)
     int id;
     @DatabaseField
 	String name;

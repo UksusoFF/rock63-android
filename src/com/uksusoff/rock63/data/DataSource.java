@@ -76,7 +76,7 @@ public class DataSource {
     }
 	
 	public List<NewsItem> getAllNews() throws SQLException {
-		return database.getNewsItemDao().queryForAll();
+		return database.getNewsItemDao().queryBuilder().orderBy("date", false).query();
 	}
 	
 	private static String convertStreamToString(InputStream is) throws UnsupportedEncodingException {
@@ -237,15 +237,7 @@ public class DataSource {
 	}
 	
 	public List<Event> getAllEvents() throws SQLException {
-	    
-	    List<Event> res = database.getEventDao().queryForAll();
-	    
-	    for (int i = 0; i<res.size(); i++)
-	        if (res.get(i).getPlaceId()!=NO_PLACE_ID)
-	            res.get(i).setPlace(database.getPlaceDao().queryForId(res.get(i).getPlaceId()));
-	    
-	    return res;
-	    
+	    return database.getEventDao().queryBuilder().orderBy("start", true).query();
 	}
 	
 	public void refreshEvents() {
@@ -266,9 +258,9 @@ public class DataSource {
                     contents = convertStreamToString(in);
                     
                 } catch (MalformedURLException e) {
-                    
+                    throw new RuntimeException(e);
                 } catch (IOException e) {
-                    
+                    throw new RuntimeException(e);
                 }
                 
                 if (contents!="") {
@@ -297,23 +289,20 @@ public class DataSource {
                             if (eventJson.has("end_time"))
                                 e.setEnd(CommonUtils.getDateFromTimestamp(eventJson.getInt("end_time")));
                             if (eventJson.has("locid")) {
-                                e.setPlaceId(eventJson.getInt("locid"));
-                                
-                                if (!updatePlaces && !locations.contains(e.getPlaceId())) {
-                                    updatePlaces = true;
+                                Place place = database.getPlaceDao().queryForId(eventJson.getInt("locid"));
+                                if (place==null) {
+                                    if (!refreshPlacesSync()) {
+                                        return 1;
+                                    }
+                                    place = database.getPlaceDao().queryForId(eventJson.getInt("locid"));
                                 }
+                                e.setPlace(place);
                             } else {
-                                e.setPlaceId(NO_PLACE_ID);
+                                e.setPlace(null);
                             }
                             e.setUrl(eventJson.getString("url"));
                             
                             database.getEventDao().create(e);
-                        }
-                        
-                        if (updatePlaces) {
-                            if (!refreshPlacesSync()) {
-                                return 1;
-                            }
                         }
                     
                     } catch (JSONException e) {
@@ -368,7 +357,7 @@ public class DataSource {
 			try {
 				JSONArray places = new JSONArray(contents);
 			
-			//obj.getJSONArray("")
+				database.getPlaceDao().deleteBuilder().delete();
 			
 				for (int i = 0; i<places.length(); i++) {
 					JSONObject placeJson = places.getJSONObject(i);

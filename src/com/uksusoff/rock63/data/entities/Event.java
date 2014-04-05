@@ -17,8 +17,6 @@ public class Event {
     @DatabaseField
 	Date end;
     @DatabaseField
-	int placeId;
-    @DatabaseField
 	String mediumThumbUrl;
     @DatabaseField
 	String url;
@@ -37,12 +35,6 @@ public class Event {
     public void setPlace(Place place) {
         this.place = place;
     }
-    public int getPlaceId() {
-		return placeId;
-	}
-	public void setPlaceId(int placeId) {
-		this.placeId = placeId;
-	}
 	public int getId() {
 		return id;
 	}

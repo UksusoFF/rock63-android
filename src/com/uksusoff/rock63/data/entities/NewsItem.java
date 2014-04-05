@@ -6,7 +6,7 @@ import com.j256.ormlite.field.DatabaseField;
 
 public class NewsItem {
 	    
-    @DatabaseField(generatedId = true)
+    @DatabaseField(id = true)
     int id;
     @DatabaseField
 	String title;

@@ -326,6 +326,7 @@ public class AdvSimpleAdapter extends BaseAdapter implements Filterable {
                             
                             if (str.toLowerCase().contains(contentString)) {
                                 newValues.add(h);
+                                break;
                             }
                         }
                     }
