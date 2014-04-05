@@ -76,7 +76,7 @@ public class DataSource {
     }
 	
 	public List<NewsItem> getAllNews() throws SQLException {
-		return database.getNewsItemDao().queryForAll();
+		return database.getNewsItemDao().queryBuilder().orderBy("date", false).query();
 	}
 	
 	private static String convertStreamToString(InputStream is) throws UnsupportedEncodingException {
@@ -237,7 +237,7 @@ public class DataSource {
 	}
 	
 	public List<Event> getAllEvents() throws SQLException {
-	    return database.getEventDao().queryForAll();
+	    return database.getEventDao().queryBuilder().orderBy("start", true).query();
 	}
 	
 	public void refreshEvents() {
