@@ -33,12 +33,12 @@ import android.os.Environment;
 @EBean(scope = com.googlecode.androidannotations.api.Scope.Singleton)
 public class DataSource {
 		
-	private static final String NEWS_SOURCE_URL = "http://rock63.iamdrunk.ru/api/news";
-	private static final String NEWS_SOURCE_URL_FROM_DATE = "http://rock63.iamdrunk.ru/api/news";
+	private static final String NEWS_SOURCE_URL = "http://rock63.ru/api/news";
+	private static final String NEWS_SOURCE_URL_FROM_DATE = "http://rock63.ru/api/news";
 	
-	private static final String EVENTS_SOURCE_URL = "http://rock63.iamdrunk.ru/api/events";
+	private static final String EVENTS_SOURCE_URL = "http://rock63.ru/api/events";
 	
-	private static final String PLACES_SOURCE_URL = "http://rock63.iamdrunk.ru/api/venues";
+	private static final String PLACES_SOURCE_URL = "http://rock63.ru/api/venues";
 	
 	public static final int NO_PLACE_ID = -1;
 	
