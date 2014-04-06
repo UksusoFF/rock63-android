@@ -370,10 +370,16 @@ public class DataSource {
 					place.setId(placeJson.getInt("id"));
 					place.setName(placeJson.getString("title"));
 					place.setAddress(placeJson.getString("address"));
-					place.setUrl(placeJson.getString("site"));
-					place.setPhone(placeJson.getString("phone"));
-					place.setVkUrl(placeJson.getString("vk"));
-										
+					if (placeJson.has("site")) {
+					    place.setUrl(placeJson.getString("site"));
+					}
+					if (placeJson.has("phone")) {
+					    place.setPhone(placeJson.getString("phone"));
+					}
+					if (placeJson.has("vk")) {
+					    place.setVkUrl(placeJson.getString("vk"));
+					}
+					
 					database.getPlaceDao().create(place);
 				}
 			
