@@ -217,12 +217,15 @@ public class RadioPlayerView extends Fragment implements OnClickListener, OnSeek
     
                     @Override
                     public void run() {
-                        // TODO Auto-generated method stub
                         trackTitle.setText(Html.fromHtml(res));
                     } 
                     
                 });
             } catch (IOException e) {
+                e.printStackTrace();
+            } catch (NullPointerException e) {
+                //Strange exception occurs here
+                //but as long as this section isn't critical, we can skip it
                 e.printStackTrace();
             }
         }
