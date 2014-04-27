@@ -13,6 +13,7 @@ import com.googlecode.androidannotations.annotations.EFragment;
 import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 import com.uksusoff.rock63.data.DataSource;
 import com.uksusoff.rock63.data.INewsDataSourceListener;
+import com.uksusoff.rock63.data.entities.Event;
 import com.uksusoff.rock63.data.entities.NewsItem;
 import com.uksusoff.rock63.utils.CommonUtils;
 
@@ -78,7 +79,12 @@ public class NewsView extends SherlockListFragment implements INewsDataSourceLis
 	    super.onListItemClick(l, v, position, id);
 	    Map<String, Object> dataItem = (Map<String, Object>) l.getAdapter().getItem(position);
 	    NewsItem item = (NewsItem)dataItem.get("obj");
-	    NewsDetailActivity_.intent(getActivity()).newsItemId(item.getId()).start();
+	    Event related = source.getRelatedEvent(item);
+	    if (related == null) {
+	        NewsDetailActivity_.intent(getActivity()).newsItemId(item.getId()).start();
+	    } else {
+	        EventDetailActivity_.intent(getActivity()).eventId(related.getId()).start();
+	    }
 	}
 	
 	@Override

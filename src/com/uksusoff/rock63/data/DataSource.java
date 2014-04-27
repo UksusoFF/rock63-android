@@ -203,6 +203,9 @@ public class DataSource {
                             }
                             newsItem.setTitle(newsItemJson.getString("title"));
                             newsItem.setBody(newsItemJson.getString("desc"));
+                            if (newsItemJson.has("ext_url")) {
+                                newsItem.setBody(newsItem.getBody() + newsItemJson.getString("ext_url"));
+                            }
                             newsItem.setNew(true);
 
                             database.getNewsItemDao().createOrUpdate(newsItem);
@@ -287,6 +290,9 @@ public class DataSource {
                             } else {
                                 e.setBody("");
                             }
+                            if (eventJson.has("ext_url")) {
+                                e.setBody(e.getBody() + eventJson.getString("ext_url"));
+                            }
                             e.setStart(CommonUtils.getDateFromTimestamp(eventJson.getJSONObject("date").getInt("s")));
                             if (eventJson.has("img")) {
                                 e.setMediumThumbUrl(eventJson.getJSONObject("img").getString("img_m"));
@@ -338,6 +344,14 @@ public class DataSource {
             }
 
         }).execute();
+    }
+    
+    public Event getRelatedEvent(NewsItem item) {
+        try {
+            return database.getEventDao().queryForId(item.getId());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public boolean refreshPlacesSync() throws MalformedURLException, IOException {
