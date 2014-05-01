@@ -99,7 +99,12 @@ public class RadioPlayingService extends Service {
 
         try {
             if (!getPlayer().isPlaying()) {
-                getPlayer().setDataSource(RADIO_URL);
+                try {
+                    getPlayer().setDataSource(RADIO_URL);
+                } catch (IllegalStateException e) {
+                    getPlayer().reset();
+                    getPlayer().setDataSource(RADIO_URL);
+                }
                 getPlayer().prepareAsync();
             }
         } catch (Exception e) {
