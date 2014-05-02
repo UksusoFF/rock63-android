@@ -43,6 +43,12 @@
             android:name="com.uksusoff.rock63.RadioPlayingService"
             android:enabled="true"
             android:exported="true" >
+            <intent-filter>
+	            <action android:name="com.uksusoff.rock63.ACTION_PLAY" />
+	            <action android:name="com.uksusoff.rock63.ACTION_PAUSE" />
+	            <action android:name="com.uksusoff.rock63.ACTION_STOP" />
+	            <category android:name="android.intent.category.DEFAULT" />
+	        </intent-filter>
         </service>
 
         <activity

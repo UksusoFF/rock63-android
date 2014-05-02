@@ -28,7 +28,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
 @EFragment(R.layout.radio_fragment)
-public class RadioPlayerView extends Fragment implements OnClickListener, OnSeekBarChangeListener {
+public class RadioPlayerView extends Fragment implements OnClickListener, OnSeekBarChangeListener, IRadioPlayerServiceListener {
 
     private static final String RADIO_TITLE_URL = "http://vzradio.ru/temp_title_and.txt";
     
@@ -58,6 +58,8 @@ public class RadioPlayerView extends Fragment implements OnClickListener, OnSeek
             mIsBound = true;
             
             syncUi();
+            
+            mBoundService.addListener(RadioPlayerView.this);
         }
 
         public void onServiceDisconnected(ComponentName className) {
@@ -65,6 +67,8 @@ public class RadioPlayerView extends Fragment implements OnClickListener, OnSeek
             // unexpectedly disconnected -- that is, its process crashed.
             // Because it is running in our same process, we should never
             // see this happen.
+            mBoundService.removeListener(RadioPlayerView.this);
+            
             mBoundService = null;
         }
     };
@@ -158,12 +162,12 @@ public class RadioPlayerView extends Fragment implements OnClickListener, OnSeek
         }
 
         if (mBoundService.isStreamPlaying()) {
-            mBoundService.stopStream();
+            mBoundService.stopPlay();
             playBtn.setImageResource(CommonUtils.getThemedResource(getActivity(), R.attr.radio_play));
         
             Flurry.endEvent(getString(R.string.flurry_radio_play));
         } else {
-            mBoundService.playStream();
+            mBoundService.startPlay();
             
             playBtn.setImageResource(CommonUtils.getThemedResource(getActivity(), R.attr.radio_pause));
         
@@ -229,6 +233,21 @@ public class RadioPlayerView extends Fragment implements OnClickListener, OnSeek
                 e.printStackTrace();
             }
         }
+    }
+
+    @Override
+    public void OnPause() {
+        playBtn.setImageResource(CommonUtils.getThemedResource(getActivity(), R.attr.radio_play));
+    }
+
+    @Override
+    public void OnPlay() {
+        playBtn.setImageResource(CommonUtils.getThemedResource(getActivity(), R.attr.radio_pause));
+    }
+
+    @Override
+    public void OnStop() {
+        playBtn.setImageResource(CommonUtils.getThemedResource(getActivity(), R.attr.radio_play));
     }
     
 }

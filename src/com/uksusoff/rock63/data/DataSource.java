@@ -202,7 +202,9 @@ public class DataSource {
                                 newsItem.setMediumThumbUrl(newsItemJson.getJSONObject("img").getString("img_m"));
                             }
                             newsItem.setTitle(newsItemJson.getString("title"));
-                            newsItem.setBody(newsItemJson.getString("desc"));
+                            if (newsItemJson.has("desc")) {
+                                newsItem.setBody(newsItemJson.getString("desc"));
+                            }
                             if (newsItemJson.has("ext_url")) {
                                 newsItem.setBody(newsItem.getBody() + newsItemJson.getString("ext_url"));
                             }
