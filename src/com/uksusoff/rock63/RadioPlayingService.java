@@ -169,8 +169,14 @@ public class RadioPlayingService extends Service {
             .setWhen(System.currentTimeMillis())       
             .build();
         
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD) {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1) {
             notification.contentView = remoteView;
+        }
+        
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
+            remoteView.setViewVisibility(R.id.pause_btn, View.INVISIBLE);
+            remoteView.setViewVisibility(R.id.stop_btn, View.INVISIBLE);
+            remoteView.setViewVisibility(R.id.play_btn, View.INVISIBLE);
         }
         
         startForeground(NOTIFICATION_ID, notification);
