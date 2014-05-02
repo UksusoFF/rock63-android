@@ -11,6 +11,7 @@ import android.graphics.BitmapFactory;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Binder;
+import android.os.Build;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
@@ -162,11 +163,15 @@ public class RadioPlayingService extends Service {
         );
                 
         Notification notification = new NotificationCompat.Builder(getApplicationContext())
+            .setContent(remoteView)
             .setContentIntent(contentIntent)
             .setSmallIcon(R.drawable.ic_launcher).setOngoing(true)
-            .setWhen(System.currentTimeMillis())                
-            .setContent(remoteView)
+            .setWhen(System.currentTimeMillis())       
             .build();
+        
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD) {
+            notification.contentView = remoteView;
+        }
         
         startForeground(NOTIFICATION_ID, notification);
         
