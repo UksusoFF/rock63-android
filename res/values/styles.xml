@@ -32,5 +32,8 @@
         <item name="radio_pause">@drawable/pause_dark</item>
         <item name="share">@drawable/share_dark</item>
     </style>
+    
+    <style name="NotificationTitle">
+    </style>
 
 </resources>

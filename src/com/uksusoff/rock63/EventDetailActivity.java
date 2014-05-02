@@ -25,18 +25,18 @@ import android.widget.Button;
 @EActivity(R.layout.activity_event_detail)
 @OptionsMenu(R.menu.menu_event)
 public class EventDetailActivity extends BaseActivity {
-    
+
     public static final String EXTRA_ITEM_ID = "eventItem";
-    
+
     @Extra(EXTRA_ITEM_ID)
     int eventId;
-    
+
     @Pref
     ISharedPrefs_ sharedPrefs;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        
+
         String theme = sharedPrefs.theme().get();
 
         if (theme.equalsIgnoreCase(Settings.ROCK63_PREFS_THEME_OPT_DARK)) {
@@ -44,115 +44,116 @@ public class EventDetailActivity extends BaseActivity {
         } else if (theme.equalsIgnoreCase(Settings.ROCK63_PREFS_THEME_OPT_LIGHT)) {
             setTheme(R.style.AppLightTheme);
         }
-        
+
         super.onCreate(savedInstanceState);
-        
+
     }
-    
+
     private Event event;
 
     @AfterViews
     void init() {
-        
+
         try {
             event = getHelper().getEventDao().queryForId(eventId);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-                
-        ((TextView)findViewById(R.id.event_detail_title)).setText(event.getTitle());
+
+        ((TextView) findViewById(R.id.event_detail_title)).setText(event.getTitle());
         SimpleDateFormat fDate = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
         SimpleDateFormat fTime = new SimpleDateFormat("HH:mm", Locale.getDefault());
-        if (event.getEnd()!=null) {
-            ((TextView)findViewById(R.id.event_detail_datentime)).setText(
-                    String.format("%s %s - %s %s", fDate.format(event.getStart()), fTime.format(event.getStart()), fDate.format(event.getEnd()), fTime.format(event.getEnd()))
-            );
+        if (event.getEnd() != null) {
+            ((TextView) findViewById(R.id.event_detail_datentime)).setText(String.format("%s %s - %s %s", fDate.format(event.getStart()), fTime.format(event.getStart()), fDate.format(event.getEnd()),
+                    fTime.format(event.getEnd())));
         } else {
-            ((TextView)findViewById(R.id.event_detail_datentime)).setText(
-                    String.format("%s %s", fDate.format(event.getStart()), fTime.format(event.getStart()))
-            );
+            ((TextView) findViewById(R.id.event_detail_datentime)).setText(String.format("%s %s", fDate.format(event.getStart()), fTime.format(event.getStart())));
         }
-        
-        if (event.getPlace()!=null) {
-            ((TextView)findViewById(R.id.event_detail_placename)).setText(event.getPlace().getName());
-            ((TextView)findViewById(R.id.event_detail_placeaddr)).setText(event.getPlace().getAddress());
-                        
-            if (event.getPlace().getPhone()!=null && !event.getPlace().getPhone().equals("")) {
-                ((TextView)findViewById(R.id.event_detail_placephone)).setVisibility(View.VISIBLE);
-                ((TextView)findViewById(R.id.event_detail_placephone)).setText(event.getPlace().getPhone());
+
+        if (event.getPlace() != null) {
+            ((TextView) findViewById(R.id.event_detail_placename)).setText(event.getPlace().getName());
+            ((TextView) findViewById(R.id.event_detail_placeaddr)).setText(event.getPlace().getAddress());
+
+            if (event.getPlace().getPhone() != null && !event.getPlace().getPhone().equals("")) {
+                ((TextView) findViewById(R.id.event_detail_placephone)).setVisibility(View.VISIBLE);
+                ((TextView) findViewById(R.id.event_detail_placephone)).setText(event.getPlace().getPhone());
             } else {
-                ((TextView)findViewById(R.id.event_detail_placephone)).setVisibility(View.GONE);
+                ((TextView) findViewById(R.id.event_detail_placephone)).setVisibility(View.GONE);
             }
-            
-            if (event.getPlace().getUrl()!=null && !event.getPlace().getUrl().equals("")) {
-                ((TextView)findViewById(R.id.event_detail_placelink)).setVisibility(View.VISIBLE);
-                ((TextView)findViewById(R.id.event_detail_placelink)).setText(event.getPlace().getUrl());
+
+            if (event.getPlace().getUrl() != null && !event.getPlace().getUrl().equals("")) {
+                ((TextView) findViewById(R.id.event_detail_placelink)).setVisibility(View.VISIBLE);
+                ((TextView) findViewById(R.id.event_detail_placelink)).setText(event.getPlace().getUrl());
             } else {
-                ((TextView)findViewById(R.id.event_detail_placelink)).setVisibility(View.GONE);
+                ((TextView) findViewById(R.id.event_detail_placelink)).setVisibility(View.GONE);
             }
-            
-            if (event.getPlace().getVkUrl()!=null && !event.getPlace().getVkUrl().equals("")) {
-                ((TextView)findViewById(R.id.event_detail_placevklink)).setVisibility(View.VISIBLE);
-                ((TextView)findViewById(R.id.event_detail_placevklink)).setText(event.getPlace().getVkUrl());
+
+            if (event.getPlace().getVkUrl() != null && !event.getPlace().getVkUrl().equals("")) {
+                ((TextView) findViewById(R.id.event_detail_placevklink)).setVisibility(View.VISIBLE);
+                ((TextView) findViewById(R.id.event_detail_placevklink)).setText(event.getPlace().getVkUrl());
             } else {
-                ((TextView)findViewById(R.id.event_detail_placevklink)).setVisibility(View.GONE);
+                ((TextView) findViewById(R.id.event_detail_placevklink)).setVisibility(View.GONE);
             }
-            
-            ((Button)findViewById(R.id.event_detail_infdetailbtn)).setOnClickListener(new View.OnClickListener() {
-                
+
+            ((Button) findViewById(R.id.event_detail_infdetailbtn)).setOnClickListener(new View.OnClickListener() {
+
                 @Override
                 public void onClick(View v) {
                     // TODO Auto-generated method stub
                     View inf = EventDetailActivity.this.findViewById(R.id.event_detail_placeinf);
-                    if (inf.getVisibility()==View.VISIBLE) {
+                    if (inf.getVisibility() == View.VISIBLE) {
                         inf.setVisibility(View.GONE);
-                        ((Button)findViewById(R.id.event_detail_infdetailbtn)).setText(R.string.event_show_info_button_title);
+                        ((Button) findViewById(R.id.event_detail_infdetailbtn)).setText(R.string.event_show_info_button_title);
                     } else {
                         inf.setVisibility(View.VISIBLE);
-                        ((Button)findViewById(R.id.event_detail_infdetailbtn)).setText(R.string.event_hide_info_button_title);
+                        ((Button) findViewById(R.id.event_detail_infdetailbtn)).setText(R.string.event_hide_info_button_title);
                     }
                 }
-                
+
             });
-            
-            ((Button)findViewById(R.id.event_detail_infdetailbtn)).setText(R.string.event_show_info_button_title);
-        
+
+            ((Button) findViewById(R.id.event_detail_infdetailbtn)).setText(R.string.event_show_info_button_title);
+
         } else {
-            ((TextView)findViewById(R.id.event_detail_placename)).setVisibility(View.GONE);
-            ((Button)findViewById(R.id.event_detail_infdetailbtn)).setVisibility(View.GONE);
+            ((TextView) findViewById(R.id.event_detail_placename)).setVisibility(View.GONE);
+            ((Button) findViewById(R.id.event_detail_infdetailbtn)).setVisibility(View.GONE);
         }
-        
-        ((TextView)findViewById(R.id.event_detail_description)).setMovementMethod(LinkMovementMethod.getInstance());
-        ((TextView)findViewById(R.id.event_detail_description)).setText(Html.fromHtml(event.getBody()));
-        
-        if (event.getMediumThumbUrl()!=null) {
-            UrlImageViewHelper.setUrlDrawable((ImageView)findViewById(R.id.event_detail_image), event.getMediumThumbUrl(), R.drawable.news_medium_placeholder);
+
+        ((TextView) findViewById(R.id.event_detail_description)).setMovementMethod(LinkMovementMethod.getInstance());
+        ((TextView) findViewById(R.id.event_detail_description)).setText(Html.fromHtml(event.getBody()));
+
+        if (event.getMediumThumbUrl() != null) {
+            UrlImageViewHelper.setUrlDrawable((ImageView) findViewById(R.id.event_detail_image), event.getMediumThumbUrl(), R.drawable.news_medium_placeholder);
         } else {
-            ((ImageView)findViewById(R.id.event_detail_image)).setVisibility(View.GONE);
+            ((ImageView) findViewById(R.id.event_detail_image)).setVisibility(View.GONE);
         }
     }
-    
+
     @OptionsItem(R.id.menu_share)
     void menuShare() {
         shareEvent();
     }
-    
+
     private void shareEvent() {
-        Intent intent=new Intent(android.content.Intent.ACTION_SEND);
+        Intent intent = new Intent(android.content.Intent.ACTION_SEND);
         intent.setType("text/plain");
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
 
-        intent.putExtra(Intent.EXTRA_SUBJECT, String.format("%s @ %s", event.getTitle(), event.getPlace().getName()));
+        if (event.getPlace() != null) {
+            intent.putExtra(Intent.EXTRA_SUBJECT, String.format("%s @ %s", event.getTitle(), event.getPlace().getName()));
+        } else {
+            intent.putExtra(Intent.EXTRA_SUBJECT, event.getTitle());
+        }
         intent.putExtra(Intent.EXTRA_TEXT, event.getUrl());
-        
+
         startActivity(intent);
     }
-    
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.activity_event_detail, menu);
-        return true;
-    }*/
+
+    /*
+     * @Override public boolean onCreateOptionsMenu(Menu menu) { // Inflate the
+     * menu; this adds items to the action bar if it is present.
+     * getMenuInflater().inflate(R.menu.activity_event_detail, menu); return
+     * true; }
+     */
 
 }
