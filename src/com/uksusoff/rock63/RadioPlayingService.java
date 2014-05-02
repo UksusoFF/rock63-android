@@ -30,6 +30,7 @@ public class RadioPlayingService extends Service {
     private static final int REQUEST_CODE_STOP = 1;
     private static final int REQUEST_CODE_PLAY = 2;
     private static final int REQUEST_CODE_PAUSE = 3;
+    private static final int REQUEST_CODE_ACTIVITY = 4;
 
     // private static RadioPlayingService instance = null;
     private static boolean mRunning = false;
@@ -136,9 +137,9 @@ public class RadioPlayingService extends Service {
         if (notificationPlaced) {
             return;
         }
-        Intent notificationIntent = new Intent(this, MainActivity.class);
-        notificationIntent.addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);        
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+        Intent notificationIntent = new Intent(this, MainActivity_.class);
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP); 
+        PendingIntent contentIntent = PendingIntent.getActivity(this, REQUEST_CODE_ACTIVITY, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         
         RemoteViews remoteView = new RemoteViews(getPackageName(), R.layout.player_notification_control);
                       
@@ -156,14 +157,13 @@ public class RadioPlayingService extends Service {
         
         remoteView.setOnClickPendingIntent(R.id.pause_btn, 
             PendingIntent.getService(getApplicationContext(),
-                REQUEST_CODE_STOP, new Intent(ACTION_PAUSE),
+                REQUEST_CODE_PAUSE, new Intent(ACTION_PAUSE),
                 PendingIntent.FLAG_UPDATE_CURRENT)
         );
-        
+                
         Notification notification = new NotificationCompat.Builder(getApplicationContext())
             .setContentIntent(contentIntent)
             .setSmallIcon(R.drawable.ic_launcher).setOngoing(true)
-            .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher))
             .setWhen(System.currentTimeMillis())                
             .setContent(remoteView)
             .build();

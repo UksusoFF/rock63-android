@@ -237,17 +237,23 @@ public class RadioPlayerView extends Fragment implements OnClickListener, OnSeek
 
     @Override
     public void OnPause() {
-        playBtn.setImageResource(CommonUtils.getThemedResource(getActivity(), R.attr.radio_play));
+        if (getActivity() != null) {
+            playBtn.setImageResource(CommonUtils.getThemedResource(getActivity(), R.attr.radio_play));
+        }
     }
 
     @Override
     public void OnPlay() {
-        playBtn.setImageResource(CommonUtils.getThemedResource(getActivity(), R.attr.radio_pause));
+        if (getActivity() != null) {
+            playBtn.setImageResource(CommonUtils.getThemedResource(getActivity(), R.attr.radio_pause));
+        }
     }
 
     @Override
     public void OnStop() {
-        playBtn.setImageResource(CommonUtils.getThemedResource(getActivity(), R.attr.radio_play));
+        if (getActivity() != null) {
+            playBtn.setImageResource(CommonUtils.getThemedResource(getActivity(), R.attr.radio_play));
+        }
     }
     
 }
