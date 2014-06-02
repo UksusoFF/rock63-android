@@ -202,12 +202,15 @@ public class DataSource {
                                 newsItem.setMediumThumbUrl(newsItemJson.getJSONObject("img").getString("img_m"));
                             }
                             newsItem.setTitle(newsItemJson.getString("title"));
+                            String body = null;
                             if (newsItemJson.has("desc")) {
-                                newsItem.setBody(newsItemJson.getString("desc"));
+                                body = newsItemJson.getString("desc");
                             }
                             if (newsItemJson.has("ext_url")) {
-                                newsItem.setBody(newsItem.getBody() + newsItemJson.getString("ext_url"));
+                                body = body == null ? "" : " ";
+                                body += newsItemJson.getString("ext_url");
                             }
+                            newsItem.setBody(body);
                             newsItem.setNew(true);
 
                             database.getNewsItemDao().createOrUpdate(newsItem);
