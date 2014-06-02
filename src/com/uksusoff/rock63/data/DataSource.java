@@ -29,9 +29,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Environment;
+import android.util.Log;
 
 @EBean(scope = com.googlecode.androidannotations.api.Scope.Singleton)
 public class DataSource {
+    
+    private static final String TAG = "DataSource";
 
     private static final String NEWS_SOURCE_URL = "http://rock63.ru/api/news";
     private static final String NEWS_SOURCE_URL_FROM_DATE = "http://rock63.ru/api/news";
@@ -168,7 +171,7 @@ public class DataSource {
                 } catch (MalformedURLException e) {
                     throw new RuntimeException(e);
                 } catch (IOException e) {
-                    throw new RuntimeException(e);
+                    Log.e(TAG, e.toString());
                 }
 
                 if (contents != "") {
@@ -270,7 +273,7 @@ public class DataSource {
                 } catch (MalformedURLException e) {
                     throw new RuntimeException(e);
                 } catch (IOException e) {
-                    throw new RuntimeException(e);
+                    Log.e(TAG, e.toString());
                 }
 
                 if (contents != "") {
