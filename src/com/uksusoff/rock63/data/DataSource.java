@@ -210,7 +210,7 @@ public class DataSource {
                                 body = newsItemJson.getString("desc");
                             }
                             if (newsItemJson.has("ext_url")) {
-                                body = body == null ? "" : " ";
+                                body = body == null ? "" : body + " ";
                                 body += newsItemJson.getString("ext_url");
                             }
                             newsItem.setBody(body);
