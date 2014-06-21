@@ -7,6 +7,7 @@ import java.util.List;
 import android.os.Build;
 import android.os.Bundle;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -243,18 +244,33 @@ public class MainActivity extends BaseFragmentActivity implements
         MenuInflater inflater = getSupportMenuInflater();
         inflater.inflate(R.menu.menu, menu);
 
-        mSearchView = (SearchView) menu.findItem(R.id.menu_search)
-                .getActionView();
+        mSearchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
 
         mSearchView.setOnQueryTextListener(this);
         mSearchView.setOnCloseListener(this);
 
         if (!currentTab.equalsIgnoreCase("events")) {
-            ((SearchView) menu.findItem(R.id.menu_search).getActionView())
-                    .setVisibility(View.GONE);
+            menu.findItem(R.id.menu_search).getActionView().setVisibility(View.GONE);
+        }
+        
+        if (currentTab.equalsIgnoreCase("radio")) {
+            menu.findItem(R.id.menuRefresh).setVisible(false);
+        } else {
+            menu.findItem(R.id.menu_share).setVisible(false);
         }
 
         return super.onCreateOptionsMenu(menu);
+    }
+    
+    private void shareRadio() {
+        Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+
+        intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.share_radio_title));
+        intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_radio_body, RadioPlayerView.getLastLoadedTrackName()));
+
+        startActivity(intent);
     }
 
     @Override
@@ -272,6 +288,11 @@ public class MainActivity extends BaseFragmentActivity implements
 
             SettingsActivity_.intent(this).start();
 
+            break;
+        case R.id.menu_share:
+            
+            shareRadio();
+            
             break;
         }
 

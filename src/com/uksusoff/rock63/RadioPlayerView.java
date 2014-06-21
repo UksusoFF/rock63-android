@@ -35,6 +35,12 @@ public class RadioPlayerView extends Fragment implements OnClickListener, OnSeek
     private RadioPlayingService mBoundService = null;
     private boolean mIsBound = false;
     private Timer loadTitleTimer;
+    
+    private static String lastLoadedTrackName = "";
+    
+    public static String getLastLoadedTrackName() {
+        return lastLoadedTrackName;
+    }
         
     @ViewById(R.id.radio_track_title)
     TextView trackTitle;
@@ -222,6 +228,7 @@ public class RadioPlayerView extends Fragment implements OnClickListener, OnSeek
                     @Override
                     public void run() {
                         trackTitle.setText(Html.fromHtml(res));
+                        lastLoadedTrackName = Html.fromHtml(res).toString();
                     } 
                     
                 });

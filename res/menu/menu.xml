@@ -13,6 +13,11 @@
         android:icon="@drawable/ic_menu_refresh"
         android:showAsAction="always"
         android:title="menu_refresh"/>
+    <item 
+        android:id="@+id/menu_share"
+        android:icon="?attr/share"
+        android:showAsAction="always"
+        android:title="@string/menu_share" />
     <item
         android:id="@+id/menuPreferences"
         android:alphabeticShortcut="p"

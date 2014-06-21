@@ -47,4 +47,7 @@
     
     <string name="notification_text">Радио «Время Звучать!»</string>
     
+    <string name="share_radio_title">Радио</string>
+    <string name="share_radio_body">Я слушаю %s на радио «Время Звучать!». http://vzradio.ru</string>
+    
 </resources>

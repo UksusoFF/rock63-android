@@ -31,5 +31,8 @@
     
     <string name="notification_title">@string/app_name</string>
     <string name="notification_text">Radio «VZRadio!»</string>
+    
+    <string name="share_radio_title">Radio</string>
+    <string name="share_radio_body">I\'m listening to %s on «VZRadio!». http://vzradio.ru</string>
 
 </resources>
