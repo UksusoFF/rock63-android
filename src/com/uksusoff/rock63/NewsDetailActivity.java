@@ -5,11 +5,14 @@ import java.sql.SQLException;
 import com.googlecode.androidannotations.annotations.AfterViews;
 import com.googlecode.androidannotations.annotations.EActivity;
 import com.googlecode.androidannotations.annotations.Extra;
+import com.googlecode.androidannotations.annotations.OptionsItem;
+import com.googlecode.androidannotations.annotations.OptionsMenu;
 import com.googlecode.androidannotations.annotations.ViewById;
 import com.googlecode.androidannotations.annotations.sharedpreferences.Pref;
 import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 import com.uksusoff.rock63.data.entities.NewsItem;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
@@ -17,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 @EActivity (R.layout.news_detail)
+@OptionsMenu(R.menu.menu_event)
 public class NewsDetailActivity extends BaseActivity {
     
     public static final String EXTRA_ITEM_ID = "newsItem";
@@ -72,6 +76,22 @@ public class NewsDetailActivity extends BaseActivity {
         body.setText(Html.fromHtml(newsItem.getBody()));
         
         UrlImageViewHelper.setUrlDrawable(image, newsItem.getMediumThumbUrl(), R.drawable.news_medium_placeholder);
+    }
+    
+    @OptionsItem(R.id.menu_share)
+    void menuShare() {
+        shareNews();
+    }
+
+    private void shareNews() {
+        Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+
+        intent.putExtra(Intent.EXTRA_SUBJECT, newsItem.getTitle());
+        intent.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(newsItem.getBody()).toString());
+
+        startActivity(intent);
     }
 
 }

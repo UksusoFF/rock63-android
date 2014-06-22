@@ -9,6 +9,7 @@ import com.googlecode.androidannotations.annotations.EActivity;
 import com.googlecode.androidannotations.annotations.Extra;
 import com.googlecode.androidannotations.annotations.OptionsItem;
 import com.googlecode.androidannotations.annotations.OptionsMenu;
+import com.googlecode.androidannotations.annotations.ViewById;
 import com.googlecode.androidannotations.annotations.sharedpreferences.Pref;
 import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 import com.uksusoff.rock63.data.entities.Event;
@@ -33,6 +34,9 @@ public class EventDetailActivity extends BaseActivity {
 
     @Pref
     ISharedPrefs_ sharedPrefs;
+    
+    @ViewById(R.id.event_detail_placephone)
+    TextView placePhone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,10 +79,11 @@ public class EventDetailActivity extends BaseActivity {
             ((TextView) findViewById(R.id.event_detail_placeaddr)).setText(event.getPlace().getAddress());
 
             if (event.getPlace().getPhone() != null && !event.getPlace().getPhone().equals("")) {
-                ((TextView) findViewById(R.id.event_detail_placephone)).setVisibility(View.VISIBLE);
-                ((TextView) findViewById(R.id.event_detail_placephone)).setText(event.getPlace().getPhone());
+                placePhone.setVisibility(View.VISIBLE);
+                placePhone.setMovementMethod(LinkMovementMethod.getInstance());
+                placePhone.setText(Html.fromHtml(event.getPlace().getPhone()));
             } else {
-                ((TextView) findViewById(R.id.event_detail_placephone)).setVisibility(View.GONE);
+                placePhone.setVisibility(View.GONE);
             }
 
             if (event.getPlace().getUrl() != null && !event.getPlace().getUrl().equals("")) {

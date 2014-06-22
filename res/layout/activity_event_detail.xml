@@ -70,7 +70,6 @@
 	            android:id="@+id/event_detail_placephone"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
-	            android:autoLink="phone"
 	            android:text="TextView" />
 	
 	        <TextView
