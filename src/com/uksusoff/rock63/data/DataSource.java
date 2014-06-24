@@ -219,6 +219,9 @@ public class DataSource {
                                 body += newsItemJson.getString("ext_url");
                             }
                             newsItem.setBody(body);
+                            if (newsItemJson.has("url")) {
+                                newsItem.setUrl(newsItemJson.getString("url"));
+                            }
                             newsItem.setNew(true);
 
                             database.getNewsItemDao().createOrUpdate(newsItem);

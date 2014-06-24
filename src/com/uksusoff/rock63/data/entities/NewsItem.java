@@ -20,6 +20,8 @@ public class NewsItem {
 	String mediumThumbUrl;
     @DatabaseField
     boolean isNew;
+    @DatabaseField
+    String url;
 	
 	public String getSmallThumbUrl() {
         return smallThumbUrl;
@@ -66,4 +68,10 @@ public class NewsItem {
 	public void setDate(Date date) {
 		this.date = date;
 	}
+    public String getUrl() {
+        return url;
+    }
+    public void setUrl(String url) {
+        this.url = url;
+    }
 }

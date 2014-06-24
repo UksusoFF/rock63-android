@@ -88,8 +88,13 @@ public class NewsDetailActivity extends BaseActivity {
         intent.setType("text/plain");
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
 
+        String body = Html.fromHtml(newsItem.getBody()).toString();
+        if (newsItem.getUrl() != null) {
+            body += "\n\n" + newsItem.getUrl();
+        }
+        
         intent.putExtra(Intent.EXTRA_SUBJECT, newsItem.getTitle());
-        intent.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(newsItem.getBody()).toString());
+        intent.putExtra(Intent.EXTRA_TEXT, body);
 
         startActivity(intent);
     }
