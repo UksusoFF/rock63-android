@@ -76,14 +76,12 @@
 	            android:id="@+id/event_detail_placelink"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
-	            android:autoLink="web"
 	            android:text="TextView" />
 	
 	        <TextView
 	            android:id="@+id/event_detail_placevklink"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
-	            android:autoLink="web"
 	            android:text="TextView" />
 
 	    </LinearLayout>

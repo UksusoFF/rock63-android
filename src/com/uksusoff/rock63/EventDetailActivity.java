@@ -37,6 +37,12 @@ public class EventDetailActivity extends BaseActivity {
     
     @ViewById(R.id.event_detail_placephone)
     TextView placePhone;
+    
+    @ViewById(R.id.event_detail_placelink)
+    TextView placeLink;
+    
+    @ViewById(R.id.event_detail_placevklink)
+    TextView placeVkLink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,17 +93,19 @@ public class EventDetailActivity extends BaseActivity {
             }
 
             if (event.getPlace().getUrl() != null && !event.getPlace().getUrl().equals("")) {
-                ((TextView) findViewById(R.id.event_detail_placelink)).setVisibility(View.VISIBLE);
-                ((TextView) findViewById(R.id.event_detail_placelink)).setText(event.getPlace().getUrl());
+                placeLink.setVisibility(View.VISIBLE);
+                placeLink.setMovementMethod(LinkMovementMethod.getInstance());
+                placeLink.setText(Html.fromHtml(event.getPlace().getUrl()));
             } else {
-                ((TextView) findViewById(R.id.event_detail_placelink)).setVisibility(View.GONE);
+                placeLink.setVisibility(View.GONE);
             }
 
             if (event.getPlace().getVkUrl() != null && !event.getPlace().getVkUrl().equals("")) {
-                ((TextView) findViewById(R.id.event_detail_placevklink)).setVisibility(View.VISIBLE);
-                ((TextView) findViewById(R.id.event_detail_placevklink)).setText(event.getPlace().getVkUrl());
+                placeVkLink.setVisibility(View.VISIBLE);
+                placeVkLink.setMovementMethod(LinkMovementMethod.getInstance());
+                placeVkLink.setText(Html.fromHtml(event.getPlace().getVkUrl()));
             } else {
-                ((TextView) findViewById(R.id.event_detail_placevklink)).setVisibility(View.GONE);
+                placeVkLink.setVisibility(View.GONE);
             }
 
             ((Button) findViewById(R.id.event_detail_infdetailbtn)).setOnClickListener(new View.OnClickListener() {
