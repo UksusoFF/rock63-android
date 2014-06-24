@@ -16,8 +16,10 @@ import org.json.*;
 import com.googlecode.androidannotations.annotations.AfterInject;
 import com.googlecode.androidannotations.annotations.EBean;
 import com.googlecode.androidannotations.annotations.RootContext;
+import com.googlecode.androidannotations.annotations.sharedpreferences.Pref;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.stmt.DeleteBuilder;
+import com.uksusoff.rock63.InternalPrefs_;
 import com.uksusoff.rock63.data.entities.Event;
 import com.uksusoff.rock63.data.entities.NewsItem;
 import com.uksusoff.rock63.data.entities.Place;
@@ -56,6 +58,9 @@ public class DataSource {
 
     @RootContext
     Context context;
+    
+    @Pref
+    InternalPrefs_ intPrefs;
 
     @AfterInject
     public void init() {
@@ -289,6 +294,14 @@ public class DataSource {
 
                         for (int i = 0; i < events.length(); i++) {
                             JSONObject eventJson = events.getJSONObject(i);
+                            
+                            if (eventJson.has("venues_up")) {
+                                long lastPlacesUpdate = eventJson.getLong("venues_up");
+                                if (intPrefs.lastUpdatedPlaces().get() != lastPlacesUpdate) {
+                                    refreshPlacesSync();
+                                    intPrefs.lastUpdatedPlaces().put(lastPlacesUpdate);
+                                }
+                            }
 
                             Event e = new Event();
                             e.setId(eventJson.getInt("id"));

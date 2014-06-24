@@ -16,7 +16,7 @@ import com.uksusoff.rock63.data.entities.Place;
 public class DBHelper extends OrmLiteSqliteOpenHelper {
     
     private static final String DATABASE_NAME = "rock63androidclient";
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 5;
     private Dao<Event, Integer> eventDao;
     private Dao<NewsItem, Integer> newsItemDao;
     private Dao<Place, Integer> placeDao;

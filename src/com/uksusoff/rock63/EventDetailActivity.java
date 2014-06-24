@@ -104,7 +104,6 @@ public class EventDetailActivity extends BaseActivity {
 
                 @Override
                 public void onClick(View v) {
-                    // TODO Auto-generated method stub
                     View inf = EventDetailActivity.this.findViewById(R.id.event_detail_placeinf);
                     if (inf.getVisibility() == View.VISIBLE) {
                         inf.setVisibility(View.GONE);
