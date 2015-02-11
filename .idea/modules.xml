@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Source.iml" filepath="$PROJECT_DIR$/Source.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rock63/rock63.iml" filepath="$PROJECT_DIR$/rock63/rock63.iml" />
+      <module fileurl="file://$PROJECT_DIR$/urlImageViewHelper/urlImageViewHelper.iml" filepath="$PROJECT_DIR$/urlImageViewHelper/urlImageViewHelper.iml" />
+    </modules>
+  </component>
+</project>
+
