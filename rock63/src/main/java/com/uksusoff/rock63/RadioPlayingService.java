@@ -20,7 +20,7 @@ import android.widget.RemoteViews;
 
 public class RadioPlayingService extends Service {
 
-    public static final String RADIO_URL = "http://play.vzradio.ru:8000/onair?type=.mp3";
+    public static final String RADIO_URL = "http://play.vzradio.ru:8000/onair";
 
     public static final String ACTION_STOP = "com.uksusoff.rock63.ACTION_STOP";
     public static final String ACTION_PLAY = "com.uksusoff.rock63.ACTION_PLAY";

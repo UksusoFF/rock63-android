@@ -19,10 +19,10 @@
 #   public *;
 #}
 
+-dontwarn org.springframework.**
+
 -keep class android.support.v4.app.** { *; }
 -keep interface android.support.v4.app.** { *; }
--keep class com.actionbarsherlock.** { *; }
--keep interface com.actionbarsherlock.** { *; }
 
 -keep class com.flurry.** { *; }
 -dontwarn com.flurry.**

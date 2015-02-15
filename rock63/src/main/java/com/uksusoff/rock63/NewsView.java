@@ -34,7 +34,6 @@ public class NewsView extends ListFragment implements INewsDataSourceListener, I
 	
 	private View progressWrap;
 	private ProgressBar progress;
-	//private List<NewsItem> mNews;
 		
 	@AfterViews
 	void init() {
