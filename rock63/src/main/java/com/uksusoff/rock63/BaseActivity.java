@@ -3,9 +3,9 @@ package com.uksusoff.rock63;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.uksusoff.rock63.data.DBHelper;
 
-import android.app.Activity;
+import android.support.v7.app.ActionBarActivity;
 
-public abstract class BaseActivity extends Activity {
+public abstract class BaseActivity extends ActionBarActivity {
     
     private DBHelper dbHelper = null;
     

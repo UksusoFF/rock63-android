@@ -242,14 +242,13 @@ public class MainActivity extends BaseFragmentActivity implements
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
 
-        MenuItem item = menu.findItem(R.id.menu_search);
         mSearchView = (SearchView)MenuItemCompat.getActionView(menu.findItem(R.id.menu_search));
 
         mSearchView.setOnQueryTextListener(this);
         mSearchView.setOnCloseListener(this);
 
         if (!currentTab.equalsIgnoreCase("events")) {
-            MenuItemCompat.getActionView(menu.findItem(R.id.menu_search)).setVisibility(View.GONE);
+            menu.findItem(R.id.menu_search).setVisible(false);
         }
         
         if (currentTab.equalsIgnoreCase("radio")) {

@@ -16,6 +16,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -76,11 +77,24 @@ public class NewsDetailActivity extends BaseActivity {
         body.setText(Html.fromHtml(newsItem.getBody()));
         
         UrlImageViewHelper.setUrlDrawable(image, newsItem.getMediumThumbUrl(), R.drawable.news_medium_placeholder);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
     
     @OptionsItem(R.id.menu_share)
     void menuShare() {
         shareNews();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp(){
+        finish();
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return super.onOptionsItemSelected(item);
     }
 
     private void shareNews() {

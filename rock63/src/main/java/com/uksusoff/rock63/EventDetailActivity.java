@@ -139,11 +139,19 @@ public class EventDetailActivity extends BaseActivity {
         } else {
             ((ImageView) findViewById(R.id.event_detail_image)).setVisibility(View.GONE);
         }
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @OptionsItem(R.id.menu_share)
     void menuShare() {
         shareEvent();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp(){
+        finish();
+        return true;
     }
 
     private void shareEvent() {
