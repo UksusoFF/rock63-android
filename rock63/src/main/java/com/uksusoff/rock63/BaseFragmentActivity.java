@@ -23,17 +23,6 @@ public abstract class BaseFragmentActivity extends ActionBarActivity {
         }).execute(null, null, null);
         
         super.onStart();
-        
-        Flurry.startSession(BaseFragmentActivity.this);
-        
-        Flurry.pageView();
-    }
-    
-    @Override
-    protected void onStop() {
-        super.onStop();
-        
-        Flurry.endSession(this);
     }
     
     @Override

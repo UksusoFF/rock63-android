@@ -171,14 +171,10 @@ public class RadioPlayerView extends Fragment implements OnClickListener, OnSeek
         if (mBoundService.isStreamPlaying()) {
             mBoundService.stopPlay();
             playBtn.setImageResource(CommonUtils.getThemedResource(getActivity(), R.attr.radio_play));
-        
-            Flurry.endEvent(getString(R.string.flurry_radio_play));
         } else {
             mBoundService.startPlay();
             
             playBtn.setImageResource(CommonUtils.getThemedResource(getActivity(), R.attr.radio_pause));
-        
-            Flurry.logEvent(getString(R.string.flurry_radio_play));
         }
     }
     

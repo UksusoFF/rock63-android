@@ -10,22 +10,6 @@ public abstract class BaseActivity extends ActionBarActivity {
     private DBHelper dbHelper = null;
     
     @Override
-    protected void onStart() {
-        super.onStart();
-        
-        Flurry.startSession(this);
-        
-        Flurry.pageView();
-    }
-    
-    @Override
-    protected void onStop() {
-        super.onStop();
-        
-        Flurry.endSession(this);
-    }
-    
-    @Override
     protected void onDestroy() {
         super.onDestroy();
         if (dbHelper != null) {

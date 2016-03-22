@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    
-    <string name="flurry_change_theme_to_dark" translatable="false">Dark_Theme_Chosen</string>
-    <string name="flurry_change_theme_to_light" translatable="false">Light_Theme_Chosen</string>
-    <string name="flurry_radio_play" translatable="false">Radio_Play</string>
-    
-</resources>

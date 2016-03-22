@@ -62,16 +62,12 @@ public class SettingsActivity extends BaseActivity {
                     
                     SettingsActivity.this.getApplication().setTheme(R.style.AppDarkTheme);
                     
-                    Flurry.logEvent(getString(R.string.flurry_change_theme_to_dark));
-                    
                     break;
                 case R.id.appThemeRadioLight:
                     
                     theme = Settings.ROCK63_PREFS_THEME_OPT_LIGHT;
                     
                     SettingsActivity.this.getApplication().setTheme(R.style.AppLightTheme);
-                    
-                    Flurry.logEvent(getString(R.string.flurry_change_theme_to_light));
                     
                     break;
                 }
