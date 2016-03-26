@@ -24,9 +24,6 @@
 -keep class android.support.v4.app.** { *; }
 -keep interface android.support.v4.app.** { *; }
 
--keep class com.flurry.** { *; }
--dontwarn com.flurry.**
-
 -keepattributes *Annotation*
 
 # OrmLite uses reflection
