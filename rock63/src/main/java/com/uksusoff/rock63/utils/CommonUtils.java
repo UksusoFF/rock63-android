@@ -43,14 +43,6 @@ public class CommonUtils {
 	    
         return noHTMLString;
 	}
-	
-	public static int getThemedResource(Context context, int attr) {
-	
-        TypedValue typedvalueattr = new TypedValue();
-        context.getTheme().resolveAttribute(attr, typedvalueattr, true);
-        return typedvalueattr.resourceId;
-	
-	}
 
     public static String convertStreamToString(InputStream is) throws UnsupportedEncodingException {
 

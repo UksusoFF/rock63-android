@@ -2,7 +2,6 @@ package com.uksusoff.rock63;
 
 import java.sql.SQLException;
 
-import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OptionsItem;
@@ -14,24 +13,22 @@ import com.uksusoff.rock63.data.entities.NewsItem;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.ShareCompat;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-@EActivity (R.layout.news_detail)
-@OptionsMenu(R.menu.menu_event)
-public class NewsDetailActivity extends BaseActivity {
+@EActivity (R.layout.a_news_detail)
+@OptionsMenu(R.menu.menu_detail)
+public class NewsDetailActivity extends BaseMenuActivity {
     
     public static final String EXTRA_ITEM_ID = "newsItem";
     
     @Extra(EXTRA_ITEM_ID)
     int newsItemId;
-    
-    @Pref
-    ISharedPrefs_ sharedPrefs;
-    
+
     @ViewById(R.id.news_detail_title)
     TextView title;
     
@@ -42,24 +39,10 @@ public class NewsDetailActivity extends BaseActivity {
     ImageView image;
     
     private NewsItem newsItem;
-    
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        
-        String theme = sharedPrefs.theme().get(); //getSharedPreferences(SettingsActivity.ROCK63_PREFS, 0).getString(SettingsActivity.ROCK63_PREFS_THEME, SettingsActivity.ROCK63_PREFS_THEME_OPT_DARK);
 
-        if (theme.equalsIgnoreCase(Settings.ROCK63_PREFS_THEME_OPT_DARK)) {
-            setTheme(R.style.AppDarkTheme);
-        } else if (theme.equalsIgnoreCase(Settings.ROCK63_PREFS_THEME_OPT_LIGHT)) {
-            setTheme(R.style.AppLightTheme);
-        }
-        
-        super.onCreate(savedInstanceState);
-        
-    }
-    
-    @AfterViews
-    void init() {
+    @Override
+    protected void init() {
+        super.init();
         
         Bundle extras = getIntent().getExtras();
         if (extras == null) {
@@ -77,8 +60,6 @@ public class NewsDetailActivity extends BaseActivity {
         body.setText(Html.fromHtml(newsItem.getBody()));
         
         UrlImageViewHelper.setUrlDrawable(image, newsItem.getMediumThumbUrl(), R.drawable.news_medium_placeholder);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
     
     @OptionsItem(R.id.menu_share)
@@ -87,30 +68,22 @@ public class NewsDetailActivity extends BaseActivity {
     }
 
     @Override
-    public boolean onSupportNavigateUp(){
-        finish();
-        return true;
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         return super.onOptionsItemSelected(item);
     }
 
     private void shareNews() {
-        Intent intent = new Intent(android.content.Intent.ACTION_SEND);
-        intent.setType("text/plain");
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-
         String body = Html.fromHtml(newsItem.getBody()).toString();
         if (newsItem.getUrl() != null) {
             body += "\n\n" + newsItem.getUrl();
         }
-        
-        intent.putExtra(Intent.EXTRA_SUBJECT, newsItem.getTitle());
-        intent.putExtra(Intent.EXTRA_TEXT, body);
 
-        startActivity(intent);
+        startActivity(ShareCompat.IntentBuilder.from(this)
+                .setType("text/plain")
+                .setSubject(newsItem.getTitle())
+                .setText(body)
+                .getIntent()
+        );
     }
 
 }

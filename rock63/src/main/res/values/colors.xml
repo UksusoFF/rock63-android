@@ -1,4 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+
     <color name="holo_blue">#33b5e5</color>
+
+    <color name="colorPrimary">#212121</color>
+    <color name="colorPrimaryDark">#000</color>
+    <color name="colorAccent">#BD0000</color>
+
+    <color name="windowBackground">#F7F3EE</color>
+    <color name="colorControlNormal">#A79D93</color>
+    <color name="colorControlActivated">#8A7A6B</color>
+
 </resources>

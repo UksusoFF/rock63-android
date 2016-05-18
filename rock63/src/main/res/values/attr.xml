@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <attr name="radio_logo" format="reference"/>
-    <attr name="radio_play" format="reference"/>
-    <attr name="radio_pause" format="reference"/>
-    <attr name="share" format="reference"/>
-</resources>

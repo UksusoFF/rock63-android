@@ -1,10 +1,10 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
     -->
-    <style name="AppBaseTheme" parent="Theme.AppCompat.Light">
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!--
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
@@ -14,26 +14,25 @@
 
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
-        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="android:windowBackground">@color/windowBackground</item>
+        <item name="colorControlNormal">@color/colorControlNormal</item>
+        <item name="colorControlActivated">@color/colorControlActivated</item>
+
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
-    
-    <style name="AppLightTheme" parent="Theme.AppCompat.Light">
-        
-        <item name="radio_logo">@drawable/vz_radio_light</item>
-        <item name="radio_play">@drawable/play_light</item>
-        <item name="radio_pause">@drawable/pause_light</item>
-        <item name="share">@drawable/share_light</item>
+
+    <style name="CommonListStyle" parent="Base.Widget.AppCompat.ListView">
+        <item name="android:listSelector">@drawable/list_item_selector</item>
     </style>
-    
-    <style name="AppDarkTheme" parent="Theme.AppCompat">
-        
-        <item name="radio_logo">@drawable/vz_radio_dark</item>
-        <item name="radio_play">@drawable/play_dark</item>
-        <item name="radio_pause">@drawable/pause_dark</item>
-        <item name="share">@drawable/share_dark</item>
-    </style>
-    
-    <style name="NotificationTitle">
-    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>

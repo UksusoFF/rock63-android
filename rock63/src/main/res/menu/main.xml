@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_news"
+        android:icon="@drawable/ic_news"
+        android:title="@string/menu_news" />
+
+    <item
+        android:id="@+id/menu_events"
+        android:icon="@drawable/ic_events"
+        android:title="@string/menu_events" />
+
+    <item
+        android:id="@+id/menu_info"
+        android:icon="@drawable/ic_info"
+        android:title="@string/menu_info" />
+
+    <item
+        android:id="@+id/radio"
+        android:title="@string/menu_radio">
+        <menu>
+            <item
+                android:id="@+id/menu_radio_vz"
+                android:title="@string/menu_radio_vz" />
+        </menu>
+    </item>
+
+</menu>

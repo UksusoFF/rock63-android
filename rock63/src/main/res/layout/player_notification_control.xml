@@ -4,7 +4,8 @@
     android:layout_height="64dp"
     android:layout_gravity="center"
     android:gravity="right|center_vertical"
-    android:orientation="horizontal" >
+    android:orientation="horizontal"
+	android:background="@color/colorPrimary">
     
     <FrameLayout
         android:layout_width="match_parent"
@@ -20,11 +21,9 @@
 	        android:orientation="vertical" >
 	
 	        <TextView
-	            
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
-	            android:text="@string/notification_title"
-	            android:textAppearance="@style/NotificationTitle" />
+	            android:text="@string/notification_title"/>
 	
 	        <TextView
 	            android:layout_width="wrap_content"

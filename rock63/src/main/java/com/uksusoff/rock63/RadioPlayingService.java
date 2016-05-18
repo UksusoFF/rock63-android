@@ -18,6 +18,9 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.RemoteViews;
 
+import org.androidannotations.annotations.EService;
+
+@EService
 public class RadioPlayingService extends Service {
 
     public static final String RADIO_URL = "http://play.vzradio.ru:8000/onair";
@@ -33,12 +36,11 @@ public class RadioPlayingService extends Service {
     private static final int REQUEST_CODE_PAUSE = 3;
     private static final int REQUEST_CODE_ACTIVITY = 4;
 
-    // private static RadioPlayingService instance = null;
     private static boolean mRunning = false;
     private MediaPlayer mediaPlayer;
     private Float lastVolume = null;
     private boolean notificationPlaced = false;
-    private List<IRadioPlayerServiceListener> listeners = new LinkedList<IRadioPlayerServiceListener>();
+    private List<IRadioPlayerServiceListener> listeners = new LinkedList<>();
 
     public boolean addListener(IRadioPlayerServiceListener object) {
         return listeners.add(object);
@@ -70,7 +72,6 @@ public class RadioPlayingService extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         // TODO: Return the communication channel to the service.
-        // throw new UnsupportedOperationException("Not yet implemented");
         return mBinder;
     }
 
@@ -119,12 +120,16 @@ public class RadioPlayingService extends Service {
         if (intent != null) {
             String action = intent.getAction();
             if (!TextUtils.isEmpty(action)) {
-                if (action.equals(ACTION_PLAY)) {
-                    startPlay();
-                } else if (action.equals(ACTION_PAUSE)) {
-                    pausePlay();
-                } else if (action.equals(ACTION_STOP)) {
-                    stopPlay();
+                switch (action) {
+                    case ACTION_PLAY:
+                        startPlay();
+                        break;
+                    case ACTION_PAUSE:
+                        pausePlay();
+                        break;
+                    case ACTION_STOP:
+                        stopPlay();
+                        break;
                 }
             }
         } else {
@@ -138,9 +143,14 @@ public class RadioPlayingService extends Service {
         if (notificationPlaced) {
             return;
         }
-        Intent notificationIntent = new Intent(this, MainActivity_.class);
-        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP); 
-        PendingIntent contentIntent = PendingIntent.getActivity(this, REQUEST_CODE_ACTIVITY, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        Intent notificationIntent = new Intent(this, RadioPlayerActivity_.class);
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent contentIntent = PendingIntent.getActivity(
+                this,
+                REQUEST_CODE_ACTIVITY,
+                notificationIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+        );
         
         RemoteViews remoteView = new RemoteViews(getPackageName(), R.layout.player_notification_control);
                       

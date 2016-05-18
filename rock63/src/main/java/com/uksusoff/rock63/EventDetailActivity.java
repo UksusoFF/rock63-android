@@ -4,7 +4,6 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
-import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OptionsItem;
@@ -16,6 +15,7 @@ import com.uksusoff.rock63.data.entities.Event;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.ShareCompat;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
@@ -23,18 +23,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Button;
 
-@EActivity(R.layout.activity_event_detail)
-@OptionsMenu(R.menu.menu_event)
-public class EventDetailActivity extends BaseActivity {
+@EActivity(R.layout.a_event_detail)
+@OptionsMenu(R.menu.menu_detail)
+public class EventDetailActivity extends BaseMenuActivity {
 
     public static final String EXTRA_ITEM_ID = "eventItem";
 
     @Extra(EXTRA_ITEM_ID)
     int eventId;
 
-    @Pref
-    ISharedPrefs_ sharedPrefs;
-    
     @ViewById(R.id.event_detail_placephone)
     TextView placePhone;
     
@@ -44,25 +41,11 @@ public class EventDetailActivity extends BaseActivity {
     @ViewById(R.id.event_detail_placevklink)
     TextView placeVkLink;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-
-        String theme = sharedPrefs.theme().get();
-
-        if (theme.equalsIgnoreCase(Settings.ROCK63_PREFS_THEME_OPT_DARK)) {
-            setTheme(R.style.AppDarkTheme);
-        } else if (theme.equalsIgnoreCase(Settings.ROCK63_PREFS_THEME_OPT_LIGHT)) {
-            setTheme(R.style.AppLightTheme);
-        }
-
-        super.onCreate(savedInstanceState);
-
-    }
-
     private Event event;
 
-    @AfterViews
-    void init() {
+    @Override
+    protected void init() {
+        super.init();
 
         try {
             event = getHelper().getEventDao().queryForId(eventId);
@@ -139,8 +122,6 @@ public class EventDetailActivity extends BaseActivity {
         } else {
             ((ImageView) findViewById(R.id.event_detail_image)).setVisibility(View.GONE);
         }
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @OptionsItem(R.id.menu_share)
@@ -148,32 +129,20 @@ public class EventDetailActivity extends BaseActivity {
         shareEvent();
     }
 
-    @Override
-    public boolean onSupportNavigateUp(){
-        finish();
-        return true;
-    }
-
     private void shareEvent() {
-        Intent intent = new Intent(android.content.Intent.ACTION_SEND);
-        intent.setType("text/plain");
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-
+        String subject;
         if (event.getPlace() != null) {
-            intent.putExtra(Intent.EXTRA_SUBJECT, String.format("%s @ %s", event.getTitle(), event.getPlace().getName()));
+            subject = String.format("%s @ %s", event.getTitle(), event.getPlace().getName());
         } else {
-            intent.putExtra(Intent.EXTRA_SUBJECT, event.getTitle());
+            subject = event.getTitle();
         }
-        intent.putExtra(Intent.EXTRA_TEXT, event.getUrl());
 
-        startActivity(intent);
+        startActivity(ShareCompat.IntentBuilder.from(this)
+                .setType("text/plain")
+                .setSubject(subject)
+                .setText(event.getUrl())
+                .getIntent()
+        );
     }
-
-    /*
-     * @Override public boolean onCreateOptionsMenu(Menu menu) { // Inflate the
-     * menu; this adds items to the action bar if it is present.
-     * getMenuInflater().inflate(R.menu.activity_event_detail, menu); return
-     * true; }
-     */
 
 }

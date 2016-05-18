@@ -44,10 +44,18 @@
     <string name="events_no_place_text">Место проведения смотрите в описании</string>
     
     <string name="menu_share">Поделиться</string>
+
+    <string name="menu_news">Новости</string>
+    <string name="menu_events">События</string>
+    <string name="menu_radio">Радио</string>
+    <string name="menu_radio_vz">«Время Звучать!»</string>
+    <string name="menu_info">Информация</string>
     
     <string name="notification_text">Радио «Время Звучать!»</string>
     
     <string name="share_radio_title">Радио «Время Звучать!»</string>
     <string name="share_radio_body">Я слушаю %s на радио «Время Звучать!». http://vzradio.ru</string>
+
+    <string name="error_no_internet">Интернет недоступен</string>
     
 </resources>
