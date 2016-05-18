@@ -7,6 +7,7 @@ import android.widget.SimpleAdapter;
 
 import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 import com.uksusoff.rock63.data.DataSource;
+import com.uksusoff.rock63.data.entities.Event;
 import com.uksusoff.rock63.data.entities.NewsItem;
 import com.uksusoff.rock63.utils.CommonUtils;
 
@@ -114,7 +115,13 @@ public class NewsListActivity extends ItemListActivity {
 
     @ItemClick(R.id.list)
     public void newsItemClicked(Map<String, Object> item) {
-        NewsDetailActivity_.intent(this).newsItemId(((NewsItem)item.get("obj")).getId()).start();
+        NewsItem newsItem = (NewsItem)item.get("obj");
+        Event related = source.getRelatedEvent(newsItem);
+        if (related == null) {
+            NewsDetailActivity_.intent(this).newsItemId(newsItem.getId()).start();
+        } else {
+            EventDetailActivity_.intent(this).eventId(related.getId()).start();
+        }
     }
 
 }
