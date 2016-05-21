@@ -28,7 +28,7 @@
     </style>
 
     <style name="CommonListStyle" parent="Base.Widget.AppCompat.ListView">
-        <item name="android:listSelector">@drawable/list_item_selector</item>
+        <item name="android:listSelector">?attr/selectableItemBackground</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

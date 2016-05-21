@@ -9,6 +9,8 @@
     <color name="colorPrimaryDark">#000</color>
     <color name="colorAccent">#BD0000</color>
 
+    <color name="colorAccentTransparent">#44BD0000</color>
+
     <color name="windowBackground">#F7F3EE</color>
     <color name="colorControlNormal">#A79D93</color>
     <color name="colorControlActivated">#8A7A6B</color>
