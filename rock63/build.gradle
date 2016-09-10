@@ -52,4 +52,5 @@ dependencies {
     apt "org.androidannotations:androidannotations:$AAVersion"
     compile "org.androidannotations:androidannotations-api:$AAVersion"
     compile 'com.android.support:design:23.4.0'
+    compile 'com.evernote:android-job:1.0.11'
 }

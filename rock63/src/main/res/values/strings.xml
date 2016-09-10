@@ -17,6 +17,10 @@
     <string name="settings_theme_light">Light Theme</string>
     <string name="settings_restart_alert">Theme change settings will be applied after app restart</string>
     <string name="info_title">Info</string>
+    <string name="settings_title">Settings</string>
+    <string name="settings_event_reminder_section_title">Event remind notification</string>
+    <string name="settings_weekly_reminder_title">One week before</string>
+    <string name="settings_daily_reminder_title">One day before</string>
 
     <string name="menu_share">Share</string>
 
@@ -24,7 +28,7 @@
     <string name="menu_events">Events</string>
     <string name="menu_radio">Radio</string>
     <string name="menu_radio_vz">VZRadio</string>
-    <string name="menu_info">Info</string>
+    <string name="menu_info">Settings</string>
 
     <string name="about_body">rock63 - application</string>
     <string name="news_no_item_text">No news</string>
@@ -50,5 +54,9 @@
     <string name="error_no_internet">No internet</string>
 
     <string name="placeholder">None</string>
+
+    <string name="notification_weekly">Week before "%1$s"</string>
+    <string name="notification_dayly">Day before "%1$s"</string>
+    <string name="notification_today">Today "%1$s"</string>
 
 </resources>

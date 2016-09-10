@@ -1,31 +1,18 @@
-package com.uksusoff.rock63;
+package com.uksusoff.rock63.ui;
 
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
-import android.widget.Adapter;
-import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
-import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
+import com.uksusoff.rock63.R;
 import com.uksusoff.rock63.data.DataSource;
-import com.uksusoff.rock63.data.entities.NewsItem;
-import com.uksusoff.rock63.utils.CommonUtils;
 
 import org.androidannotations.annotations.Background;
-import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
-
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by User on 16.05.2016.

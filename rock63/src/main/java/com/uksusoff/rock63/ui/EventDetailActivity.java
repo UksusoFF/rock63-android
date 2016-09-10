@@ -1,4 +1,4 @@
-package com.uksusoff.rock63;
+package com.uksusoff.rock63.ui;
 
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -9,12 +9,11 @@ import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
-import org.androidannotations.annotations.sharedpreferences.Pref;
+
 import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
+import com.uksusoff.rock63.R;
 import com.uksusoff.rock63.data.entities.Event;
 
-import android.content.Intent;
-import android.os.Bundle;
 import android.support.v4.app.ShareCompat;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;

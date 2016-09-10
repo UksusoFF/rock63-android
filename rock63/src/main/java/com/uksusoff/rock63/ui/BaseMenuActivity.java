@@ -1,15 +1,15 @@
-package com.uksusoff.rock63;
+package com.uksusoff.rock63.ui;
 
 import android.support.annotation.IdRes;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.ViewStubCompat;
 import android.view.MenuItem;
-import android.widget.Toast;
+
+import com.uksusoff.rock63.R;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -67,7 +67,7 @@ public abstract class BaseMenuActivity extends BaseActivity implements Navigatio
                 EventsListActivity_.intent(this).start();
                 break;
             case R.id.menu_info:
-                InfoActivity_.intent(this).start();
+                SettingsActivity_.intent(this).start();
                 break;
             case R.id.menu_radio_vz:
                 RadioPlayerActivity_.intent(this).start();

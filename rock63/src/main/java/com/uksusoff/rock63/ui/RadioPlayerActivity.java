@@ -1,7 +1,6 @@
-package com.uksusoff.rock63;
+package com.uksusoff.rock63.ui;
 
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
@@ -12,9 +11,12 @@ import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.uksusoff.rock63.R;
+import com.uksusoff.rock63.services.IRadioPlayerServiceListener;
+import com.uksusoff.rock63.services.RadioPlayingService;
+import com.uksusoff.rock63.services.RadioPlayingService_;
 import com.uksusoff.rock63.utils.CommonUtils;
 
-import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.OptionsItem;
@@ -97,7 +99,7 @@ public class RadioPlayerActivity extends BaseMenuActivity {
         bindService(
                 RadioPlayingService_.intent(getApplicationContext()).get(),
                 mConnection,
-                Context.BIND_AUTO_CREATE
+                BIND_AUTO_CREATE
         );
         mIsBound = true;
     }

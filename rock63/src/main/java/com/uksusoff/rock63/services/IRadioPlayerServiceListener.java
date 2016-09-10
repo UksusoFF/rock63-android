@@ -1,4 +1,4 @@
-package com.uksusoff.rock63;
+package com.uksusoff.rock63.services;
 
 public interface IRadioPlayerServiceListener {
     void OnPause();

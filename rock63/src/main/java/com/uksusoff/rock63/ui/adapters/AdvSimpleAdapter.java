@@ -1,4 +1,4 @@
-package com.uksusoff.rock63.utils;
+package com.uksusoff.rock63.ui.adapters;
 
 import android.content.Context;
 import android.view.View;

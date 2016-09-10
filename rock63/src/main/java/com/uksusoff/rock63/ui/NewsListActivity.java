@@ -1,4 +1,4 @@
-package com.uksusoff.rock63;
+package com.uksusoff.rock63.ui;
 
 import android.view.View;
 import android.widget.ImageView;
@@ -6,6 +6,7 @@ import android.widget.ListAdapter;
 import android.widget.SimpleAdapter;
 
 import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
+import com.uksusoff.rock63.R;
 import com.uksusoff.rock63.data.DataSource;
 import com.uksusoff.rock63.data.entities.Event;
 import com.uksusoff.rock63.data.entities.NewsItem;

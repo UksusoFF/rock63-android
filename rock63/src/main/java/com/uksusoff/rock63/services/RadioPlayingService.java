@@ -1,4 +1,4 @@
-package com.uksusoff.rock63;
+package com.uksusoff.rock63.services;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -7,7 +7,6 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Binder;
@@ -17,6 +16,9 @@ import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.RemoteViews;
+
+import com.uksusoff.rock63.R;
+import com.uksusoff.rock63.ui.RadioPlayerActivity_;
 
 import org.androidannotations.annotations.EService;
 
@@ -62,7 +64,7 @@ public class RadioPlayingService extends Service {
     }
 
     public class RadioBinder extends Binder {
-        RadioPlayingService getService() {
+        public RadioPlayingService getService() {
             return RadioPlayingService.this;
         }
     }

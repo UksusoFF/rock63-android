@@ -12,14 +12,42 @@
 	    android:paddingLeft="@dimen/activity_horizontal_margin"
 	    android:paddingRight="@dimen/activity_horizontal_margin"
 	    android:paddingTop="@dimen/activity_vertical_margin"
-	    tools:context=".InfoActivity" >
+	    tools:context=".ui.SettingsActivity" >
 
-	    <TextView
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/settings_title"
+			android:layout_marginTop="14dp"
+			android:textAppearance="?android:attr/textAppearanceLarge" />
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="10dp"
+			android:text="@string/settings_event_reminder_section_title"
+			android:textAppearance="?android:attr/textAppearanceMedium" />
+
+		<Switch
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/settings_daily_reminder_title"
+			android:layout_marginTop="6dp"
+			android:id="@+id/dailyReminder" />
+
+		<Switch
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/settings_weekly_reminder_title"
+			android:layout_marginTop="6dp"
+			android:id="@+id/weeklyReminder" />
+
+		<TextView
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:text="@string/info_title"
 	        android:layout_marginTop="14dp"
-	        android:textAppearance="?android:attr/textAppearanceMedium" />
+	        android:textAppearance="?android:attr/textAppearanceLarge" />
 	
 	    <TextView
 	        android:id="@+id/info_body_text"

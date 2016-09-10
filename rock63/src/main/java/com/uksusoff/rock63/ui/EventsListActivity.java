@@ -1,14 +1,14 @@
-package com.uksusoff.rock63;
+package com.uksusoff.rock63.ui;
 
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.widget.ListAdapter;
 
+import com.uksusoff.rock63.R;
 import com.uksusoff.rock63.data.DataSource;
 import com.uksusoff.rock63.data.entities.Event;
-import com.uksusoff.rock63.data.entities.NewsItem;
-import com.uksusoff.rock63.utils.AdvSimpleAdapter;
+import com.uksusoff.rock63.ui.adapters.AdvSimpleAdapter;
 
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
@@ -93,12 +93,8 @@ public class EventsListActivity extends ItemListActivity {
     }
 
     protected ListAdapter createAdapterFromStorageItems() {
-        List<Event> events;
-        try {
-            events = source.getAllEvents();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+
+        List<Event> events = source.getAllEvents();
 
         List<Map<String, Object>> data = new ArrayList<>();
         for (int i = 0; i<events.size(); i++) {

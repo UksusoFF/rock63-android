@@ -11,6 +11,10 @@
     <string name="event_show_info_button_title">Инфо</string>
     <string name="event_hide_info_button_title">Скрыть</string>
     <string name="info_title">Информация</string>
+    <string name="settings_title">Настройки</string>
+    <string name="settings_event_reminder_section_title">Напоминания о событии</string>
+    <string name="settings_weekly_reminder_title">За неделю</string>
+    <string name="settings_daily_reminder_title">За день</string>
     
     <string name="settings_theme_dark">Темная тема</string>
     <string name="settings_theme_light">Светлая тема</string>
@@ -37,8 +41,7 @@
 			<a href="mailto:cpiteam@yandex.ru">cpiteam@yandex.ru</a><br>
         ]]>
     </string>
-    
-    <string name="action_settings">Настройки</string>
+
     <string name="news_no_item_text">Нет новостей</string>
     <string name="events_no_item_text">Нет событий</string>
     <string name="events_no_place_text">Место проведения смотрите в описании</string>
@@ -49,7 +52,7 @@
     <string name="menu_events">События</string>
     <string name="menu_radio">Радио</string>
     <string name="menu_radio_vz">«Время Звучать!»</string>
-    <string name="menu_info">Информация</string>
+    <string name="menu_info">Настройки</string>
     
     <string name="notification_text">Радио «Время Звучать!»</string>
     
@@ -57,5 +60,9 @@
     <string name="share_radio_body">Я слушаю %s на радио «Время Звучать!». http://vzradio.ru</string>
 
     <string name="error_no_internet">Интернет недоступен</string>
+
+    <string name="notification_weekly">Неделя до "%1$s"</string>
+    <string name="notification_dayly">Завтра "%1$s"</string>
+    <string name="notification_today">Сегодня "%1$s"</string>
     
 </resources>

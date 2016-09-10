@@ -6,7 +6,6 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.stmt.DeleteBuilder;
-import com.uksusoff.rock63.InternalPrefs_;
 import com.uksusoff.rock63.data.entities.Event;
 import com.uksusoff.rock63.data.entities.NewsItem;
 import com.uksusoff.rock63.data.entities.Place;
@@ -107,6 +106,9 @@ public class DataSource {
 
         if (!contents.isEmpty()) {
 
+            final SQLiteDatabase db = database.getWritableDatabase();
+            db.beginTransaction();
+
             try {
                 JSONArray news = new JSONArray(contents);
 
@@ -153,8 +155,12 @@ public class DataSource {
                     database.getNewsItemDao().createOrUpdate(newsItem);
                 }
 
+                db.setTransactionSuccessful();
+
             } catch (JSONException | SQLException e) {
                 throw new RuntimeException(e);
+            } finally {
+                db.endTransaction();
             }
 
             SharedPreferences.Editor editor = optstore.edit();
@@ -163,8 +169,16 @@ public class DataSource {
         }
     }
 
-    public List<Event> getAllEvents() throws SQLException {
-        return database.getEventDao().queryBuilder().orderBy("start", true).query();
+    public List<Event> getAllEvents(boolean ascending) {
+        try {
+            return database.getEventDao().queryBuilder().orderBy("start", ascending).query();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<Event> getAllEvents() {
+        return getAllEvents(true);
     }
 
     public void refreshEvents() throws NoInternetException {
@@ -229,6 +243,7 @@ public class DataSource {
                         e.setPlace(null);
                     }
                     e.setUrl(eventJson.getString("url"));
+                    e.setNotify(eventJson.has("notify"));
 
                     database.getEventDao().create(e);
                 }

@@ -22,6 +22,8 @@ public class Event {
 	String url;
     @DatabaseField(foreign = true,foreignAutoCreate = true,foreignAutoRefresh = true)
     Place place;
+	@DatabaseField
+	boolean notify;
 	
     public String getMediumThumbUrl() {
         return mediumThumbUrl;
@@ -71,4 +73,10 @@ public class Event {
     public void setUrl(String url) {
         this.url = url;
     }
+	public boolean isNotify() {
+		return notify;
+	}
+	public void setNotify(boolean notify) {
+		this.notify = notify;
+	}
 }
