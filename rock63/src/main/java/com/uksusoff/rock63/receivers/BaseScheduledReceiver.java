@@ -55,9 +55,7 @@ public abstract class BaseScheduledReceiver extends BroadcastReceiver {
     protected abstract long repeatInterval();
 
     private void createAlarmIfNeeded() {
-        JobManager jm = JobManager.create(context);
-        jm.addJobCreator(new RockJobCreator());
-        if (jm.getAllJobRequestsForTag(getJobTag()).size() == 0) {
+        if (JobManager.create(context).getAllJobRequestsForTag(getJobTag()).size() == 0) {
             new JobRequest.Builder(getJobTag())
                     .setPeriodic(repeatInterval())
                     .setPersisted(true)

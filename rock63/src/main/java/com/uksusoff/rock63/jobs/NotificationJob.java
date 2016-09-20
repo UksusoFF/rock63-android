@@ -16,6 +16,7 @@ import com.uksusoff.rock63.data.UserPrefs_;
 import com.uksusoff.rock63.data.entities.Event;
 import com.uksusoff.rock63.receivers.RemindersReceiver;
 import com.uksusoff.rock63.ui.EventDetailActivity_;
+import com.uksusoff.rock63.ui.NewsListActivity_;
 import com.uksusoff.rock63.utils.DateUtils;
 
 import org.androidannotations.annotations.SystemService;
@@ -65,7 +66,25 @@ public class NotificationJob extends Job {
         return AlarmManager.INTERVAL_DAY * 7;
     }
 
+    private void showTestNotification() {
+        NotificationCompat.Builder mBuilder = (NotificationCompat.Builder)
+                new NotificationCompat.Builder(getContext())
+                        .setSmallIcon(R.drawable.ic_launcher)
+                        .setContentTitle("checkScheduledJob running...")
+                        .setContentText("Test");
+
+        NotificationManager notificationManager =
+                (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+
+        mBuilder.setContentIntent(PendingIntent.getActivity(getContext(), 0,
+                new Intent(getContext(), NewsListActivity_.class), 0));
+
+        notificationManager.notify(999, mBuilder.build());
+    }
+
     private void checkScheduledJob() {
+        showTestNotification();
+
         List<Event> events = dataSource.getAllEvents(false);
 
         if (events.isEmpty()) {
