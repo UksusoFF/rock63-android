@@ -6,6 +6,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
+import com.evernote.android.job.JobManager;
+import com.evernote.android.job.JobRequest;
 import com.uksusoff.rock63.data.DataSource;
 import com.uksusoff.rock63.jobs.DataUpdateJob;
 
@@ -20,17 +22,17 @@ import java.util.Calendar;
 public class DataUpdateReceiver extends BaseScheduledReceiver {
 
     @Override
-    protected String getJobTag() {
-        return DataUpdateJob.TAG;
-    }
-
-    @Override
-    protected long repeatInterval() {
-        return AlarmManager.INTERVAL_DAY;
-    }
-
-    @Override
     public void onReceive(Context context, Intent intent) {
+    }
 
+    @Override
+    protected void createAlarmIfNeeded() {
+        if (JobManager.create(context).getAllJobRequestsForTag(DataUpdateJob.TAG).size() == 0) {
+            new JobRequest.Builder(DataUpdateJob.TAG)
+                    .setPeriodic(AlarmManager.INTERVAL_DAY)
+                    .setPersisted(true)
+                    .build()
+                    .schedule();
+        }
     }
 }

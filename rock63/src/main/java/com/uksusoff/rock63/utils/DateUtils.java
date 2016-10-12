@@ -11,7 +11,7 @@ public class DateUtils {
     public static int getDateMonthDay(Date date) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
-        return cal.get(Calendar.MONTH);
+        return cal.get(Calendar.DAY_OF_MONTH);
     }
 
 }

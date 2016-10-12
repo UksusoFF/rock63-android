@@ -51,17 +51,6 @@ public abstract class BaseScheduledReceiver extends BroadcastReceiver {
         createAlarmIfNeeded();
     }
 
-    protected abstract String getJobTag();
-    protected abstract long repeatInterval();
-
-    private void createAlarmIfNeeded() {
-        if (JobManager.create(context).getAllJobRequestsForTag(getJobTag()).size() == 0) {
-            new JobRequest.Builder(getJobTag())
-                    .setPeriodic(repeatInterval())
-                    .setPersisted(true)
-                    .build()
-                    .schedule();
-        }
-    }
+    protected abstract void createAlarmIfNeeded();
 
 }

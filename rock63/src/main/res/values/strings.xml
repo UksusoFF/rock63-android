@@ -57,6 +57,5 @@
 
     <string name="notification_weekly">Week before "%1$s"</string>
     <string name="notification_dayly">Day before "%1$s"</string>
-    <string name="notification_today">Today "%1$s"</string>
 
 </resources>

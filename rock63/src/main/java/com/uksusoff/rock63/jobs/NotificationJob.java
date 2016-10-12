@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.NotificationCompat;
 
 import com.evernote.android.job.Job;
+import com.evernote.android.job.JobRequest;
 import com.uksusoff.rock63.R;
 import com.uksusoff.rock63.data.DataSource;
 import com.uksusoff.rock63.data.DataSource_;
@@ -36,10 +37,11 @@ public class NotificationJob extends Job {
 
     public static final String TAG = "event_notification_job";
 
+    private static final long INTERVAL = AlarmManager.INTERVAL_DAY;
+
     private enum ReminderType {
         WEEKLY,
-        DAILY,
-        TODAY
+        DAILY
     }
 
     UserPrefs_ userPrefs;
@@ -50,9 +52,21 @@ public class NotificationJob extends Job {
     @NonNull
     @Override
     protected Result onRunJob(Params params) {
-        init();
-        checkScheduledJob();
+        if (params.isPeriodic()) {
+            init();
+            checkScheduledJob();
+        } else {
+            scheduleTask();
+        }
         return Result.SUCCESS;
+    }
+
+    private void scheduleTask() {
+        new JobRequest.Builder(TAG)
+                .setPeriodic(INTERVAL)
+                .setPersisted(true)
+                .build()
+                .schedule();
     }
 
     private void init() {
@@ -66,25 +80,17 @@ public class NotificationJob extends Job {
         return AlarmManager.INTERVAL_DAY * 7;
     }
 
-    private void showTestNotification() {
-        NotificationCompat.Builder mBuilder = (NotificationCompat.Builder)
-                new NotificationCompat.Builder(getContext())
-                        .setSmallIcon(R.drawable.ic_launcher)
-                        .setContentTitle("checkScheduledJob running...")
-                        .setContentText("Test");
-
-        NotificationManager notificationManager =
-                (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
-
-        mBuilder.setContentIntent(PendingIntent.getActivity(getContext(), 0,
-                new Intent(getContext(), NewsListActivity_.class), 0));
-
-        notificationManager.notify(999, mBuilder.build());
+    private Date getTodayMidnight() {
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.DAY_OF_MONTH, 1);
+        c.set(Calendar.HOUR_OF_DAY, 0);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
+        c.set(Calendar.MILLISECOND, 0);
+        return c.getTime();
     }
 
     private void checkScheduledJob() {
-        showTestNotification();
-
         List<Event> events = dataSource.getAllEvents(false);
 
         if (events.isEmpty()) {
@@ -104,37 +110,32 @@ public class NotificationJob extends Job {
             return;
         }
 
-        Date now = new Date();
+        Date start = getTodayMidnight();
         for (Event event : events) {
             if (!event.isNotify()) {
                 continue;
             }
 
-            long diff = event.getStart().getTime() - now.getTime();
+            long diff = event.getStart().getTime() - start.getTime();
             if (weeklyReminder &&
                     diff < getWeekInterval() &&
-                    diff > getWeekInterval() - RemindersReceiver.getRepeatInterval()) {
+                    diff > getWeekInterval() - INTERVAL) {
 
                 showReminderNotification(event, ReminderType.WEEKLY);
             } else if (dailyReminder &&
                     diff < AlarmManager.INTERVAL_DAY &&
-                    diff > AlarmManager.INTERVAL_DAY - RemindersReceiver.getRepeatInterval()) {
+                    diff > AlarmManager.INTERVAL_DAY - INTERVAL) {
 
-                if (DateUtils.getDateMonthDay(event.getStart()) != DateUtils.getDateMonthDay(now)) {
-                    showReminderNotification(event, ReminderType.DAILY);
-                } else {
-                    showReminderNotification(event, ReminderType.TODAY);
-                }
+                showReminderNotification(event, ReminderType.DAILY);
             }
         }
     }
 
-    protected void showReminderNotification(Event event, ReminderType type) {
+    private void showReminderNotification(Event event, ReminderType type) {
 
         Map<ReminderType, Integer> contentMap = new HashMap<>();
         contentMap.put(ReminderType.DAILY, R.string.notification_dayly);
         contentMap.put(ReminderType.WEEKLY, R.string.notification_weekly);
-        contentMap.put(ReminderType.TODAY, R.string.notification_today);
 
         String place = "";
         int contentResId = contentMap.get(type);
@@ -148,6 +149,7 @@ public class NotificationJob extends Job {
         NotificationCompat.Builder mBuilder = (NotificationCompat.Builder)
                 new NotificationCompat.Builder(getContext())
                         .setSmallIcon(R.drawable.ic_launcher)
+                        .setAutoCancel(true)
                         .setContentTitle(getContext().getString(contentResId, event.getTitle()))
                         .setContentText(place);
 

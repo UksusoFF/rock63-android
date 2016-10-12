@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.uksusoff.rock63"
     android:installLocation="preferExternal"
-    android:versionCode="27"
+    android:versionCode="28"
     android:versionName="2.1">
 
     <uses-permission android:name="android.permission.INTERNET" />
