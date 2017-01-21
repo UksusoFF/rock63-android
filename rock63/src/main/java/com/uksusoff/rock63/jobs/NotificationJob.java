@@ -44,26 +44,35 @@ public class NotificationJob extends Job {
         DAILY
     }
 
-    UserPrefs_ userPrefs;
-    NotificationManager notificationManager;
+    private UserPrefs_ userPrefs;
+    private NotificationManager notificationManager;
+    private DataSource dataSource;
 
-    DataSource dataSource;
+    public static long[] getNextExecutionWindow() {
+        long start = DateUtils.getDelayToHour(17);
+        long end = DateUtils.getDelayToHour(19);
+
+        if (start > end) {
+            end += AlarmManager.INTERVAL_DAY;
+        }
+
+        return new long[] { start, end };
+    }
 
     @NonNull
     @Override
     protected Result onRunJob(Params params) {
-        if (params.isPeriodic()) {
-            init();
-            checkScheduledJob();
-        } else {
-            scheduleTask();
-        }
+        init();
+        checkScheduledJob();
+        scheduleTask();
         return Result.SUCCESS;
     }
 
     private void scheduleTask() {
+        long[] executionWindow = getNextExecutionWindow();
+
         new JobRequest.Builder(TAG)
-                .setPeriodic(INTERVAL)
+                .setExecutionWindow(executionWindow[0], executionWindow[1])
                 .setPersisted(true)
                 .build()
                 .schedule();
@@ -164,9 +173,6 @@ public class NotificationJob extends Job {
                 );
 
         mBuilder.setContentIntent(resultPendingIntent);
-
-        NotificationManager notificationManager =
-                (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
 
         notificationManager.notify(event.getId(), mBuilder.build());
     }

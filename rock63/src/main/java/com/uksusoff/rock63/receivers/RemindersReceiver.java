@@ -12,6 +12,7 @@ import com.evernote.android.job.JobRequest;
 import com.uksusoff.rock63.R;
 import com.uksusoff.rock63.jobs.NotificationJob;
 import com.uksusoff.rock63.ui.NewsListActivity_;
+import com.uksusoff.rock63.utils.DateUtils;
 
 import org.androidannotations.annotations.EReceiver;
 
@@ -28,24 +29,13 @@ public class RemindersReceiver extends BaseScheduledReceiver {
     public void onReceive(Context context, Intent intent) {
     }
 
-    private long getDelayToLaunchTime() {
-        long now = System.currentTimeMillis();
-        Calendar c = Calendar.getInstance();
-        c.set(Calendar.HOUR_OF_DAY, 18);
-        c.set(Calendar.MINUTE, 0);
-        c.set(Calendar.SECOND, 0);
-        c.set(Calendar.MILLISECOND, 0);
-        while (c.getTimeInMillis() < now) {
-            c.add(Calendar.DAY_OF_MONTH, 1);
-        }
-        return c.getTimeInMillis() - now;
-    }
-
     @Override
     protected void createAlarmIfNeeded() {
         if (JobManager.create(context).getAllJobRequestsForTag(NotificationJob.TAG).size() == 0) {
+            long[] executionWindow = NotificationJob.getNextExecutionWindow();
+
             new JobRequest.Builder(NotificationJob.TAG)
-                    .setExact(getDelayToLaunchTime())
+                    .setExecutionWindow(executionWindow[0], executionWindow[1])
                     .setPersisted(true)
                     .build()
                     .schedule();

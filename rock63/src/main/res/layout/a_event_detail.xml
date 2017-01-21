@@ -95,9 +95,11 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_alignStart="@+id/event_detail_placeinf"
+			android:layout_alignLeft="@+id/event_detail_placeinf"
 	        android:layout_below="@+id/event_detail_datentime"
 	        android:layout_marginTop="14dp"
 	        android:layout_toStartOf="@+id/event_detail_infdetailbtn"
+			android:layout_toLeftOf="@+id/event_detail_infdetailbtn"
 	        android:text="Medium Text"
 	        android:textAppearance="?android:attr/textAppearanceMedium"
 			tools:ignore="RtlCompat" />
@@ -110,8 +112,10 @@
 	        android:layout_alignBaseline="@+id/event_detail_placename"
 	        android:layout_alignBottom="@+id/event_detail_placename"
 	        android:layout_alignParentEnd="true"
+			android:layout_alignParentRight="true"
 	        android:layout_marginEnd="24dp"
-	        android:minHeight="24dp"
+			android:layout_marginRight="24dp"
+			android:minHeight="24dp"
 	        android:text="@string/event_show_info_button_title"
 			tools:ignore="RtlCompat" />
 	</RelativeLayout>
