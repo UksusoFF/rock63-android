@@ -1,36 +1,28 @@
 apply plugin: 'com.android.application'
-apply plugin: 'android-apt'
-
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
-    }
-}
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: "kotlin-kapt"
 
 //repositories added for android annotations
 repositories {
     mavenCentral()
-}
-
-apt {
-    arguments {
-        androidManifestFile variant.outputs[0].processResources.manifestFile
-        resourcePackageName 'com.uksusoff.rock63'
-    }
+    mavenLocal()
 }
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 28
+    buildToolsVersion "28.0.3"
     useLibrary 'org.apache.http.legacy'
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 
     defaultConfig {
         applicationId "com.uksusoff.rock63"
         minSdkVersion 15
-        targetSdkVersion 25
+        targetSdkVersion 28
     }
 
     buildTypes {
@@ -41,16 +33,18 @@ android {
     }
 }
 
-def AAVersion = '4.0.0'
+def AAVersion = '4.6.0'
 dependencies {
-    compile project(':urlImageViewHelper')
-    compile 'com.android.support:support-v4:25.1.0'
-    compile 'com.android.support:appcompat-v7:25.1.0'
-    compile files('libs/ormlite-android-4.48.jar')
-    compile files('libs/ormlite-core-4.48.jar')
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    apt "org.androidannotations:androidannotations:$AAVersion"
-    compile "org.androidannotations:androidannotations-api:$AAVersion"
-    compile 'com.android.support:design:25.1.0'
-    compile 'com.evernote:android-job:1.1.2'
+    kapt "org.androidannotations:androidannotations:$AAVersion"
+    implementation "org.androidannotations:androidannotations-api:$AAVersion"
+    implementation "com.koushikdutta.ion:ion:3.0.8"
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation "com.google.android.material:material:1.1.0"
+    implementation "com.evernote:android-job:1.1.2"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "androidx.appcompat:appcompat:1.1.0"
+}
+
+kapt {
+    correctErrorTypes = true
 }
