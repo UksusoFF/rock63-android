@@ -4,6 +4,10 @@ import com.j256.ormlite.field.DatabaseField
 import java.util.*
 
 class Event {
+    companion object {
+        const val FIELD_START = "start"
+    }
+
     @DatabaseField(id = true)
     var id = 0
     @DatabaseField

@@ -5,8 +5,8 @@ import android.view.Menu
 import android.widget.ListAdapter
 import androidx.appcompat.widget.SearchView
 import com.uksusoff.rock63.R
-import com.uksusoff.rock63.data.DataSource
-import com.uksusoff.rock63.data.DataSource.NoInternetException
+import com.uksusoff.rock63.data.DataProviderComponent
+import com.uksusoff.rock63.data.DataProviderComponent.NoInternetException
 import com.uksusoff.rock63.data.entities.Event
 import com.uksusoff.rock63.ui.adapters.AdvSimpleAdapter
 import org.androidannotations.annotations.Bean
@@ -24,7 +24,7 @@ import java.util.*
 open class EventsListActivity : ItemListActivity() {
 
     @Bean
-    protected lateinit var source: DataSource
+    protected lateinit var providerComponent: DataProviderComponent
 
     override var isRefreshing: Boolean
         get() = Companion.isRefreshing
@@ -63,7 +63,7 @@ open class EventsListActivity : ItemListActivity() {
     }
 
     override fun createAdapterFromStorageItems(): ListAdapter {
-        val events = source.allEvents
+        val events = providerComponent.allEvents
         val data: MutableList<Map<String, Any?>> = ArrayList()
         for (i in events.indices) {
             val item = events[i]
@@ -83,7 +83,7 @@ open class EventsListActivity : ItemListActivity() {
 
     @Throws(NoInternetException::class)
     override fun refreshItemStorage() {
-        source.refreshEvents()
+        providerComponent.refreshEvents()
     }
 
     @ItemClick(R.id.list)

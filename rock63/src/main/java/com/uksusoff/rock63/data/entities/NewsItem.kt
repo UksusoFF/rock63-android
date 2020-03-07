@@ -4,6 +4,10 @@ import com.j256.ormlite.field.DatabaseField
 import java.util.*
 
 class NewsItem {
+    companion object {
+        const val FIELD_DATE = "date"
+    }
+
     @DatabaseField(id = true)
     var id = 0
     @DatabaseField

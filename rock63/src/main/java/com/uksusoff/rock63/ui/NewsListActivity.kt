@@ -5,8 +5,8 @@ import android.widget.ListAdapter
 import android.widget.SimpleAdapter
 import com.koushikdutta.ion.Ion
 import com.uksusoff.rock63.R
-import com.uksusoff.rock63.data.DataSource
-import com.uksusoff.rock63.data.DataSource.NoInternetException
+import com.uksusoff.rock63.data.DataProviderComponent
+import com.uksusoff.rock63.data.DataProviderComponent.NoInternetException
 import com.uksusoff.rock63.data.entities.NewsItem
 import com.uksusoff.rock63.utils.CommonUtils
 import org.androidannotations.annotations.Bean
@@ -22,7 +22,7 @@ import java.util.*
 open class NewsListActivity : ItemListActivity() {
 
     @Bean
-    protected lateinit var source: DataSource
+    protected lateinit var providerComponent: DataProviderComponent
 
     override var isRefreshing: Boolean
         protected get() = Companion.isRefreshing
@@ -42,7 +42,7 @@ open class NewsListActivity : ItemListActivity() {
     override fun createAdapterFromStorageItems(): ListAdapter? {
         val news: List<NewsItem>
         news = try {
-            source!!.allNews
+            providerComponent!!.allNews
         } catch (e: SQLException) {
             throw RuntimeException(e)
         }
@@ -77,13 +77,13 @@ open class NewsListActivity : ItemListActivity() {
 
     @Throws(NoInternetException::class)
     override fun refreshItemStorage() {
-        source!!.refreshNews()
+        providerComponent!!.refreshNews()
     }
 
     @ItemClick(R.id.list)
     fun newsItemClicked(item: Map<String?, Any?>) {
         val newsItem = item["obj"] as NewsItem?
-        val related = source!!.getRelatedEvent(newsItem!!)
+        val related = providerComponent!!.getRelatedEvent(newsItem!!)
         if (related == null) {
             NewsDetailActivity_.intent(this).newsItemId(newsItem.id).start()
         } else {

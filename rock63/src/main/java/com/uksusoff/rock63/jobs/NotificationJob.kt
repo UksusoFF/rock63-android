@@ -9,13 +9,12 @@ import androidx.core.app.NotificationCompat
 import com.evernote.android.job.Job
 import com.evernote.android.job.JobRequest
 import com.uksusoff.rock63.R
-import com.uksusoff.rock63.data.DataSource
-import com.uksusoff.rock63.data.DataSource.NoInternetException
-import com.uksusoff.rock63.data.DataSource_
+import com.uksusoff.rock63.data.DataProviderComponent
+import com.uksusoff.rock63.data.DataProviderComponent.NoInternetException
+import com.uksusoff.rock63.data.DataProviderComponent_
 import com.uksusoff.rock63.data.UserPrefs_
 import com.uksusoff.rock63.data.entities.Event
 import com.uksusoff.rock63.ui.EventDetailActivity_
-import com.uksusoff.rock63.ui.NewsListActivity_
 import com.uksusoff.rock63.utils.DateUtils
 import java.text.SimpleDateFormat
 import java.util.*
@@ -30,7 +29,7 @@ class NotificationJob : Job() {
 
     private lateinit var userPrefs: UserPrefs_
     private lateinit var notificationManager: NotificationManager
-    private lateinit var dataSource: DataSource
+    private lateinit var dataProviderComponent: DataProviderComponent
 
     override fun onRunJob(params: Params): Result {
         init()
@@ -51,7 +50,7 @@ class NotificationJob : Job() {
     private fun init() {
         notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         userPrefs = UserPrefs_(context)
-        dataSource = DataSource_.getInstance_(context)
+        dataProviderComponent = DataProviderComponent_.getInstance_(context)
     }
 
     private val todayMidnight: Date
@@ -66,11 +65,11 @@ class NotificationJob : Job() {
         }
 
     private fun checkScheduledJob() {
-        var events = dataSource.getAllEvents(false)
+        var events = dataProviderComponent.getAllEvents(false)
         if (events.isEmpty()) {
             events = try {
-                dataSource.refreshEvents()
-                dataSource.getAllEvents(false)
+                dataProviderComponent.refreshEvents()
+                dataProviderComponent.getAllEvents(false)
             } catch (e: NoInternetException) { //Well, till next time
                 return
             }
