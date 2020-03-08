@@ -5,8 +5,8 @@ import java.nio.CharBuffer
 import java.util.*
 
 object CommonUtils {
-    fun getDateFromTimestamp(ts: Int): Date? {
-        return if (ts == -1) null else Date(ts.toLong() * 1000)
+    fun getDateFromTimestamp(ts: Int): Date {
+        return Date(ts.toLong() * 1000)
     }
 
     fun getTimestampFromDate(d: Date?): Int {

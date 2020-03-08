@@ -1,5 +1,6 @@
 package com.uksusoff.rock63.services
 
+import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -7,14 +8,13 @@ import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
+import android.media.AudioAttributes
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.os.Binder
 import android.os.Build
 import android.os.IBinder
 import android.text.TextUtils
-import android.view.View
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import com.uksusoff.rock63.R
@@ -23,13 +23,24 @@ import org.androidannotations.annotations.EService
 import java.util.*
 
 
+@SuppressLint("Registered")
 @EService
 open class RadioPlayingService : Service() {
-    private var mediaPlayer: MediaPlayer? = null
+
     var lastVolume: Float? = null
         private set
     private var notificationPlaced = false
     private val listeners: MutableList<IRadioPlayerServiceListener> = LinkedList()
+    private var mediaPlayer: MediaPlayer? = null
+
+    private val player: MediaPlayer
+        get() = mediaPlayer ?: run {
+            return initMediaPlayer()
+        }
+
+    val isStreamPlaying: Boolean
+        get() = player.isPlaying
+
     fun addListener(`object`: IRadioPlayerServiceListener): Boolean {
         return listeners.add(`object`)
     }
@@ -61,27 +72,27 @@ open class RadioPlayingService : Service() {
     fun startPlay() {
         playStream()
         for (listener in listeners) {
-            listener.OnPlay()
+            listener.onPlay()
         }
     }
 
     fun stopPlay() {
         stopStream(true)
         for (listener in listeners) {
-            listener.OnStop()
+            listener.onStop()
         }
     }
 
-    fun pausePlay() {
+    private fun pausePlay() {
         stopStream(false)
         for (listener in listeners) {
-            listener.OnPause()
+            listener.onPause()
         }
     }
 
-    override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
-        if (intent != null) {
-            val action = intent.action
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        intent?.let {
+            val action = it.action
             if (!TextUtils.isEmpty(action)) {
                 when (action) {
                     ACTION_PLAY -> startPlay()
@@ -89,7 +100,7 @@ open class RadioPlayingService : Service() {
                     ACTION_STOP -> stopPlay()
                 }
             }
-        } else {
+        } ?: run {
             initMediaPlayer()
         }
         return START_STICKY
@@ -99,6 +110,7 @@ open class RadioPlayingService : Service() {
         if (notificationPlaced) {
             return
         }
+
         val notificationIntent = Intent(this, RadioPlayerActivity_::class.java)
         notificationIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
         val contentIntent = PendingIntent.getActivity(
@@ -107,6 +119,7 @@ open class RadioPlayingService : Service() {
                 notificationIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT
         )
+
         val remoteView = RemoteViews(packageName, R.layout.player_notification_control)
         remoteView.setOnClickPendingIntent(R.id.stop_btn,
                 PendingIntent.getService(applicationContext,
@@ -124,9 +137,9 @@ open class RadioPlayingService : Service() {
                         PendingIntent.FLAG_UPDATE_CURRENT)
         )
 
-        var channel: String = ""
+        var channel = ""
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-            channel = createChannel();
+            channel = createChannel()
 
         val notification = NotificationCompat.Builder(applicationContext, channel)
                 .setContent(remoteView)
@@ -134,14 +147,6 @@ open class RadioPlayingService : Service() {
                 .setSmallIcon(R.drawable.ic_launcher).setOngoing(true)
                 .setWhen(System.currentTimeMillis())
                 .build()
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1) {
-            notification.contentView = remoteView
-        }
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
-            remoteView.setViewVisibility(R.id.pause_btn, View.INVISIBLE)
-            remoteView.setViewVisibility(R.id.stop_btn, View.INVISIBLE)
-            remoteView.setViewVisibility(R.id.play_btn, View.INVISIBLE)
-        }
         startForeground(NOTIFICATION_ID, notification)
         notificationPlaced = true
     }
@@ -149,13 +154,11 @@ open class RadioPlayingService : Service() {
     @TargetApi(26)
     @Synchronized
     private fun createChannel(): String {
-        val mNotificationManager = this.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val manager = this.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val id = "player_channel"
-        val importance = NotificationManager.IMPORTANCE_LOW
-        val mChannel = NotificationChannel(id, "Player Channel", importance)
-        mChannel.enableLights(true)
-        mChannel.lightColor = Color.BLUE
-        mNotificationManager.createNotificationChannel(mChannel)
+        val importance = NotificationManager.IMPORTANCE_DEFAULT
+        val channel = NotificationChannel(id, "Player Channel", importance)
+        manager.createNotificationChannel(channel)
         return id
     }
 
@@ -164,37 +167,35 @@ open class RadioPlayingService : Service() {
         notificationPlaced = false
     }
 
-    private fun initMediaPlayer() {
-        mediaPlayer = MediaPlayer()
-        mediaPlayer!!.setAudioStreamType(AudioManager.STREAM_MUSIC)
-        mediaPlayer!!.setOnPreparedListener { mediaPlayer!!.start() }
-    }
-
-    private val player: MediaPlayer?
-        private get() {
-            if (mediaPlayer == null) initMediaPlayer()
-            return mediaPlayer
+    private fun initMediaPlayer():MediaPlayer {
+        val playerLocal = MediaPlayer()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            playerLocal.setAudioAttributes(AudioAttributes.Builder()
+                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build())
+        } else {
+            playerLocal.setAudioStreamType(AudioManager.STREAM_MUSIC)
         }
-
-    val isStreamPlaying: Boolean
-        get() = player!!.isPlaying
+        playerLocal.setOnPreparedListener { playerLocal.start() }
+        this.mediaPlayer = playerLocal
+        return playerLocal
+    }
 
     fun setStreamVolume(v: Float) {
         lastVolume = v
-        player!!.setVolume(v, v)
+        player.setVolume(v, v)
     }
 
     private fun playStream() {
         try {
-            if (!player!!.isPlaying) {
+            if (!player.isPlaying) {
                 startForegroundPlayer()
                 try {
-                    player!!.setDataSource(RADIO_URL)
+                    player.setDataSource(RADIO_URL)
                 } catch (e: IllegalStateException) {
-                    player!!.reset()
-                    player!!.setDataSource(RADIO_URL)
+                    player.reset()
+                    player.setDataSource(RADIO_URL)
                 }
-                player!!.prepareAsync()
+                player.prepareAsync()
             }
         } catch (e: Exception) { //TODO: bad idea
             e.printStackTrace()
@@ -205,8 +206,8 @@ open class RadioPlayingService : Service() {
         if (stopForeground) {
             stopForegroundPlayer()
         }
-        player!!.stop()
-        player!!.reset()
+        player.stop()
+        player.reset()
     }
 
     companion object {
@@ -219,9 +220,8 @@ open class RadioPlayingService : Service() {
         private const val REQUEST_CODE_PLAY = 2
         private const val REQUEST_CODE_PAUSE = 3
         private const val REQUEST_CODE_ACTIVITY = 4
-        /*
-     * public static RadioPlayingService getInstance() { return instance; }
-     */ var isServiceRunning = false
+
+        var isServiceRunning = false
             private set
     }
 }

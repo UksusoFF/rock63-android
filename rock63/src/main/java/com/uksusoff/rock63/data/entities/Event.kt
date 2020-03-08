@@ -11,9 +11,9 @@ class Event {
     @DatabaseField(id = true)
     var id = 0
     @DatabaseField
-    var title: String? = null
+    lateinit var title: String
     @DatabaseField
-    var body: String? = null
+    lateinit var body: String
     @DatabaseField
     var start: Date? = null
     @DatabaseField

@@ -63,22 +63,6 @@
             </intent-filter>
         </service>
 
-        <receiver android:name=".receivers.DataUpdateReceiver_">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
-                <action android:name="android.intent.action.ACTION_MY_PACKAGE_REPLACED" />
-                <action android:name="com.uksusoff.rock63.ui.ACTION_CHECK_ALARM"/>
-            </intent-filter>
-        </receiver>
-
-        <receiver android:name=".receivers.RemindersReceiver_">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
-                <action android:name="android.intent.action.ACTION_MY_PACKAGE_REPLACED" />
-                <action android:name="com.uksusoff.rock63.ui.ACTION_CHECK_ALARM"/>
-            </intent-filter>
-        </receiver>
-
     </application>
 
 </manifest>

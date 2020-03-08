@@ -11,9 +11,9 @@ class NewsItem {
     @DatabaseField(id = true)
     var id = 0
     @DatabaseField
-    var title: String? = null
+    lateinit var title: String
     @DatabaseField
-    var body: String? = null
+    lateinit var body: String
     @DatabaseField
     var date: Date? = null
     @DatabaseField
@@ -24,8 +24,5 @@ class NewsItem {
     var isNew = false
     @DatabaseField
     var url: String? = null
-
-    val imageCacheName: String
-        get() = "news_" + Integer.toString(id)
 
 }

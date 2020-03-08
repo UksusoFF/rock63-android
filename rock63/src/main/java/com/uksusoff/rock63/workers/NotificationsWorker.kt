@@ -1,13 +1,15 @@
-package com.uksusoff.rock63.jobs
+package com.uksusoff.rock63.workers
 
 import android.app.AlarmManager
+import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import androidx.core.app.NotificationCompat
-import com.evernote.android.job.Job
-import com.evernote.android.job.JobRequest
+import androidx.work.Worker
+import androidx.work.WorkerParameters
 import com.uksusoff.rock63.R
 import com.uksusoff.rock63.data.DataProviderComponent
 import com.uksusoff.rock63.data.DataProviderComponent.NoInternetException
@@ -15,14 +17,14 @@ import com.uksusoff.rock63.data.DataProviderComponent_
 import com.uksusoff.rock63.data.UserPrefs_
 import com.uksusoff.rock63.data.entities.Event
 import com.uksusoff.rock63.ui.EventDetailActivity_
-import com.uksusoff.rock63.utils.DateUtils
 import java.text.SimpleDateFormat
 import java.util.*
 
 /**
  * Created by User on 28.08.2016.
  */
-class NotificationJob : Job() {
+class NotificationsWorker(appContext: Context, workerParams: WorkerParameters)
+    : Worker(appContext, workerParams) {
     private enum class ReminderType {
         WEEKLY, DAILY
     }
@@ -31,26 +33,17 @@ class NotificationJob : Job() {
     private lateinit var notificationManager: NotificationManager
     private lateinit var dataProviderComponent: DataProviderComponent
 
-    override fun onRunJob(params: Params): Result {
+    override fun doWork(): Result {
         init()
         checkScheduledJob()
-        scheduleTask()
-        return Result.SUCCESS
-    }
-
-    private fun scheduleTask() {
-        val executionWindow = nextExecutionWindow
-        JobRequest.Builder(TAG)
-                .setExecutionWindow(executionWindow[0], executionWindow[1])
-                .setPersisted(true)
-                .build()
-                .schedule()
+        return Result.success()
     }
 
     private fun init() {
-        notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        userPrefs = UserPrefs_(context)
-        dataProviderComponent = DataProviderComponent_.getInstance_(context)
+        notificationManager = applicationContext
+                .getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        userPrefs = UserPrefs_(applicationContext)
+        dataProviderComponent = DataProviderComponent_.getInstance_(applicationContext)
     }
 
     private val todayMidnight: Date
@@ -84,55 +77,68 @@ class NotificationJob : Job() {
             if (!event.isNotify) {
                 continue
             }
-            val diff = event.start!!.time - start.time
+
+            val startTime = event.start ?: continue
+            val diff = startTime.time - start.time
             if (weeklyReminder && diff < weekInterval && diff > weekInterval - INTERVAL) {
                 showReminderNotification(event, ReminderType.WEEKLY)
-            } else if (dailyReminder && diff < AlarmManager.INTERVAL_DAY && diff > AlarmManager.INTERVAL_DAY - INTERVAL) {
+            } else if (dailyReminder && diff < AlarmManager.INTERVAL_DAY &&
+                    diff > AlarmManager.INTERVAL_DAY - INTERVAL) {
                 showReminderNotification(event, ReminderType.DAILY)
             }
         }
     }
 
     private fun showReminderNotification(event: Event, type: ReminderType) {
-        val contentMap: MutableMap<ReminderType, Int> = EnumMap(com.uksusoff.rock63.jobs.NotificationJob.ReminderType::class.java)
+        val contentMap: MutableMap<ReminderType, Int> = EnumMap(ReminderType::class.java)
         contentMap[ReminderType.DAILY] = R.string.notification_dayly
         contentMap[ReminderType.WEEKLY] = R.string.notification_weekly
-        var place: String? = ""
+
         val contentResId = contentMap[type]!!
-        if (event.place != null) {
-            place = event.place!!.name + " "
-        }
-        place += SimpleDateFormat("HH:mm", Locale.getDefault()).format(event.start)
-        val mBuilder: NotificationCompat.Builder = NotificationCompat.Builder(context)
+
+        val place = event.place?.let { "${it.name} " } ?: "" + SimpleDateFormat(
+                "HH:mm", 
+                Locale.getDefault()
+        ).format(event.start)
+
+        val mBuilder: NotificationCompat.Builder = NotificationCompat
+                .Builder(applicationContext, provideChannel())
                 .setSmallIcon(R.drawable.ic_launcher)
                 .setAutoCancel(true)
-                .setContentTitle(context.getString(contentResId, event.title))
+                .setContentTitle(applicationContext.getString(contentResId, event.title))
                 .setContentText(place) as NotificationCompat.Builder
-        val resultIntent: Intent = EventDetailActivity_.intent(context).eventId(event.id).get()
+
+        val resultIntent: Intent = EventDetailActivity_
+                .intent(applicationContext)
+                .eventId(event.id)
+                .get()
+
         val resultPendingIntent = PendingIntent.getActivity(
-                context,
+                applicationContext,
                 event.id,
                 resultIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT
         )
+
         mBuilder.setContentIntent(resultPendingIntent)
         notificationManager.notify(event.id, mBuilder.build())
     }
 
-    companion object {
-        const val TAG = "event_notification_job"
-        private const val INTERVAL = AlarmManager.INTERVAL_DAY
-        @JvmStatic
-        val nextExecutionWindow: LongArray
-            get() {
-                val start = DateUtils.getDelayToHour(17)
-                var end = DateUtils.getDelayToHour(19)
-                if (start > end) {
-                    end += AlarmManager.INTERVAL_DAY
-                }
-                return longArrayOf(start, end)
-            }
+    private fun provideChannel(): String {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O)
+            return ""
 
+        val mNotificationManager = this.applicationContext
+                .getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val id = "notification_channel"
+        val importance = NotificationManager.IMPORTANCE_DEFAULT
+        val mChannel = NotificationChannel(id, "Reminders Channel", importance)
+        mNotificationManager.createNotificationChannel(mChannel)
+        return id
+    }
+
+    companion object {
+        private const val INTERVAL = AlarmManager.INTERVAL_DAY
         private val weekInterval: Long
             get() = AlarmManager.INTERVAL_DAY * 7
     }

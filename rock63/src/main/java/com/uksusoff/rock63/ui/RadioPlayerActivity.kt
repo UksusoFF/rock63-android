@@ -45,19 +45,21 @@ open class RadioPlayerActivity : BaseMenuActivity() {
     @ViewById(R.id.radio_volume_bar)
     protected lateinit var volumeBar: SeekBar
 
-    private val radioPlayerServiceListener: IRadioPlayerServiceListener = object : IRadioPlayerServiceListener {
-        override fun OnPause() {
+    private val radioPlayerServiceListener: IRadioPlayerServiceListener =
+            object : IRadioPlayerServiceListener {
+        override fun onPause() {
             playBtn.setImageResource(R.drawable.play_dark)
         }
 
-        override fun OnPlay() {
+        override fun onPlay() {
             playBtn.setImageResource(R.drawable.pause_dark)
         }
 
-        override fun OnStop() {
+        override fun onStop() {
             playBtn.setImageResource(R.drawable.play_dark)
         }
     }
+
     private val mConnection: ServiceConnection = object : ServiceConnection {
         override fun onServiceConnected(className: ComponentName, service: IBinder) {
             mBoundService = (service as RadioBinder).service
@@ -203,7 +205,7 @@ open class RadioPlayerActivity : BaseMenuActivity() {
     }
 
     companion object {
-        private const val RADIO_INFO_URL = "http://rock63.ru/a/vz/play.json"
+        private const val RADIO_INFO_URL = "https://rock63.ru/a/vz/play.json"
         var lastLoadedTrackName = ""
             private set
     }
