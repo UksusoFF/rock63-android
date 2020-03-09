@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/rock63.iml" filepath="$PROJECT_DIR$/rock63.iml" group="rock63" />
+      <module fileurl="file://$PROJECT_DIR$/rock63/rock63-rock63.iml" filepath="$PROJECT_DIR$/rock63/rock63-rock63.iml" group="rock63/rock63" />
+    </modules>
+  </component>
+</project>

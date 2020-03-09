@@ -43,7 +43,7 @@ dependencies {
     kapt "org.androidannotations:androidannotations:$android_annotations_version"
     implementation "org.androidannotations:androidannotations-api:$android_annotations_version"
     implementation "com.koushikdutta.ion:ion:3.0.8"
-    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation 'com.j256.ormlite:ormlite-android:4.48'
     implementation "com.google.android.material:material:1.1.0"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "androidx.appcompat:appcompat:1.1.0"
