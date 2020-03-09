@@ -4,7 +4,7 @@ import org.androidannotations.annotations.sharedpreferences.DefaultBoolean
 import org.androidannotations.annotations.sharedpreferences.SharedPref
 
 /**
- * Created by User on 18.06.2016.
+ * Created by Vyacheslav Vodyanov on 18.06.2016.
  */
 @SharedPref
 interface UserPrefs {

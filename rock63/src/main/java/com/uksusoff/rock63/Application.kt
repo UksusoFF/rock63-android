@@ -9,7 +9,7 @@ import java.time.Duration
 import java.util.concurrent.TimeUnit
 
 /**
- * Created by User on 17.09.2016.
+ * Created by Vyacheslav Vodyanov on 17.09.2016.
  */
 class Application : Application() {
     override fun onCreate() {
@@ -29,6 +29,7 @@ class Application : Application() {
                                     .setRequiresBatteryNotLow(true)
                                     .build()
                         )
+                        .setInitialDelay(1, TimeUnit.HOURS)
                         .build()
         )
 

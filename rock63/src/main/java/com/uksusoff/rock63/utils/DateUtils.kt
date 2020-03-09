@@ -3,7 +3,7 @@ package com.uksusoff.rock63.utils
 import java.util.*
 
 /**
- * Created by User on 10.09.2016.
+ * Created by Vyacheslav Vodyanov on 10.09.2016.
  */
 object DateUtils {
     fun getDateMonthDay(date: Date?): Int {

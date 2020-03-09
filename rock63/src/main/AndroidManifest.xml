@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.uksusoff.rock63"
     android:installLocation="preferExternal"
     android:versionCode="31"
@@ -14,15 +15,16 @@
 
     <application
         android:name=".Application"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true"> <!-- DEBUG -->
+        android:usesCleartextTraffic="true"
+        tools:targetApi="m"> <!-- DEBUG -->
         <activity
             android:name=".ui.NewsListActivity_"
             android:label="@string/app_name"
-            android:screenOrientation="portrait">
+            android:screenOrientation="fullSensor">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -32,28 +34,28 @@
         <activity
             android:name=".ui.EventsListActivity_"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="fullSensor" />
         <activity
             android:name=".ui.NewsDetailActivity_"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="fullSensor" />
         <activity
             android:name=".ui.EventDetailActivity_"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="fullSensor" />
         <activity
             android:name=".ui.RadioPlayerActivity_"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="fullSensor" />
         <activity
             android:name=".ui.SettingsActivity_"
             android:label="@string/title_activity_settings"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="fullSensor" />
 
         <service
             android:name=".services.RadioPlayingService_"
             android:enabled="true"
-            android:exported="true">
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.uksusoff.rock63.ACTION_PLAY" />
                 <action android:name="com.uksusoff.rock63.ACTION_PAUSE" />

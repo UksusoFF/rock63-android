@@ -7,8 +7,8 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.os.IBinder
 import androidx.core.app.ShareCompat
-import android.text.Html
 import android.text.method.LinkMovementMethod
+import android.util.JsonReader
 import android.widget.ImageButton
 import android.widget.SeekBar
 import android.widget.TextView
@@ -19,6 +19,7 @@ import com.uksusoff.rock63.services.RadioPlayingService
 import com.uksusoff.rock63.services.RadioPlayingService.RadioBinder
 import com.uksusoff.rock63.services.RadioPlayingService_
 import com.uksusoff.rock63.utils.CommonUtils
+import com.uksusoff.rock63.utils.readJsonFromUrl
 import org.androidannotations.annotations.*
 import org.json.JSONException
 import org.json.JSONObject
@@ -27,16 +28,18 @@ import java.net.URL
 import java.util.*
 
 /**
- * Created by User on 16.05.2016.
+ * Created by Vyacheslav Vodyanov on 16.05.2016.
  */
 @SuppressLint("Registered")
 @EActivity(R.layout.a_radio_player)
 @OptionsMenu(R.menu.menu_detail)
 open class RadioPlayerActivity : BaseMenuActivity() {
 
-    private var mBoundService: RadioPlayingService? = null
-    private var mIsBound = false
-    private var loadTitleTimer: Timer? = null
+    private var boundService: RadioPlayingService? = null
+    private var lastLoadedTrackName = ""
+
+    private lateinit var loadTitleTimer: Timer
+
 
     @ViewById(R.id.radio_track_title)
     protected lateinit var trackTitle: TextView
@@ -44,6 +47,8 @@ open class RadioPlayerActivity : BaseMenuActivity() {
     protected lateinit var playBtn: ImageButton
     @ViewById(R.id.radio_volume_bar)
     protected lateinit var volumeBar: SeekBar
+
+    private val onConnectionReadyHandlers = LinkedList<(service: RadioPlayingService) -> Unit>()
 
     private val radioPlayerServiceListener: IRadioPlayerServiceListener =
             object : IRadioPlayerServiceListener {
@@ -60,50 +65,68 @@ open class RadioPlayerActivity : BaseMenuActivity() {
         }
     }
 
-    private val mConnection: ServiceConnection = object : ServiceConnection {
-        override fun onServiceConnected(className: ComponentName, service: IBinder) {
-            mBoundService = (service as RadioBinder).service
-            mIsBound = true
-            syncUi()
-            mBoundService!!.addListener(radioPlayerServiceListener)
+    private val connection: ServiceConnection = object : ServiceConnection {
+        override fun onServiceConnected(className: ComponentName, binder: IBinder) {
+            val service = (binder as RadioBinder).service
+            boundService = service
+            handleConnectionReady(service)
+            syncUI()
+            service.addListener(radioPlayerServiceListener)
         }
 
         override fun onServiceDisconnected(className: ComponentName) {
-            mBoundService!!.removeListener(radioPlayerServiceListener)
-            mBoundService = null
+            boundService?.removeListener(radioPlayerServiceListener)
+            boundService = null
         }
     }
 
-    fun doBindService() {
+    private fun onConnectionReady(handler: (service: RadioPlayingService) -> Unit) {
+        boundService?.let {
+            handler(it)
+        } ?: run {
+            this.onConnectionReadyHandlers.add(handler)
+        }
+    }
+
+    private fun handleConnectionReady(service: RadioPlayingService) {
+        for (handler in this.onConnectionReadyHandlers) {
+            handler(service)
+        }
+
+        this.onConnectionReadyHandlers.clear()
+    }
+
+    private fun doBindService() {
         bindService(
                 RadioPlayingService_.intent(applicationContext).get(),
-                mConnection,
+                connection,
                 Context.BIND_AUTO_CREATE
         )
-        mIsBound = true
     }
 
-    fun doUnbindService() {
-        if (mIsBound) { // Detach our existing connection.
-            unbindService(mConnection)
-            mIsBound = false
-        }
+    private fun doUnbindService() {
+        unbindService(connection)
     }
 
     override fun init() {
         super.init()
+
         if (!RadioPlayingService.isServiceRunning) {
             applicationContext.startService(
                 Intent(applicationContext, RadioPlayingService::class.java)
             )
         }
+
         doBindService()
-        loadTitleTimer = Timer()
-        loadTitleTimer!!.schedule(object : TimerTask() {
-            override fun run() {
-                loadTitle()
-            }
-        }, 0, 5000)
+
+        loadTitleTimer = Timer().apply {
+            this.schedule(object : TimerTask() {
+                override fun run() {
+                    loadTitle()
+                }
+            }, 0, 5000)
+        }
+
         trackTitle.movementMethod = LinkMovementMethod.getInstance()
         volumeBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
@@ -113,13 +136,14 @@ open class RadioPlayerActivity : BaseMenuActivity() {
             override fun onStartTrackingTouch(seekBar: SeekBar) {}
             override fun onStopTrackingTouch(seekBar: SeekBar) {}
         })
-        syncUi()
+
+        syncUI()
     }
 
     public override fun onPause() {
         super.onPause()
-        loadTitleTimer!!.cancel()
-        loadTitleTimer!!.purge()
+        loadTitleTimer.cancel()
+        loadTitleTimer.purge()
     }
 
     public override fun onDestroy() {
@@ -128,69 +152,65 @@ open class RadioPlayerActivity : BaseMenuActivity() {
     }
 
     fun changeVolume(`val`: Float) {
-        while (mBoundService == null) {
-            try {
-                Thread.sleep(0)
-            } catch (e: InterruptedException) {
-                throw RuntimeException(e)
-            }
-        }
-        mBoundService!!.setStreamVolume(`val`)
+        onConnectionReady(fun(service: RadioPlayingService) {
+            service.volume = `val`
+        })
     }
 
     @Click(R.id.radio_play_btn)
     fun playButtonToggle() {
-        while (mBoundService == null) {
-            try {
-                Thread.sleep(0)
-            } catch (e: InterruptedException) {
-                e.printStackTrace()
+        onConnectionReady {
+            if (it.isStreamPlaying) {
+                it.stopPlay()
+                playBtn.setImageResource(R.drawable.play_dark)
+            } else {
+                it.startPlay()
+                playBtn.setImageResource(R.drawable.pause_dark)
             }
-        }
-        if (mBoundService!!.isStreamPlaying) {
-            mBoundService!!.stopPlay()
-            playBtn.setImageResource(R.drawable.play_dark)
-        } else {
-            mBoundService!!.startPlay()
-            playBtn.setImageResource(R.drawable.pause_dark)
         }
     }
 
-    private fun syncUi() {
-        if (mBoundService == null) return
-        if (mBoundService!!.isStreamPlaying) playBtn.setImageResource(R.drawable.pause_dark) else playBtn.setImageResource(R.drawable.play_dark)
-        //TODO: make constant
-        if (mBoundService!!.lastVolume == null) {
-            mBoundService!!.setStreamVolume(0.5f)
-            volumeBar.progress = (0.5f * volumeBar.max.toFloat()).toInt()
+    private fun syncUI() {
+        val service = boundService ?: return
+
+        if (service.isStreamPlaying) {
+            playBtn.setImageResource(R.drawable.pause_dark)
         } else {
-            mBoundService!!.setStreamVolume(mBoundService!!.lastVolume!!)
-            volumeBar.progress = (mBoundService!!.lastVolume!! * volumeBar.max.toFloat()).toInt()
+            playBtn.setImageResource(R.drawable.play_dark)
         }
+
+        volumeBar.progress = (service.volume * volumeBar.max.toFloat()).toInt()
     }
 
     fun loadTitle() {
         try {
-            val jsonString = CommonUtils.convertStreamToString(
-                    URL(RADIO_INFO_URL).openConnection().getInputStream()
-            )
-            val info = JSONObject(jsonString)
-            val res = String.format(
-                    "%s - %s",
-                    info.getString("artist"),
-                    info.getString("title")
-            )
+            var title = ""
+            var artist = ""
+
+            readJsonFromUrl(RADIO_INFO_URL) {
+                it.beginObject()
+                while (it.hasNext()) {
+                    when (it.nextName()) {
+                        "title" -> title = it.nextString()
+                        "artist" -> artist = it.nextString()
+                        else -> it.skipValue()
+                    }
+                }
+                it.endObject()
+            }
+
+            val res = "$title - $artist"
             runOnUiThread {
                 trackTitle.text = HtmlCompat.fromHtml(res, HtmlCompat.FROM_HTML_MODE_LEGACY)
                 lastLoadedTrackName = HtmlCompat.fromHtml(res, HtmlCompat.FROM_HTML_MODE_LEGACY).toString()
             }
-        } catch (e: IOException) {
+        } catch (e: NullPointerException) {
+            //Strange exception occurs here
+            //but as long as this section isn't critical, we can skip it
             e.printStackTrace()
-        } catch (e: NullPointerException) { //Strange exception occurs here
-//but as long as this section isn't critical, we can skip it
-            e.printStackTrace()
-        } catch (e: JSONException) {
-            e.printStackTrace()
+        } catch (e: Throwable) {
+            //if something went wrong,
+            //radio title just wont update
         }
     }
 
@@ -205,8 +225,6 @@ open class RadioPlayerActivity : BaseMenuActivity() {
     }
 
     companion object {
-        private const val RADIO_INFO_URL = "https://rock63.ru/a/vz/play.json"
-        var lastLoadedTrackName = ""
-            private set
+        private const val RADIO_INFO_URL = "http://rock63.ru/a/vz/play.json"
     }
 }

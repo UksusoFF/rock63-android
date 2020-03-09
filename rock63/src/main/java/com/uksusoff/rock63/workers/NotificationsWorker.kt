@@ -12,16 +12,16 @@ import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.uksusoff.rock63.R
 import com.uksusoff.rock63.data.DataProviderComponent
-import com.uksusoff.rock63.data.DataProviderComponent.NoInternetException
 import com.uksusoff.rock63.data.DataProviderComponent_
 import com.uksusoff.rock63.data.UserPrefs_
 import com.uksusoff.rock63.data.entities.Event
+import com.uksusoff.rock63.exceptions.NoInternetException
 import com.uksusoff.rock63.ui.EventDetailActivity_
 import java.text.SimpleDateFormat
 import java.util.*
 
 /**
- * Created by User on 28.08.2016.
+ * Created by Vyacheslav Vodyanov on 28.08.2016.
  */
 class NotificationsWorker(appContext: Context, workerParams: WorkerParameters)
     : Worker(appContext, workerParams) {
@@ -63,7 +63,8 @@ class NotificationsWorker(appContext: Context, workerParams: WorkerParameters)
             events = try {
                 dataProviderComponent.refreshEvents()
                 dataProviderComponent.getAllEvents(false)
-            } catch (e: NoInternetException) { //Well, till next time
+            } catch (e: NoInternetException) {
+                //Well, till next time
                 return
             }
         }
@@ -124,6 +125,7 @@ class NotificationsWorker(appContext: Context, workerParams: WorkerParameters)
         notificationManager.notify(event.id, mBuilder.build())
     }
 
+    @Synchronized
     private fun provideChannel(): String {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O)
             return ""

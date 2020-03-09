@@ -15,7 +15,7 @@ import org.androidannotations.annotations.EActivity
 import org.androidannotations.annotations.ViewById
 
 /**
- * Created by User on 13.05.2016.
+ * Created by Vyacheslav Vodyanov on 13.05.2016.
  */
 @EActivity
 abstract class BaseMenuActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {

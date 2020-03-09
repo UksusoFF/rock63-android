@@ -1,7 +1,6 @@
 package com.uksusoff.rock63.services
 
 import android.annotation.SuppressLint
-import android.annotation.TargetApi
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -27,11 +26,16 @@ import java.util.*
 @EService
 open class RadioPlayingService : Service() {
 
-    var lastVolume: Float? = null
-        private set
+    var volume: Float = 0.5f
+        set(value) {
+            field = value
+            player.setVolume(value, value)
+        }
+
     private var notificationPlaced = false
     private val listeners: MutableList<IRadioPlayerServiceListener> = LinkedList()
     private var mediaPlayer: MediaPlayer? = null
+    private val binder: IBinder = RadioBinder()
 
     private val player: MediaPlayer
         get() = mediaPlayer ?: run {
@@ -54,9 +58,8 @@ open class RadioPlayingService : Service() {
             get() = this@RadioPlayingService
     }
 
-    private val mBinder: IBinder = RadioBinder()
     override fun onBind(intent: Intent): IBinder { // TODO: Return the communication channel to the service.
-        return mBinder
+        return binder
     }
 
     override fun onCreate() {
@@ -103,6 +106,7 @@ open class RadioPlayingService : Service() {
         } ?: run {
             initMediaPlayer()
         }
+
         return START_STICKY
     }
 
@@ -121,27 +125,26 @@ open class RadioPlayingService : Service() {
         )
 
         val remoteView = RemoteViews(packageName, R.layout.player_notification_control)
-        remoteView.setOnClickPendingIntent(R.id.stop_btn,
-                PendingIntent.getService(applicationContext,
-                        REQUEST_CODE_STOP, Intent(ACTION_STOP),
-                        PendingIntent.FLAG_UPDATE_CURRENT)
-        )
-        remoteView.setOnClickPendingIntent(R.id.play_btn,
-                PendingIntent.getService(applicationContext,
-                        REQUEST_CODE_PLAY, Intent(ACTION_PLAY),
-                        PendingIntent.FLAG_UPDATE_CURRENT)
-        )
-        remoteView.setOnClickPendingIntent(R.id.pause_btn,
-                PendingIntent.getService(applicationContext,
-                        REQUEST_CODE_PAUSE, Intent(ACTION_PAUSE),
-                        PendingIntent.FLAG_UPDATE_CURRENT)
-        )
+        remoteView.setOnClickPendingIntent(R.id.stop_btn, PendingIntent.getService(
+                applicationContext,
+                REQUEST_CODE_STOP,
+                Intent(ACTION_STOP),
+                PendingIntent.FLAG_UPDATE_CURRENT
+        ))
+        remoteView.setOnClickPendingIntent(R.id.play_btn, PendingIntent.getService(
+                applicationContext,
+                REQUEST_CODE_PLAY,
+                Intent(ACTION_PLAY),
+                PendingIntent.FLAG_UPDATE_CURRENT
+        ))
+        remoteView.setOnClickPendingIntent(R.id.pause_btn, PendingIntent.getService(
+                applicationContext,
+                REQUEST_CODE_PAUSE,
+                Intent(ACTION_PAUSE),
+                PendingIntent.FLAG_UPDATE_CURRENT
+        ))
 
-        var channel = ""
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-            channel = createChannel()
-
-        val notification = NotificationCompat.Builder(applicationContext, channel)
+        val notification = NotificationCompat.Builder(applicationContext, provideChannel())
                 .setContent(remoteView)
                 .setContentIntent(contentIntent)
                 .setSmallIcon(R.drawable.ic_launcher).setOngoing(true)
@@ -151,9 +154,11 @@ open class RadioPlayingService : Service() {
         notificationPlaced = true
     }
 
-    @TargetApi(26)
     @Synchronized
-    private fun createChannel(): String {
+    private fun provideChannel(): String {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O)
+            return ""
+
         val manager = this.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val id = "player_channel"
         val importance = NotificationManager.IMPORTANCE_DEFAULT
@@ -173,16 +178,13 @@ open class RadioPlayingService : Service() {
             playerLocal.setAudioAttributes(AudioAttributes.Builder()
                     .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build())
         } else {
+            @Suppress("DEPRECATION")
             playerLocal.setAudioStreamType(AudioManager.STREAM_MUSIC)
         }
         playerLocal.setOnPreparedListener { playerLocal.start() }
+        playerLocal.setVolume(volume, volume)
         this.mediaPlayer = playerLocal
         return playerLocal
-    }
-
-    fun setStreamVolume(v: Float) {
-        lastVolume = v
-        player.setVolume(v, v)
     }
 
     private fun playStream() {
@@ -197,7 +199,8 @@ open class RadioPlayingService : Service() {
                 }
                 player.prepareAsync()
             }
-        } catch (e: Exception) { //TODO: bad idea
+        } catch (e: Throwable) {
+            //TODO: bad idea, needs more accurate processing
             e.printStackTrace()
         }
     }

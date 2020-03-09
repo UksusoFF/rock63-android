@@ -7,6 +7,7 @@ import com.uksusoff.rock63.data.entities.Event
 import com.uksusoff.rock63.data.entities.NewsItem
 import com.uksusoff.rock63.data.entities.Place
 import com.uksusoff.rock63.utils.CommonUtils
+import com.uksusoff.rock63.utils.readJsonFromUrl
 import org.androidannotations.annotations.AfterInject
 import org.androidannotations.annotations.EBean
 import org.androidannotations.annotations.RootContext
@@ -19,8 +20,6 @@ import java.util.*
 
 @EBean
 open class DataProviderComponent {
-    class NoInternetException : Exception() {}
-
     private lateinit var database: DatabaseHelper
 
     @RootContext
@@ -36,7 +35,7 @@ open class DataProviderComponent {
     val allNews: List<NewsItem>
         get() = database.news
                 .queryBuilder()
-                .orderBy(NewsItem.FIELD_DATE, false)
+                .orderBy(NewsItem::date.name, false)
                 .query()
 
     val allEvents: List<Event>
@@ -47,7 +46,7 @@ open class DataProviderComponent {
         before.time -= NEWS_LIFETIME_DAYS * 1000 * 60 * 60 * 24
 
         db.news.deleteBuilder()
-                .apply { this.where().le(NewsItem.FIELD_DATE, before) }
+                .apply { this.where().le(NewsItem::date.name, before) }
                 .delete()
     }
 
@@ -100,7 +99,7 @@ open class DataProviderComponent {
     }
 
     fun getAllEvents(ascending: Boolean): List<Event> {
-        return database.events.queryBuilder().orderBy(Event.FIELD_START, ascending).query()
+        return database.events.queryBuilder().orderBy(Event::start.name, ascending).query()
     }
 
     fun refreshEvents() {
@@ -207,17 +206,6 @@ open class DataProviderComponent {
                 db.places.create(place)
             }
             reader.endArray()
-        }
-    }
-
-    private fun readJsonFromUrl(url:String, handler: (s: JsonReader) -> Unit) {
-        try {
-            JsonReader(URL(url).openConnection().getInputStream().reader()).use {
-                handler(it)
-            }
-        } catch (e: IOException) {
-            //probably it's some kind of internet failure
-            throw NoInternetException()
         }
     }
 

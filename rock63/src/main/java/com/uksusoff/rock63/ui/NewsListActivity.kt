@@ -1,98 +1,80 @@
 package com.uksusoff.rock63.ui
 
+import android.annotation.SuppressLint
 import android.widget.ImageView
 import android.widget.ListAdapter
 import android.widget.SimpleAdapter
 import com.koushikdutta.ion.Ion
 import com.uksusoff.rock63.R
 import com.uksusoff.rock63.data.DataProviderComponent
-import com.uksusoff.rock63.data.DataProviderComponent.NoInternetException
 import com.uksusoff.rock63.data.entities.NewsItem
 import com.uksusoff.rock63.utils.CommonUtils
+import org.androidannotations.annotations.Background
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EActivity
 import org.androidannotations.annotations.ItemClick
-import java.sql.SQLException
 import java.util.*
 
 /**
- * Created by User on 13.05.2016.
+ * Created by Vyacheslav Vodyanov on 13.05.2016.
  */
+@SuppressLint("Registered")
 @EActivity(R.layout.a_list)
 open class NewsListActivity : ItemListActivity() {
 
     @Bean
     protected lateinit var providerComponent: DataProviderComponent
 
-    override var isRefreshing: Boolean
-        protected get() = Companion.isRefreshing
-        set(refreshing) {
-            Companion.isRefreshing = refreshing
-        }
-
-    override var activeActivity: ItemListActivity?
-        protected get() = Companion.activeActivity
-        set(activity) {
-            Companion.activeActivity = activity as NewsListActivity?
-        }
-
     override val emptyListTextResId: Int
-        protected get() = R.string.news_no_item_text
+        get() = R.string.news_no_item_text
 
-    override fun createAdapterFromStorageItems(): ListAdapter? {
-        val news: List<NewsItem>
-        news = try {
-            providerComponent!!.allNews
-        } catch (e: SQLException) {
-            throw RuntimeException(e)
-        }
-        val data: MutableList<Map<String, Any?>> = ArrayList()
-        for (i in news.indices) {
-            val item = news[i]
-            val datum: MutableMap<String, Any?> = HashMap(3)
-            datum["title"] = item.title
-            datum["text"] = CommonUtils.getCroppedString(CommonUtils.getTextFromHtml(item.body!!), 50, true)
-            datum["imageUrl"] = item.smallThumbUrl
-            datum["obj"] = item
-            data.add(datum)
-        }
-        val adapter = SimpleAdapter(this, data,
-                R.layout.i_news_item, arrayOf("title", "text", "imageUrl"), intArrayOf(R.id.newsTitle,
-                R.id.newsDescription,
-                R.id.newsImageView))
-        adapter.viewBinder = SimpleAdapter.ViewBinder { view, data, textRepresentation ->
-            if (view is ImageView && data is String) {
-                Ion.with(this)
-                        .load(data)
-                        .withBitmap()
-                        .placeholder(R.drawable.news_no_image)
-                        .intoImageView(view)
+    @Background
+    override fun createAdapterFromStorageItems(handler: (ListAdapter) -> Unit) {
+        val adapter = SimpleAdapter(this,
+                providerComponent.allNews.map { item ->
+                    val datum: MutableMap<String, Any?> = HashMap(4)
+                    datum["title"] = item.title
+                    datum["text"] = CommonUtils.getCroppedString(
+                            CommonUtils.getTextFromHtml(item.body),
+                            50,
+                            true
+                    )
+                    datum["imageUrl"] = item.smallThumbUrl
+                    datum["obj"] = item
+                    datum
+                },
+                R.layout.i_news_item,
+                arrayOf("title", "text", "imageUrl"),
+                intArrayOf(R.id.newsTitle, R.id.newsDescription, R.id.newsImageView)
+        )
 
-                return@ViewBinder true
-            }
-            false
+        adapter.viewBinder = SimpleAdapter.ViewBinder { view, vData, _ ->
+            val imView: ImageView = view as? ImageView ?: return@ViewBinder false
+            val url: String = vData as? String ?: return@ViewBinder false
+
+            Ion.with(this)
+                    .load(url)
+                    .withBitmap()
+                    .placeholder(R.drawable.news_no_image)
+                    .intoImageView(imView)
+
+            true
         }
-        return adapter
+
+        handler(adapter)
     }
 
-    @Throws(NoInternetException::class)
     override fun refreshItemStorage() {
-        providerComponent!!.refreshNews()
+        providerComponent.refreshNews()
     }
 
     @ItemClick(R.id.list)
     fun newsItemClicked(item: Map<String?, Any?>) {
-        val newsItem = item["obj"] as NewsItem?
-        val related = providerComponent!!.getRelatedEvent(newsItem!!)
-        if (related == null) {
+        val newsItem = item["obj"] as NewsItem
+        providerComponent.getRelatedEvent(newsItem)?.let {
+            EventDetailActivity_.intent(this).eventId(it.id).start()
+        } ?: run {
             NewsDetailActivity_.intent(this).newsItemId(newsItem.id).start()
-        } else {
-            EventDetailActivity_.intent(this).eventId(related.id).start()
         }
-    }
-
-    companion object {
-        private var isRefreshing = false
-        private var activeActivity: NewsListActivity? = null
     }
 }
