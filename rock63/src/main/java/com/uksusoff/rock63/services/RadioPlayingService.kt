@@ -214,7 +214,7 @@ open class RadioPlayingService : Service() {
     }
 
     companion object {
-        const val RADIO_URL = "http://play.vzradio.ru:8000/onair"
+        const val RADIO_URL = "https://vzradio.ru:8443/onair"
         const val ACTION_STOP = "com.uksusoff.rock63.ACTION_STOP"
         const val ACTION_PLAY = "com.uksusoff.rock63.ACTION_PLAY"
         const val ACTION_PAUSE = "com.uksusoff.rock63.ACTION_PAUSE"

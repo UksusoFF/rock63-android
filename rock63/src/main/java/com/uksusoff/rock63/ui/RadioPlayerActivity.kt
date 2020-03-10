@@ -6,25 +6,19 @@ import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.os.IBinder
-import androidx.core.app.ShareCompat
 import android.text.method.LinkMovementMethod
-import android.util.JsonReader
 import android.widget.ImageButton
 import android.widget.SeekBar
 import android.widget.TextView
+import androidx.core.app.ShareCompat
 import androidx.core.text.HtmlCompat
 import com.uksusoff.rock63.R
 import com.uksusoff.rock63.services.IRadioPlayerServiceListener
 import com.uksusoff.rock63.services.RadioPlayingService
 import com.uksusoff.rock63.services.RadioPlayingService.RadioBinder
 import com.uksusoff.rock63.services.RadioPlayingService_
-import com.uksusoff.rock63.utils.CommonUtils
 import com.uksusoff.rock63.utils.readJsonFromUrl
 import org.androidannotations.annotations.*
-import org.json.JSONException
-import org.json.JSONObject
-import java.io.IOException
-import java.net.URL
 import java.util.*
 
 /**
@@ -225,6 +219,6 @@ open class RadioPlayerActivity : BaseMenuActivity() {
     }
 
     companion object {
-        private const val RADIO_INFO_URL = "http://rock63.ru/a/vz/play.json"
+        private const val RADIO_INFO_URL = "https://rock63.ru/a/vz/play.json"
     }
 }
