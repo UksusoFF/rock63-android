@@ -135,6 +135,9 @@ open class DataProviderComponent {
                                         "s" -> event.start = CommonUtils.getDateFromTimestamp(
                                                 reader.nextString().toInt()
                                         )
+                                        "e" -> event.end = CommonUtils.getDateFromTimestamp(
+                                                reader.nextString().toInt()
+                                        )
                                         else -> reader.skipValue()
                                     }
                                 }
