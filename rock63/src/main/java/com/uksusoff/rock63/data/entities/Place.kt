@@ -15,4 +15,8 @@ class Place {
     var phone: String? = null
     @DatabaseField
     var vkUrl: String? = null
+    @DatabaseField
+    var latitude: Float? = null
+    @DatabaseField
+    var longitude: Float? = null
 }

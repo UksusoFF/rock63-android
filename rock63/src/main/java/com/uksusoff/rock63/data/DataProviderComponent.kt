@@ -201,6 +201,8 @@ open class DataProviderComponent {
                         "site" -> place.url = reader.nextString()
                         "phone" -> place.phone = reader.nextString()
                         "vk" -> place.vkUrl = reader.nextString()
+                        "latitude" -> place.latitude = reader.nextString().toFloatOrNull()
+                        "longitude" -> place.longitude = reader.nextString().toFloatOrNull()
                         else -> reader.skipValue()
                     }
                 }
