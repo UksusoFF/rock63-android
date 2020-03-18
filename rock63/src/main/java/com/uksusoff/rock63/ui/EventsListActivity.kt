@@ -7,6 +7,7 @@ import androidx.appcompat.widget.SearchView
 import com.uksusoff.rock63.R
 import com.uksusoff.rock63.data.DataProviderComponent
 import com.uksusoff.rock63.data.entities.Event
+import com.uksusoff.rock63.services.DataUpdateService
 import com.uksusoff.rock63.ui.adapters.AdvSimpleAdapter
 import org.androidannotations.annotations.*
 import java.text.SimpleDateFormat
@@ -48,6 +49,25 @@ open class EventsListActivity : ItemListActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
+    override fun onDataUpdateServiceConnected(service: DataUpdateService) {
+        super.onDataUpdateServiceConnected(service)
+
+        setRefreshIndicatorActive(service.isEventsRefreshing)
+    }
+
+    override fun onEventsUpdateStarted() {
+        super.onEventsUpdateStarted()
+
+        setRefreshIndicatorActive(true)
+    }
+
+    override fun onEventsUpdateFinished() {
+        super.onEventsUpdateFinished()
+
+        setRefreshIndicatorActive(false)
+        loadItemsFromDatabase()
+    }
+
     private fun FilterList(query: String) {
         (list.adapter as AdvSimpleAdapter).filter.filter(query)
     }
@@ -71,7 +91,7 @@ open class EventsListActivity : ItemListActivity() {
     }
 
     override fun refreshItemStorage() {
-        providerComponent.refreshEvents()
+        this.dataUpdateService?.updateEvents()
     }
 
     @ItemClick(R.id.list)

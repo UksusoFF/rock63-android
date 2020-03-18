@@ -62,6 +62,11 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </service>
+        
+        <service
+            android:name=".services.DataUpdateService_"
+            android:enabled="true"
+            android:exported="false" />
 
     </application>
 
