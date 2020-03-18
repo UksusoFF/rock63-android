@@ -26,6 +26,17 @@ import java.util.*
 @EService
 open class RadioPlayingService : Service() {
 
+    interface IRadioPlayerServiceListener {
+        fun onPause()
+        fun onPlay()
+        fun onStop()
+    }
+
+    inner class RadioBinder : Binder() {
+        val service: RadioPlayingService
+            get() = this@RadioPlayingService
+    }
+
     var volume: Float = 0.5f
         set(value) {
             field = value
@@ -53,12 +64,8 @@ open class RadioPlayingService : Service() {
         return listeners.remove(`object`)
     }
 
-    inner class RadioBinder : Binder() {
-        val service: RadioPlayingService
-            get() = this@RadioPlayingService
-    }
-
-    override fun onBind(intent: Intent): IBinder { // TODO: Return the communication channel to the service.
+    // TODO: Return the communication channel to the service.
+    override fun onBind(intent: Intent): IBinder {
         return binder
     }
 

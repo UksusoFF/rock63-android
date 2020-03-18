@@ -13,7 +13,6 @@ import android.widget.TextView
 import androidx.core.app.ShareCompat
 import androidx.core.text.HtmlCompat
 import com.uksusoff.rock63.R
-import com.uksusoff.rock63.services.IRadioPlayerServiceListener
 import com.uksusoff.rock63.services.RadioPlayingService
 import com.uksusoff.rock63.services.RadioPlayingService.RadioBinder
 import com.uksusoff.rock63.services.RadioPlayingService_
@@ -29,11 +28,10 @@ import java.util.*
 @OptionsMenu(R.menu.menu_detail)
 open class RadioPlayerActivity : BaseMenuActivity() {
 
-    private var boundService: RadioPlayingService? = null
+    private var radioService: RadioPlayingService? = null
     private var lastLoadedTrackName = ""
 
     private lateinit var loadTitleTimer: Timer
-
 
     @ViewById(R.id.radio_track_title)
     protected lateinit var trackTitle: TextView
@@ -44,8 +42,8 @@ open class RadioPlayerActivity : BaseMenuActivity() {
 
     private val onConnectionReadyHandlers = LinkedList<(service: RadioPlayingService) -> Unit>()
 
-    private val radioPlayerServiceListener: IRadioPlayerServiceListener =
-            object : IRadioPlayerServiceListener {
+    private val radioPlayerServiceListener: RadioPlayingService.IRadioPlayerServiceListener =
+            object : RadioPlayingService.IRadioPlayerServiceListener {
         override fun onPause() {
             playBtn.setImageResource(R.drawable.play_dark)
         }
@@ -62,20 +60,20 @@ open class RadioPlayerActivity : BaseMenuActivity() {
     private val connection: ServiceConnection = object : ServiceConnection {
         override fun onServiceConnected(className: ComponentName, binder: IBinder) {
             val service = (binder as RadioBinder).service
-            boundService = service
+            radioService = service
             handleConnectionReady(service)
             syncUI()
             service.addListener(radioPlayerServiceListener)
         }
 
         override fun onServiceDisconnected(className: ComponentName) {
-            boundService?.removeListener(radioPlayerServiceListener)
-            boundService = null
+            radioService?.removeListener(radioPlayerServiceListener)
+            radioService = null
         }
     }
 
     private fun onConnectionReady(handler: (service: RadioPlayingService) -> Unit) {
-        boundService?.let {
+        radioService?.let {
             handler(it)
         } ?: run {
             this.onConnectionReadyHandlers.add(handler)
@@ -165,7 +163,7 @@ open class RadioPlayerActivity : BaseMenuActivity() {
     }
 
     private fun syncUI() {
-        val service = boundService ?: return
+        val service = radioService ?: return
 
         if (service.isStreamPlaying) {
             playBtn.setImageResource(R.drawable.pause_dark)
