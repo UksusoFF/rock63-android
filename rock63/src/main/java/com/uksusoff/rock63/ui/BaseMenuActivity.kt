@@ -1,11 +1,12 @@
 package com.uksusoff.rock63.ui
 
-import android.view.MenuItem
 import androidx.annotation.IdRes
+import androidx.core.view.GravityCompat
+import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.widget.ViewStubCompat
-import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import com.uksusoff.rock63.R
