@@ -15,4 +15,7 @@ class Place {
     var phone: String? = null
     @DatabaseField
     var vkUrl: String? = null
+    @DatabaseField
+    var mapImageUrl: String? = null
+
 }

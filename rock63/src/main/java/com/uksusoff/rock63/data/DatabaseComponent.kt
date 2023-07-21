@@ -14,30 +14,18 @@ import java.sql.SQLException
 private const val DATABASE_NAME = "rock63androidclient"
 private const val DATABASE_VERSION = 6
 
-class DatabaseHelper(context: Context?) : OrmLiteSqliteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
+class DatabaseComponent(context: Context?) : OrmLiteSqliteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
-    val events: Dao<Event, Int> by lazy(fun():Dao<Event, Int> {
-        return getDao(Event::class.java)
-    })
+    val events: Dao<Event, Int> by lazy {
+        getDao(Event::class.java) as Dao<Event, Int>
+    }
 
-    val news: Dao<NewsItem, Int> by lazy(fun():Dao<NewsItem, Int>{
-        return getDao(NewsItem::class.java)
-    })
+    val news: Dao<NewsItem, Int> by lazy {
+        getDao(NewsItem::class.java) as Dao<NewsItem, Int>
+    }
 
-    val places: Dao<Place, Int> by lazy(fun():Dao<Place, Int> {
-        return getDao(Place::class.java)
-    })
-
-    public fun executeInTransaction(handler: (database: DatabaseHelper) -> Unit) {
-        val db = this.writableDatabase
-        db.beginTransaction()
-        try {
-            handler(this)
-
-            db.setTransactionSuccessful()
-        } finally {
-            db.endTransaction()
-        }
+    val places: Dao<Place, Int> by lazy {
+        getDao(Place::class.java) as Dao<Place, Int>
     }
 
     override fun onCreate(db: SQLiteDatabase, connectionSource: ConnectionSource) {

@@ -16,6 +16,21 @@ class AdvSimpleAdapter(context: Context, private var mData: List<Map<String, *>>
                        private var mDropDownResource: Int, from: Array<String>, to: IntArray) : BaseAdapter(), Filterable {
     private val mTo: IntArray
     private val mFrom: Array<String>
+    /**
+     * Returns the [ViewBinder] used to bind data to views.
+     *
+     * @return a ViewBinder or null if the binder does not exist
+     *
+     * @see .setViewBinder
+     */
+    /**
+     * Sets the binder used to bind data to views.
+     *
+     * @param viewBinder the binder used to bind data to views, can be null to
+     * remove the existing binder
+     *
+     * @see .getViewBinder
+     */
     var viewBinder: ViewBinder? = null
     private val mResource: Int
     private val mInflater: LayoutInflater

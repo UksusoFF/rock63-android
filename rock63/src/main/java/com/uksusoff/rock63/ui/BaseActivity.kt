@@ -6,7 +6,7 @@ import androidx.annotation.StringRes
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.j256.ormlite.android.apptools.OpenHelperManager
-import com.uksusoff.rock63.data.DatabaseHelper
+import com.uksusoff.rock63.data.DatabaseComponent
 import com.uksusoff.rock63.data.InternalPrefs_
 import org.androidannotations.annotations.EActivity
 import org.androidannotations.annotations.UiThread
@@ -19,7 +19,7 @@ abstract class BaseActivity : AppCompatActivity() {
         const val ACTION_CHECK_ALARM = "com.uksusoff.rock63.ui.ACTION_CHECK_ALARM"
     }
 
-    private var databaseInternal: DatabaseHelper? = null
+    private var databaseInternal: DatabaseComponent? = null
 
     @Pref
     protected lateinit var internalPrefs: InternalPrefs_
@@ -37,13 +37,13 @@ abstract class BaseActivity : AppCompatActivity() {
         }
     }
 
-    protected val database: DatabaseHelper
+    protected val database: DatabaseComponent
         get() {
             return databaseInternal ?: run {
                 val helper = OpenHelperManager.getHelper(
                     this,
-                    DatabaseHelper::class.java
-                ) as DatabaseHelper
+                    DatabaseComponent::class.java
+                ) as DatabaseComponent
                 databaseInternal = helper
                 return helper
             }
