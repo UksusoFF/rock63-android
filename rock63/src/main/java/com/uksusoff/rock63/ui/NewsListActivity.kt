@@ -8,7 +8,6 @@ import com.koushikdutta.ion.Ion
 import com.uksusoff.rock63.R
 import com.uksusoff.rock63.data.DataProviderComponent
 import com.uksusoff.rock63.data.entities.NewsItem
-import com.uksusoff.rock63.services.DataUpdateService
 import com.uksusoff.rock63.utils.CommonUtils
 import org.androidannotations.annotations.Background
 import org.androidannotations.annotations.Bean
@@ -65,27 +64,8 @@ open class NewsListActivity : ItemListActivity() {
         handler(adapter)
     }
 
-    override fun onDataUpdateServiceConnected(service: DataUpdateService) {
-        super.onDataUpdateServiceConnected(service)
-
-        setRefreshIndicatorActive(service.isNewsRefreshing)
-    }
-
-    override fun onNewsUpdateStarted() {
-        super.onNewsUpdateStarted()
-
-        setRefreshIndicatorActive(true)
-    }
-
-    override fun onNewsUpdateFinished() {
-        super.onNewsUpdateFinished()
-
-        setRefreshIndicatorActive(false)
-        loadItemsFromDatabase()
-    }
-
     override fun refreshItemStorage() {
-        this.dataUpdateService?.updateNews()
+        providerComponent.refreshNews()
     }
 
     @ItemClick(R.id.list)
