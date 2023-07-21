@@ -12,7 +12,7 @@ import com.uksusoff.rock63.data.entities.Place
 import java.sql.SQLException
 
 private const val DATABASE_NAME = "rock63androidclient"
-private const val DATABASE_VERSION = 7
+private const val DATABASE_VERSION = 6
 
 class DatabaseHelper(context: Context?) : OrmLiteSqliteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 

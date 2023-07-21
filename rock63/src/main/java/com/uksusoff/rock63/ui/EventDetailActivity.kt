@@ -1,8 +1,9 @@
 package com.uksusoff.rock63.ui
 
 import android.annotation.SuppressLint
+import android.os.Build
 import androidx.core.app.ShareCompat
-import android.text.Spanned
+import android.text.Html
 import android.text.method.LinkMovementMethod
 import android.view.View
 import android.widget.Button
@@ -13,6 +14,7 @@ import com.koushikdutta.ion.Ion
 import com.uksusoff.rock63.R
 import com.uksusoff.rock63.data.entities.Event
 import org.androidannotations.annotations.*
+import java.sql.SQLException
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -78,24 +80,8 @@ open class EventDetailActivity : BaseMenuActivity() {
 
         event.place?.let { place ->
             placeName.text = place.name
-
-            place.let(fun(p): Spanned? {
-                val latitude = p.latitude ?: return null
-                val longitude = p.longitude ?: return null
-                val address = p.address ?: return null
-
-                return HtmlCompat.fromHtml(
-                        "<a href=\"geo:$latitude,$longitude\">${address}</a>",
-                        HtmlCompat.FROM_HTML_MODE_LEGACY
-                )
-            })?.let {
-                placeAddress.movementMethod = LinkMovementMethod.getInstance()
-                placeAddress.text = it
-            } ?: run {
-                placeAddress.text = place.address
-            }
-
-            place.phone?.takeIf { it != "" }?.let { phone ->
+            placeAddress.text = place.address
+            place.phone?.takeIf { it != "" }?.let {phone ->
                 placePhone.visibility = View.VISIBLE
                 placePhone.movementMethod = LinkMovementMethod.getInstance()
                 placePhone.text = HtmlCompat.fromHtml(phone, HtmlCompat.FROM_HTML_MODE_LEGACY)
