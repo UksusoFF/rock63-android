@@ -1,15 +1,19 @@
 package com.uksusoff.rock63.ui
 
 import android.annotation.SuppressLint
+import android.os.Build
+import androidx.core.app.ShareCompat
+import android.text.Html
 import android.text.method.LinkMovementMethod
+import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.app.ShareCompat
 import androidx.core.text.HtmlCompat
 import com.koushikdutta.ion.Ion
 import com.uksusoff.rock63.R
 import com.uksusoff.rock63.data.entities.NewsItem
 import org.androidannotations.annotations.*
+import java.sql.SQLException
 
 @SuppressLint("Registered")
 @EActivity(R.layout.a_news_detail)
@@ -18,7 +22,7 @@ open class NewsDetailActivity : BaseMenuActivity() {
 
     @Extra(EXTRA_ITEM_ID)
     @JvmField
-    protected final var newsItemId:Int = NO_NEWS_ITEM_ID
+    protected final var newsItemId:Int = 0
 
     @ViewById(R.id.news_detail_title)
     protected lateinit var title: TextView
@@ -31,16 +35,15 @@ open class NewsDetailActivity : BaseMenuActivity() {
 
     override fun init() {
         super.init()
-
-        if (newsItemId == NO_NEWS_ITEM_ID) {
-            return
-        }
-
-        newsItem = database.news.queryForId(newsItemId)
-
+        val extras = intent.extras ?: return
+        database.news.queryForId(newsItemId)
         title.text = newsItem.title
         body.movementMethod = LinkMovementMethod.getInstance()
-        body.text = HtmlCompat.fromHtml(newsItem.body, HtmlCompat.FROM_HTML_MODE_LEGACY)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            body.text = Html.fromHtml(newsItem.body, HtmlCompat.FROM_HTML_MODE_LEGACY)
+        } else {
+            body.text = Html.fromHtml(newsItem.body)
+        }
 
         Ion.with(this)
                 .load(newsItem.mediumThumbUrl)
@@ -55,7 +58,7 @@ open class NewsDetailActivity : BaseMenuActivity() {
     }
 
     private fun shareNews() {
-        var body = HtmlCompat.fromHtml(newsItem.body, HtmlCompat.FROM_HTML_MODE_LEGACY).toString()
+        var body = Html.fromHtml(newsItem.body).toString()
         if (newsItem.url != null) {
             body += "\n\n" + newsItem.url
         }
@@ -69,6 +72,5 @@ open class NewsDetailActivity : BaseMenuActivity() {
 
     companion object {
         const val EXTRA_ITEM_ID = "newsItem"
-        private const val NO_NEWS_ITEM_ID = -1
     }
 }

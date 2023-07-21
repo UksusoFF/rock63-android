@@ -4,11 +4,11 @@ import android.content.Context
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.uksusoff.rock63.data.DataProviderComponent
+import com.uksusoff.rock63.data.DataProviderComponent.NoInternetException
 import com.uksusoff.rock63.data.DataProviderComponent_
-import com.uksusoff.rock63.exceptions.NoInternetException
 
 /**
- * Created by Vyacheslav Vodyanov on 28.08.2016.
+ * Created by User on 28.08.2016.
  */
 class DataUpdateWorker(appContext: Context, workerParams: WorkerParameters)
     : Worker(appContext, workerParams) {

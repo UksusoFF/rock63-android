@@ -1,7 +1,6 @@
 package com.uksusoff.rock63.ui
 
 import android.annotation.SuppressLint
-import android.os.Build
 import androidx.core.app.ShareCompat
 import android.text.Html
 import android.text.method.LinkMovementMethod
@@ -9,7 +8,6 @@ import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.text.HtmlCompat
 import com.koushikdutta.ion.Ion
 import com.uksusoff.rock63.R
 import com.uksusoff.rock63.data.entities.Event
@@ -33,106 +31,74 @@ open class EventDetailActivity : BaseMenuActivity() {
     protected lateinit var placeLink: TextView
     @ViewById(R.id.event_detail_placevklink)
     protected lateinit var placeVkLink: TextView
-    @ViewById(R.id.event_detail_placename)
-    protected lateinit var placeName: TextView
-    @ViewById(R.id.event_detail_placeaddr)
-    protected lateinit var placeAddress: TextView
-    @ViewById(R.id.event_detail_placeinf)
-    protected lateinit var placeInfoContainer: View
-    @ViewById(R.id.event_detail_infdetailbtn)
-    protected lateinit var placeInfoButton: Button
-
-    @ViewById(R.id.event_detail_title)
-    protected lateinit var titleView:TextView
-    @ViewById(R.id.event_detail_datentime)
-    protected lateinit var dateTimeView:TextView
-    @ViewById(R.id.event_detail_description)
-    protected lateinit var description:TextView
-    @ViewById(R.id.event_detail_image)
-    protected lateinit var imageView:ImageView
 
     private lateinit var event: Event
 
     override fun init() {
         super.init()
-        event = database.events.queryForId(eventId)
-        titleView.text = event.title
+        event = try {
+            database.events.queryForId(eventId)
+        } catch (e: SQLException) {
+            throw RuntimeException(e)
+        }
+        (findViewById<View>(R.id.event_detail_title) as TextView).text = event!!.title
         val fDate = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
         val fTime = SimpleDateFormat("HH:mm", Locale.getDefault())
-
-        event.start?.let { start ->
-            event.end?.let { end ->
-                dateTimeView.text = String.format(
-                        "%s %s - %s %s",
-                        fDate.format(start),
-                        fTime.format(start),
-                        fDate.format(end),
-                        fTime.format(end)
-                )
-            } ?: run {
-                dateTimeView.text = String.format(
-                        "%s %s",
-                        fDate.format(start),
-                        fTime.format(start)
-                )
-            }
+        if (event!!.end != null) {
+            (findViewById<View>(R.id.event_detail_datentime) as TextView).text = String.format("%s %s - %s %s", fDate.format(event!!.start), fTime.format(event!!.start), fDate.format(event!!.end),
+                    fTime.format(event!!.end))
+        } else {
+            (findViewById<View>(R.id.event_detail_datentime) as TextView).text = String.format("%s %s", fDate.format(event!!.start), fTime.format(event!!.start))
         }
-
-        event.place?.let { place ->
-            placeName.text = place.name
-            placeAddress.text = place.address
-            place.phone?.takeIf { it != "" }?.let {phone ->
-                placePhone.visibility = View.VISIBLE
-                placePhone.movementMethod = LinkMovementMethod.getInstance()
-                placePhone.text = HtmlCompat.fromHtml(phone, HtmlCompat.FROM_HTML_MODE_LEGACY)
-            } ?: run {
-                placePhone.visibility = View.GONE
+        if (event!!.place != null) {
+            (findViewById<View>(R.id.event_detail_placename) as TextView).text = event!!.place!!.name
+            (findViewById<View>(R.id.event_detail_placeaddr) as TextView).text = event!!.place!!.address
+            if (event!!.place!!.phone != null && event!!.place!!.phone != "") {
+                placePhone!!.visibility = View.VISIBLE
+                placePhone!!.movementMethod = LinkMovementMethod.getInstance()
+                placePhone!!.text = Html.fromHtml(event!!.place!!.phone)
+            } else {
+                placePhone!!.visibility = View.GONE
             }
-
-            place.url?.takeIf { it != "" }?.let { url ->
-                placeLink.visibility = View.VISIBLE
-                placeLink.movementMethod = LinkMovementMethod.getInstance()
-                placeLink.text = HtmlCompat.fromHtml(url, HtmlCompat.FROM_HTML_MODE_LEGACY)
-            } ?: run {
-                placeLink.visibility = View.GONE
+            if (event!!.place!!.url != null && event!!.place!!.url != "") {
+                placeLink!!.visibility = View.VISIBLE
+                placeLink!!.movementMethod = LinkMovementMethod.getInstance()
+                placeLink!!.text = Html.fromHtml(event!!.place!!.url)
+            } else {
+                placeLink!!.visibility = View.GONE
             }
-
-            place.vkUrl?.takeIf { it != "" }?.let { vkUrl ->
-                placeVkLink.visibility = View.VISIBLE
-                placeVkLink.movementMethod = LinkMovementMethod.getInstance()
-                placeVkLink.text = HtmlCompat.fromHtml(vkUrl, HtmlCompat.FROM_HTML_MODE_LEGACY)
-            } ?: run {
-                placeVkLink.visibility = View.GONE
+            if (event!!.place!!.vkUrl != null && event!!.place!!.vkUrl != "") {
+                placeVkLink!!.visibility = View.VISIBLE
+                placeVkLink!!.movementMethod = LinkMovementMethod.getInstance()
+                placeVkLink!!.text = Html.fromHtml(event!!.place!!.vkUrl)
+            } else {
+                placeVkLink!!.visibility = View.GONE
             }
-
-            placeInfoButton.setText(R.string.event_show_info_button_title)
-        } ?: run {
-            placeName.visibility = View.GONE
-            placeInfoButton.visibility = View.GONE
+            (findViewById<View>(R.id.event_detail_infdetailbtn) as Button).setOnClickListener {
+                val inf = findViewById<View>(R.id.event_detail_placeinf)
+                if (inf.visibility == View.VISIBLE) {
+                    inf.visibility = View.GONE
+                    (findViewById<View>(R.id.event_detail_infdetailbtn) as Button).setText(R.string.event_show_info_button_title)
+                } else {
+                    inf.visibility = View.VISIBLE
+                    (findViewById<View>(R.id.event_detail_infdetailbtn) as Button).setText(R.string.event_hide_info_button_title)
+                }
+            }
+            (findViewById<View>(R.id.event_detail_infdetailbtn) as Button).setText(R.string.event_show_info_button_title)
+        } else {
+            (findViewById<View>(R.id.event_detail_placename) as TextView).visibility = View.GONE
+            (findViewById<View>(R.id.event_detail_infdetailbtn) as Button).visibility = View.GONE
         }
-
-        description.movementMethod = LinkMovementMethod.getInstance()
-        description.text = HtmlCompat.fromHtml(event.body, HtmlCompat.FROM_HTML_MODE_LEGACY)
-
-        event.mediumThumbUrl?.let { url ->
+        (findViewById<View>(R.id.event_detail_description) as TextView).movementMethod = LinkMovementMethod.getInstance()
+        (findViewById<View>(R.id.event_detail_description) as TextView).text = Html.fromHtml(event!!.body)
+        if (event!!.mediumThumbUrl != null) {
             Ion.with(this)
-                    .load(url)
+                    .load(event!!.mediumThumbUrl)
                     .withBitmap()
                     .placeholder(R.drawable.news_medium_placeholder)
-                    .intoImageView(imageView)
-        } ?: run {
-            imageView.visibility = View.GONE
-        }
-    }
-
-    @Click(R.id.event_detail_infdetailbtn)
-    open fun onPlaceInfoButtonClick() {
-        if (placeInfoContainer.visibility == View.VISIBLE) {
-            placeInfoContainer.visibility = View.GONE
-            placeInfoButton.setText(R.string.event_show_info_button_title)
+                    .intoImageView(findViewById<View>(R.id.event_detail_image) as ImageView)
         } else {
-            placeInfoContainer.visibility = View.VISIBLE
-            placeInfoButton.setText(R.string.event_hide_info_button_title)
+            (findViewById<View>(R.id.event_detail_image) as ImageView).visibility = View.GONE
         }
     }
 
@@ -143,14 +109,15 @@ open class EventDetailActivity : BaseMenuActivity() {
 
     private fun shareEvent() {
         val subject: String?
-        subject = event.place?.let { place ->
-            String.format("%s @ %s", event.title, place.name)
-        } ?: event.title
-
+        subject = if (event!!.place != null) {
+            String.format("%s @ %s", event!!.title, event!!.place!!.name)
+        } else {
+            event!!.title
+        }
         startActivity(ShareCompat.IntentBuilder.from(this)
                 .setType("text/plain")
                 .setSubject(subject)
-                .setText(event.url)
+                .setText(event!!.url)
                 .intent
         )
     }

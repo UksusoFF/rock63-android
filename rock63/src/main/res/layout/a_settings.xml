@@ -33,14 +33,14 @@
 			android:layout_height="wrap_content"
 			android:text="@string/settings_daily_reminder_title"
 			android:layout_marginTop="6dp"
-			android:id="@+id/daily_reminder" />
+			android:id="@+id/dailyReminder" />
 
 		<Switch
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:text="@string/settings_weekly_reminder_title"
 			android:layout_marginTop="6dp"
-			android:id="@+id/weekly_reminder" />
+			android:id="@+id/weeklyReminder" />
 
 		<TextView
 	        android:layout_width="wrap_content"
@@ -54,7 +54,7 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_marginTop="14dp"
-	        android:text="" />
+	        android:text="Body" />
 	
 	</LinearLayout>
 </ScrollView>
