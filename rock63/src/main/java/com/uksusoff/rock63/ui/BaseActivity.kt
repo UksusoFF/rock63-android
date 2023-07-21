@@ -6,7 +6,7 @@ import androidx.annotation.StringRes
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.j256.ormlite.android.apptools.OpenHelperManager
-import com.uksusoff.rock63.data.DatabaseComponent
+import com.uksusoff.rock63.data.DBHelper
 import com.uksusoff.rock63.data.InternalPrefs_
 import org.androidannotations.annotations.EActivity
 import org.androidannotations.annotations.UiThread
@@ -15,11 +15,7 @@ import org.androidannotations.annotations.sharedpreferences.Pref
 @EActivity
 abstract class BaseActivity : AppCompatActivity() {
 
-    companion object {
-        const val ACTION_CHECK_ALARM = "com.uksusoff.rock63.ui.ACTION_CHECK_ALARM"
-    }
-
-    private var databaseInternal: DatabaseComponent? = null
+    private var dbHelper: DBHelper? = null
 
     @Pref
     protected lateinit var internalPrefs: InternalPrefs_
@@ -31,22 +27,18 @@ abstract class BaseActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        if (databaseInternal != null) {
+        if (dbHelper != null) {
             OpenHelperManager.releaseHelper()
-            databaseInternal = null
+            dbHelper = null
         }
     }
 
-    protected val database: DatabaseComponent
-        get() {
-            return databaseInternal ?: run {
-                val helper = OpenHelperManager.getHelper(
-                    this,
-                    DatabaseComponent::class.java
-                ) as DatabaseComponent
-                databaseInternal = helper
-                return helper
+    protected val helper: DBHelper?
+        protected get() {
+            if (dbHelper == null) {
+                dbHelper = OpenHelperManager.getHelper(this, DBHelper::class.java) as DBHelper
             }
+            return dbHelper
         }
 
     @UiThread
@@ -56,5 +48,9 @@ abstract class BaseActivity : AppCompatActivity() {
 
     fun showWarning(@StringRes resId: Int) {
         showWarning(getString(resId))
+    }
+
+    companion object {
+        const val ACTION_CHECK_ALARM = "com.uksusoff.rock63.ui.ACTION_CHECK_ALARM"
     }
 }

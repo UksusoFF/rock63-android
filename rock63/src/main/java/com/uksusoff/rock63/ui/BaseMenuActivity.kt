@@ -30,7 +30,6 @@ abstract class BaseMenuActivity : BaseActivity(), NavigationView.OnNavigationIte
     @AfterViews
     protected open fun init() {
         setSupportActionBar(toolbar)
-
         val toggle = ActionBarDrawerToggle(
                 this,
                 drawer,
@@ -38,18 +37,16 @@ abstract class BaseMenuActivity : BaseActivity(), NavigationView.OnNavigationIte
                 R.string.navigation_drawer_open,
                 R.string.navigation_drawer_close
         )
-
-        drawer.addDrawerListener(toggle)
+        drawer!!.addDrawerListener(toggle)
         toggle.syncState()
-        navigationView.setNavigationItemSelectedListener(this)
+        navigationView!!.setNavigationItemSelectedListener(this)
     }
 
     override fun setContentView(@IdRes layoutResID: Int) {
         super.setContentView(R.layout.a_base_with_menu)
-
-        val contentStub = findViewById<ViewStubCompat>(R.id.content_stub)
-        contentStub.layoutResource = layoutResID
-        contentStub.inflate()
+        val stub = findViewById<View>(R.id.content_stub) as ViewStubCompat
+        stub.layoutResource = layoutResID
+        stub.inflate()
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -59,7 +56,7 @@ abstract class BaseMenuActivity : BaseActivity(), NavigationView.OnNavigationIte
             R.id.menu_info -> SettingsActivity_.intent(this).start()
             R.id.menu_radio_vz -> RadioPlayerActivity_.intent(this).start()
         }
-
+        val drawer = findViewById<View>(R.id.drawer_layout) as DrawerLayout
         drawer.closeDrawer(GravityCompat.START)
         return true
     }

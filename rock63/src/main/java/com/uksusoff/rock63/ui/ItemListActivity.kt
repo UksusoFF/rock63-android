@@ -6,7 +6,7 @@ import android.widget.ListView
 import android.widget.TextView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.uksusoff.rock63.R
-import com.uksusoff.rock63.data.DataProviderComponent.NoInternetException
+import com.uksusoff.rock63.data.DataSource.NoInternetException
 import org.androidannotations.annotations.Background
 import org.androidannotations.annotations.EActivity
 import org.androidannotations.annotations.UiThread

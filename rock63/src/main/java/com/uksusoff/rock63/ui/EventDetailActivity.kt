@@ -1,6 +1,5 @@
 package com.uksusoff.rock63.ui
 
-import android.annotation.SuppressLint
 import androidx.core.app.ShareCompat
 import android.text.Html
 import android.text.method.LinkMovementMethod
@@ -16,7 +15,6 @@ import java.sql.SQLException
 import java.text.SimpleDateFormat
 import java.util.*
 
-@SuppressLint("Registered")
 @EActivity(R.layout.a_event_detail)
 @OptionsMenu(R.menu.menu_detail)
 open class EventDetailActivity : BaseMenuActivity() {
@@ -32,12 +30,12 @@ open class EventDetailActivity : BaseMenuActivity() {
     @ViewById(R.id.event_detail_placevklink)
     protected lateinit var placeVkLink: TextView
 
-    private lateinit var event: Event
+    private var event: Event? = null
 
     override fun init() {
         super.init()
         event = try {
-            database.events.queryForId(eventId)
+            helper!!.eventDao!!.queryForId(eventId)
         } catch (e: SQLException) {
             throw RuntimeException(e)
         }

@@ -11,22 +11,37 @@ import com.uksusoff.rock63.data.entities.NewsItem
 import com.uksusoff.rock63.data.entities.Place
 import java.sql.SQLException
 
-private const val DATABASE_NAME = "rock63androidclient"
-private const val DATABASE_VERSION = 6
+class DBHelper(context: Context?) : OrmLiteSqliteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
-class DatabaseComponent(context: Context?) : OrmLiteSqliteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
+    @get:Throws(SQLException::class)
+    var eventDao: Dao<Event, Int>? = null
+        get() {
+            if (field == null) {
+                field = getDao(Event::class.java)
+            }
+            return field
+        }
+        private set
 
-    val events: Dao<Event, Int> by lazy {
-        getDao(Event::class.java) as Dao<Event, Int>
-    }
+    @get:Throws(SQLException::class)
+    var newsItemDao: Dao<NewsItem, Int>? = null
+        get() {
+            if (field == null) {
+                field = getDao(NewsItem::class.java)
+            }
+            return field
+        }
+        private set
 
-    val news: Dao<NewsItem, Int> by lazy {
-        getDao(NewsItem::class.java) as Dao<NewsItem, Int>
-    }
-
-    val places: Dao<Place, Int> by lazy {
-        getDao(Place::class.java) as Dao<Place, Int>
-    }
+    @get:Throws(SQLException::class)
+    var placeDao: Dao<Place, Int>? = null
+        get() {
+            if (field == null) {
+                field = getDao(Place::class.java)
+            }
+            return field
+        }
+        private set
 
     override fun onCreate(db: SQLiteDatabase, connectionSource: ConnectionSource) {
         try {
@@ -47,5 +62,10 @@ class DatabaseComponent(context: Context?) : OrmLiteSqliteOpenHelper(context, DA
         } catch (e: SQLException) {
             throw RuntimeException(e)
         }
+    }
+
+    companion object {
+        private const val DATABASE_NAME = "rock63androidclient"
+        private const val DATABASE_VERSION = 6
     }
 }
