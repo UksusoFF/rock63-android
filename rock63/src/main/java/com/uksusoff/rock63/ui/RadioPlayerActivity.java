@@ -4,7 +4,7 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
-import android.support.v4.app.ShareCompat;
+import androidx.core.app.ShareCompat;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.widget.ImageButton;

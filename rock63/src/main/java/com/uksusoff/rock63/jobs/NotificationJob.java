@@ -5,8 +5,8 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.app.NotificationCompat;
+import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
 
 import com.evernote.android.job.Job;
 import com.evernote.android.job.JobRequest;
@@ -15,12 +15,8 @@ import com.uksusoff.rock63.data.DataSource;
 import com.uksusoff.rock63.data.DataSource_;
 import com.uksusoff.rock63.data.UserPrefs_;
 import com.uksusoff.rock63.data.entities.Event;
-import com.uksusoff.rock63.receivers.RemindersReceiver;
 import com.uksusoff.rock63.ui.EventDetailActivity_;
-import com.uksusoff.rock63.ui.NewsListActivity_;
 import com.uksusoff.rock63.utils.DateUtils;
-
-import org.androidannotations.annotations.SystemService;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

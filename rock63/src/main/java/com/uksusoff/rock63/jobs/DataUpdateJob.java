@@ -1,18 +1,10 @@
 package com.uksusoff.rock63.jobs;
 
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.evernote.android.job.Job;
-import com.uksusoff.rock63.R;
 import com.uksusoff.rock63.data.DataSource;
 import com.uksusoff.rock63.data.DataSource_;
-import com.uksusoff.rock63.ui.EventDetailActivity_;
-import com.uksusoff.rock63.ui.NewsListActivity;
-import com.uksusoff.rock63.ui.NewsListActivity_;
 
 /**
  * Created by User on 28.08.2016.

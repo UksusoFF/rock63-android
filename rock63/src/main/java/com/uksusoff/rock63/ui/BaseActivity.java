@@ -6,11 +6,9 @@ import com.uksusoff.rock63.data.InternalPrefs_;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.support.annotation.StringRes;
-import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.annotation.StringRes;
+import androidx.appcompat.app.AppCompatActivity;
 import android.widget.Toast;
 
 import org.androidannotations.annotations.EActivity;

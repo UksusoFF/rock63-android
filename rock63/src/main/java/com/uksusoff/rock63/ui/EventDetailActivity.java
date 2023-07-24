@@ -14,7 +14,7 @@ import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 import com.uksusoff.rock63.R;
 import com.uksusoff.rock63.data.entities.Event;
 
-import android.support.v4.app.ShareCompat;
+import androidx.core.app.ShareCompat;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
