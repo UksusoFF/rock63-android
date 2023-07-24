@@ -1,8 +1,5 @@
 package com.uksusoff.rock63.services;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -12,15 +9,19 @@ import android.media.MediaPlayer;
 import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
-import androidx.core.app.NotificationCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.RemoteViews;
+
+import androidx.core.app.NotificationCompat;
 
 import com.uksusoff.rock63.R;
 import com.uksusoff.rock63.ui.RadioPlayerActivity_;
 
 import org.androidannotations.annotations.EService;
+
+import java.util.LinkedList;
+import java.util.List;
 
 @EService
 public class RadioPlayingService extends Service {
@@ -42,7 +43,7 @@ public class RadioPlayingService extends Service {
     private MediaPlayer mediaPlayer;
     private Float lastVolume = null;
     private boolean notificationPlaced = false;
-    private List<IRadioPlayerServiceListener> listeners = new LinkedList<>();
+    private final List<IRadioPlayerServiceListener> listeners = new LinkedList<>();
 
     public boolean addListener(IRadioPlayerServiceListener object) {
         return listeners.add(object);
@@ -153,46 +154,46 @@ public class RadioPlayingService extends Service {
                 notificationIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT
         );
-        
+
         RemoteViews remoteView = new RemoteViews(getPackageName(), R.layout.player_notification_control);
-                      
-        remoteView.setOnClickPendingIntent(R.id.stop_btn, 
-            PendingIntent.getService(getApplicationContext(),
-                REQUEST_CODE_STOP, new Intent(ACTION_STOP),
-                PendingIntent.FLAG_UPDATE_CURRENT)
+
+        remoteView.setOnClickPendingIntent(R.id.stop_btn,
+                PendingIntent.getService(getApplicationContext(),
+                        REQUEST_CODE_STOP, new Intent(ACTION_STOP),
+                        PendingIntent.FLAG_UPDATE_CURRENT)
         );
-        
-        remoteView.setOnClickPendingIntent(R.id.play_btn, 
-            PendingIntent.getService(getApplicationContext(),
-                REQUEST_CODE_PLAY, new Intent(ACTION_PLAY),
-                PendingIntent.FLAG_UPDATE_CURRENT)
+
+        remoteView.setOnClickPendingIntent(R.id.play_btn,
+                PendingIntent.getService(getApplicationContext(),
+                        REQUEST_CODE_PLAY, new Intent(ACTION_PLAY),
+                        PendingIntent.FLAG_UPDATE_CURRENT)
         );
-        
-        remoteView.setOnClickPendingIntent(R.id.pause_btn, 
-            PendingIntent.getService(getApplicationContext(),
-                REQUEST_CODE_PAUSE, new Intent(ACTION_PAUSE),
-                PendingIntent.FLAG_UPDATE_CURRENT)
+
+        remoteView.setOnClickPendingIntent(R.id.pause_btn,
+                PendingIntent.getService(getApplicationContext(),
+                        REQUEST_CODE_PAUSE, new Intent(ACTION_PAUSE),
+                        PendingIntent.FLAG_UPDATE_CURRENT)
         );
-                
+
         Notification notification = new NotificationCompat.Builder(getApplicationContext())
-            .setContent(remoteView)
-            .setContentIntent(contentIntent)
-            .setSmallIcon(R.drawable.ic_launcher).setOngoing(true)
-            .setWhen(System.currentTimeMillis())       
-            .build();
-        
+                .setContent(remoteView)
+                .setContentIntent(contentIntent)
+                .setSmallIcon(R.drawable.ic_launcher).setOngoing(true)
+                .setWhen(System.currentTimeMillis())
+                .build();
+
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1) {
             notification.contentView = remoteView;
         }
-        
+
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
             remoteView.setViewVisibility(R.id.pause_btn, View.INVISIBLE);
             remoteView.setViewVisibility(R.id.stop_btn, View.INVISIBLE);
             remoteView.setViewVisibility(R.id.play_btn, View.INVISIBLE);
         }
-        
+
         startForeground(NOTIFICATION_ID, notification);
-        
+
         notificationPlaced = true;
     }
 

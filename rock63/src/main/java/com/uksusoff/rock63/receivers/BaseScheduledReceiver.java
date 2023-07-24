@@ -1,26 +1,15 @@
 package com.uksusoff.rock63.receivers;
 
 import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Debug;
-import android.util.Log;
 
-import com.evernote.android.job.JobManager;
-import com.evernote.android.job.JobRequest;
-import com.uksusoff.rock63.data.DataSource;
-import com.uksusoff.rock63.jobs.RockJobCreator;
 import com.uksusoff.rock63.ui.BaseActivity;
 
-import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EReceiver;
 import org.androidannotations.annotations.ReceiverAction;
-import org.androidannotations.annotations.RootContext;
 import org.androidannotations.annotations.SystemService;
-
-import java.util.Calendar;
 
 /**
  * Created by User on 18.06.2016.

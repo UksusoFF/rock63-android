@@ -1,10 +1,11 @@
 package com.uksusoff.rock63.ui;
 
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.uksusoff.rock63.R;
 import com.uksusoff.rock63.data.DataSource;
@@ -30,12 +31,17 @@ public abstract class ItemListActivity extends BaseMenuActivity {
     TextView emptyView;
 
     protected abstract boolean isRefreshing();
+
     protected abstract void setRefreshing(boolean refreshing);
+
     protected abstract ItemListActivity getActiveActivity();
+
     protected abstract void setActiveActivity(ItemListActivity activity);
 
     protected abstract ListAdapter createAdapterFromStorageItems();
+
     protected abstract void refreshItemStorage() throws DataSource.NoInternetException;
+
     protected abstract int getEmptyListTextResId();
 
     @Override

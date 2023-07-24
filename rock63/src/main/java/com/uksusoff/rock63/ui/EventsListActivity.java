@@ -1,9 +1,10 @@
 package com.uksusoff.rock63.ui;
 
-import androidx.core.view.MenuItemCompat;
-import androidx.appcompat.widget.SearchView;
 import android.view.Menu;
 import android.widget.ListAdapter;
+
+import androidx.appcompat.widget.SearchView;
+import androidx.core.view.MenuItemCompat;
 
 import com.uksusoff.rock63.R;
 import com.uksusoff.rock63.data.DataSource;
@@ -88,7 +89,7 @@ public class EventsListActivity extends ItemListActivity {
     }
 
     private void FilterList(String query) {
-        ((AdvSimpleAdapter)list.getAdapter()).getFilter().filter(query);
+        ((AdvSimpleAdapter) list.getAdapter()).getFilter().filter(query);
     }
 
     protected ListAdapter createAdapterFromStorageItems() {
@@ -96,13 +97,13 @@ public class EventsListActivity extends ItemListActivity {
         List<Event> events = source.getAllEvents();
 
         List<Map<String, Object>> data = new ArrayList<>();
-        for (int i = 0; i<events.size(); i++) {
+        for (int i = 0; i < events.size(); i++) {
             Event item = events.get(i);
             Map<String, Object> datum = new HashMap<>(3);
             datum.put("title", item.getTitle());
             SimpleDateFormat f = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
             datum.put("date", f.format(item.getStart()));
-            if (item.getPlace()!=null)
+            if (item.getPlace() != null)
                 datum.put("place", item.getPlace().getName());
             else
                 datum.put("place", getText(R.string.events_no_place_text));
@@ -113,10 +114,10 @@ public class EventsListActivity extends ItemListActivity {
 
         return new AdvSimpleAdapter(this, data,
                 com.uksusoff.rock63.R.layout.i_event_item,
-                new String[] {"title", "date", "place"},
-                new int[] { com.uksusoff.rock63.R.id.event_item_title,
+                new String[]{"title", "date", "place"},
+                new int[]{com.uksusoff.rock63.R.id.event_item_title,
                         com.uksusoff.rock63.R.id.event_item_date,
-                        com.uksusoff.rock63.R.id.event_item_place });
+                        com.uksusoff.rock63.R.id.event_item_place});
     }
 
     @Override
@@ -126,7 +127,7 @@ public class EventsListActivity extends ItemListActivity {
 
     @ItemClick(R.id.list)
     public void eventItemClicked(Map<String, Object> item) {
-        EventDetailActivity_.intent(this).eventId(((Event)item.get("obj")).getId()).start();
+        EventDetailActivity_.intent(this).eventId(((Event) item.get("obj")).getId()).start();
     }
 
 }

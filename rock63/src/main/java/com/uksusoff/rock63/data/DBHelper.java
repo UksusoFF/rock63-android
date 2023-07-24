@@ -1,7 +1,5 @@
 package com.uksusoff.rock63.data;
 
-import java.sql.SQLException;
-
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -13,8 +11,10 @@ import com.uksusoff.rock63.data.entities.Event;
 import com.uksusoff.rock63.data.entities.NewsItem;
 import com.uksusoff.rock63.data.entities.Place;
 
+import java.sql.SQLException;
+
 public class DBHelper extends OrmLiteSqliteOpenHelper {
-    
+
     private static final String DATABASE_NAME = "rock63androidclient";
     private static final int DATABASE_VERSION = 6;
     private Dao<Event, Integer> eventDao;
@@ -48,14 +48,14 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
             throw new RuntimeException(e);
         }
     }
-    
+
     public Dao<Event, Integer> getEventDao() throws SQLException {
         if (eventDao == null) {
             eventDao = getDao(Event.class);
         }
         return eventDao;
     }
-    
+
     public Dao<NewsItem, Integer> getNewsItemDao() throws SQLException {
         if (newsItemDao == null) {
             newsItemDao = getDao(NewsItem.class);

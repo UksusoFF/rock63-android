@@ -1,8 +1,17 @@
 package com.uksusoff.rock63.ui;
 
-import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import androidx.core.app.ShareCompat;
+
+import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
+import com.uksusoff.rock63.R;
+import com.uksusoff.rock63.data.entities.Event;
 
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
@@ -10,17 +19,9 @@ import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 
-import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
-import com.uksusoff.rock63.R;
-import com.uksusoff.rock63.data.entities.Event;
-
-import androidx.core.app.ShareCompat;
-import android.text.Html;
-import android.text.method.LinkMovementMethod;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Button;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 @EActivity(R.layout.a_event_detail)
 @OptionsMenu(R.menu.menu_detail)
@@ -33,10 +34,10 @@ public class EventDetailActivity extends BaseMenuActivity {
 
     @ViewById(R.id.event_detail_placephone)
     TextView placePhone;
-    
+
     @ViewById(R.id.event_detail_placelink)
     TextView placeLink;
-    
+
     @ViewById(R.id.event_detail_placevklink)
     TextView placeVkLink;
 

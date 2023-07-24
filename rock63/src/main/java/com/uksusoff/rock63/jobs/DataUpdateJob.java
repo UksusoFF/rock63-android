@@ -17,7 +17,7 @@ public class DataUpdateJob extends Job {
     @Override
     protected Result onRunJob(Params params) {
 
-        DataSource dataSource = DataSource_.getInstance_(getContext());;
+        DataSource dataSource = DataSource_.getInstance_(getContext());
 
         try {
             dataSource.refreshEvents();

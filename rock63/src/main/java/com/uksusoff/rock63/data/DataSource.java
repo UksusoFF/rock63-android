@@ -33,7 +33,7 @@ import java.util.Locale;
 
 @EBean(scope = EBean.Scope.Singleton)
 public class DataSource {
-    
+
     private static final String TAG = "DataSource";
 
     private static final String NEWS_SOURCE_URL = "https://rock63.ru/api/news";
@@ -54,7 +54,7 @@ public class DataSource {
 
     @RootContext
     Context context;
-    
+
     @Pref
     InternalPrefs_ intPrefs;
 
@@ -257,7 +257,7 @@ public class DataSource {
             }
         }
     }
-    
+
     public Event getRelatedEvent(NewsItem item) {
         try {
             return database.getEventDao().queryForId(item.getId());

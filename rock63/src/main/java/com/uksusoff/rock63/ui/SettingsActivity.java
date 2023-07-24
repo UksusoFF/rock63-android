@@ -1,9 +1,5 @@
 package com.uksusoff.rock63.ui;
 
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
-import org.androidannotations.annotations.sharedpreferences.Pref;
-
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.widget.CompoundButton;
@@ -11,8 +7,11 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.uksusoff.rock63.R;
-import com.uksusoff.rock63.data.UserPrefs;
 import com.uksusoff.rock63.data.UserPrefs_;
+
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.ViewById;
+import org.androidannotations.annotations.sharedpreferences.Pref;
 
 @EActivity(R.layout.a_settings)
 public class SettingsActivity extends BaseMenuActivity {

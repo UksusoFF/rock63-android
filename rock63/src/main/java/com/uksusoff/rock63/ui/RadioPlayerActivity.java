@@ -4,12 +4,13 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
-import androidx.core.app.ShareCompat;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
+import androidx.core.app.ShareCompat;
 
 import com.uksusoff.rock63.R;
 import com.uksusoff.rock63.services.IRadioPlayerServiceListener;
@@ -58,7 +59,7 @@ public class RadioPlayerActivity extends BaseMenuActivity {
     @ViewById(R.id.radio_volume_bar)
     SeekBar volumeBar;
 
-    private IRadioPlayerServiceListener radioPlayerServiceListener = new IRadioPlayerServiceListener() {
+    private final IRadioPlayerServiceListener radioPlayerServiceListener = new IRadioPlayerServiceListener() {
 
         @Override
         public void OnPause() {
@@ -76,10 +77,10 @@ public class RadioPlayerActivity extends BaseMenuActivity {
         }
     };
 
-    private ServiceConnection mConnection = new ServiceConnection() {
+    private final ServiceConnection mConnection = new ServiceConnection() {
 
         public void onServiceConnected(ComponentName className, IBinder service) {
-            mBoundService = ((RadioPlayingService.RadioBinder)service).getService();
+            mBoundService = ((RadioPlayingService.RadioBinder) service).getService();
 
             mIsBound = true;
 
@@ -138,7 +139,7 @@ public class RadioPlayerActivity extends BaseMenuActivity {
         volumeBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                changeVolume((float)progress / (float)seekBar.getMax());
+                changeVolume((float) progress / (float) seekBar.getMax());
             }
 
             @Override
@@ -169,7 +170,7 @@ public class RadioPlayerActivity extends BaseMenuActivity {
     }
 
     public void changeVolume(float val) {
-        while (mBoundService==null) {
+        while (mBoundService == null) {
             try {
                 Thread.sleep(0);
             } catch (InterruptedException e) {
@@ -182,7 +183,7 @@ public class RadioPlayerActivity extends BaseMenuActivity {
 
     @Click(R.id.radio_play_btn)
     void playButtonToggle() {
-        while (mBoundService==null) {
+        while (mBoundService == null) {
             try {
                 Thread.sleep(0);
             } catch (InterruptedException e) {
@@ -202,7 +203,7 @@ public class RadioPlayerActivity extends BaseMenuActivity {
 
     private void syncUi() {
 
-        if (mBoundService==null)
+        if (mBoundService == null)
             return;
 
         if (mBoundService.isStreamPlaying())
@@ -212,17 +213,17 @@ public class RadioPlayerActivity extends BaseMenuActivity {
 
         //TODO: make constant
 
-        if (mBoundService.getLastVolume()==null) {
+        if (mBoundService.getLastVolume() == null) {
             mBoundService.setStreamVolume(0.5f);
-            volumeBar.setProgress((int)(0.5f * (float)volumeBar.getMax()));
+            volumeBar.setProgress((int) (0.5f * (float) volumeBar.getMax()));
         } else {
             mBoundService.setStreamVolume(mBoundService.getLastVolume());
-            volumeBar.setProgress((int)(mBoundService.getLastVolume() * (float)volumeBar.getMax()));
+            volumeBar.setProgress((int) (mBoundService.getLastVolume() * (float) volumeBar.getMax()));
         }
     }
 
     public void loadTitle() {
-        try{
+        try {
             String jsonString = CommonUtils.convertStreamToString(
                     (new URL(RADIO_INFO_URL)).openConnection().getInputStream()
             );

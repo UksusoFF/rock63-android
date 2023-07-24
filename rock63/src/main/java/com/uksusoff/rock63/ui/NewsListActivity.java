@@ -70,7 +70,7 @@ public class NewsListActivity extends ItemListActivity {
         }
 
         List<Map<String, Object>> data = new ArrayList<>();
-        for (int i = 0; i<news.size(); i++) {
+        for (int i = 0; i < news.size(); i++) {
             NewsItem item = news.get(i);
             Map<String, Object> datum = new HashMap<>(3);
             datum.put("title", item.getTitle());
@@ -83,20 +83,18 @@ public class NewsListActivity extends ItemListActivity {
 
         SimpleAdapter adapter = new SimpleAdapter(this, data,
                 com.uksusoff.rock63.R.layout.i_news_item,
-                new String[] {"title", "text", "imageUrl" },
-                new int[] { com.uksusoff.rock63.R.id.newsTitle,
+                new String[]{"title", "text", "imageUrl"},
+                new int[]{com.uksusoff.rock63.R.id.newsTitle,
                         com.uksusoff.rock63.R.id.newsDescription,
-                        com.uksusoff.rock63.R.id.newsImageView });
+                        com.uksusoff.rock63.R.id.newsImageView});
 
         adapter.setViewBinder(new SimpleAdapter.ViewBinder() {
             @Override
-            public boolean setViewValue(View view, Object data,String textRepresentation)
-            {
-                if((view instanceof ImageView) && (data instanceof String))
-                {
+            public boolean setViewValue(View view, Object data, String textRepresentation) {
+                if ((view instanceof ImageView) && (data instanceof String)) {
                     UrlImageViewHelper.setUrlDrawable(
                             (ImageView) view,
-                            (String)data,
+                            (String) data,
                             R.drawable.news_no_image
                     );
 
@@ -116,7 +114,7 @@ public class NewsListActivity extends ItemListActivity {
 
     @ItemClick(R.id.list)
     public void newsItemClicked(Map<String, Object> item) {
-        NewsItem newsItem = (NewsItem)item.get("obj");
+        NewsItem newsItem = (NewsItem) item.get("obj");
         Event related = source.getRelatedEvent(newsItem);
         if (related == null) {
             NewsDetailActivity_.intent(this).newsItemId(newsItem.getId()).start();

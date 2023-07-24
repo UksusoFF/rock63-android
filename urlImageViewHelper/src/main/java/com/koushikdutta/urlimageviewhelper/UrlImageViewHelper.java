@@ -683,11 +683,11 @@ public final class UrlImageViewHelper {
         Bitmap result;
     }
     
-    private static HttpUrlDownloader mHttpDownloader = new HttpUrlDownloader();
-    private static ContentUrlDownloader mContentDownloader = new ContentUrlDownloader();
-    private static ContactContentUrlDownloader mContactDownloader = new ContactContentUrlDownloader();
-    private static FileUrlDownloader mFileDownloader = new FileUrlDownloader();
-    private static ArrayList<UrlDownloader> mDownloaders = new ArrayList<UrlDownloader>();
+    private static final HttpUrlDownloader mHttpDownloader = new HttpUrlDownloader();
+    private static final ContentUrlDownloader mContentDownloader = new ContentUrlDownloader();
+    private static final ContactContentUrlDownloader mContactDownloader = new ContactContentUrlDownloader();
+    private static final FileUrlDownloader mFileDownloader = new FileUrlDownloader();
+    private static final ArrayList<UrlDownloader> mDownloaders = new ArrayList<UrlDownloader>();
     public static ArrayList<UrlDownloader> getDownloaders() {
         return mDownloaders;
     }
@@ -699,8 +699,8 @@ public final class UrlImageViewHelper {
         mDownloaders.add(mFileDownloader);
     }
     
-    public static interface RequestPropertiesCallback {
-        public ArrayList<NameValuePair> getHeadersForRequest(Context context, String url);
+    public interface RequestPropertiesCallback {
+        ArrayList<NameValuePair> getHeadersForRequest(Context context, String url);
     }
 
     private static RequestPropertiesCallback mRequestPropertiesCallback;
@@ -713,9 +713,9 @@ public final class UrlImageViewHelper {
         mRequestPropertiesCallback = callback;
     }
 
-    private static DrawableCache mLiveCache = DrawableCache.getInstance();
+    private static final DrawableCache mLiveCache = DrawableCache.getInstance();
     private static LruBitmapCache mDeadCache;
-    private static HashSet<Bitmap> mAllCache = new HashSet<Bitmap>();
+    private static final HashSet<Bitmap> mAllCache = new HashSet<Bitmap>();
 
     private static int getHeapSize(final Context context) {
         return ((ActivityManager)context.getSystemService(Context.ACTIVITY_SERVICE)).getMemoryClass() * 1024 * 1024;
@@ -789,6 +789,6 @@ public final class UrlImageViewHelper {
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
-    private static Hashtable<ImageView, String> mPendingViews = new Hashtable<ImageView, String>();
-    private static Hashtable<String, ArrayList<ImageView>> mPendingDownloads = new Hashtable<String, ArrayList<ImageView>>();
+    private static final Hashtable<ImageView, String> mPendingViews = new Hashtable<ImageView, String>();
+    private static final Hashtable<String, ArrayList<ImageView>> mPendingDownloads = new Hashtable<String, ArrayList<ImageView>>();
 }

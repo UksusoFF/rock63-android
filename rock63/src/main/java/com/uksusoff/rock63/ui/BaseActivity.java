@@ -1,15 +1,15 @@
 package com.uksusoff.rock63.ui;
 
-import com.j256.ormlite.android.apptools.OpenHelperManager;
-import com.uksusoff.rock63.data.DBHelper;
-import com.uksusoff.rock63.data.InternalPrefs_;
-
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
-import android.widget.Toast;
+
+import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.uksusoff.rock63.data.DBHelper;
+import com.uksusoff.rock63.data.InternalPrefs_;
 
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.UiThread;
@@ -42,7 +42,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected DBHelper getHelper() {
         if (dbHelper == null) {
-            dbHelper = (DBHelper)OpenHelperManager.getHelper(this, DBHelper.class);
+            dbHelper = (DBHelper) OpenHelperManager.getHelper(this, DBHelper.class);
         }
         return dbHelper;
     }
@@ -55,5 +55,5 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void showWarning(@StringRes int resId) {
         showWarning(getString(resId));
     }
-    
+
 }

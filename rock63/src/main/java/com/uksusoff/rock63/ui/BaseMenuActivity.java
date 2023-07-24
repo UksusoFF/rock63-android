@@ -1,14 +1,15 @@
 package com.uksusoff.rock63.ui;
 
+import android.view.MenuItem;
+import android.view.ViewStub;
+
 import androidx.annotation.IdRes;
-import com.google.android.material.navigation.NavigationView;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
-import android.view.ViewStub;
-import android.view.MenuItem;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.google.android.material.navigation.NavigationView;
 import com.uksusoff.rock63.R;
 
 import org.androidannotations.annotations.AfterViews;
@@ -50,7 +51,7 @@ public abstract class BaseMenuActivity extends BaseActivity implements Navigatio
 
     public void setContentView(@IdRes int layoutResID) {
         super.setContentView(R.layout.a_base_with_menu);
-        ViewStub stub = ((ViewStub)findViewById(R.id.content_stub));
+        ViewStub stub = ((ViewStub) findViewById(R.id.content_stub));
         stub.setLayoutResource(layoutResID);
         stub.inflate();
     }

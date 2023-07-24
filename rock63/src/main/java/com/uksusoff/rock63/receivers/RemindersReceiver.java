@@ -2,7 +2,6 @@ package com.uksusoff.rock63.receivers;
 
 import android.content.Context;
 import android.content.Intent;
-import androidx.core.app.NotificationCompat;
 
 import com.evernote.android.job.JobManager;
 import com.evernote.android.job.JobRequest;

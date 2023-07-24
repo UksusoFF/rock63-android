@@ -1,5 +1,5 @@
 /**
- * 
+ * @author Slava
  */
 /**
  * @author Slava
