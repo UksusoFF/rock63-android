@@ -19,7 +19,8 @@
         <activity
             android:name=".ui.NewsListActivity_"
             android:label="@string/app_name"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -60,7 +61,7 @@
             </intent-filter>
         </service>
 
-        <receiver android:name=".receivers.DataUpdateReceiver_">
+        <receiver android:name=".receivers.DataUpdateReceiver_" android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
                 <action android:name="android.intent.action.ACTION_MY_PACKAGE_REPLACED" />
@@ -68,7 +69,7 @@
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".receivers.RemindersReceiver_">
+        <receiver android:name=".receivers.RemindersReceiver_" android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
                 <action android:name="android.intent.action.ACTION_MY_PACKAGE_REPLACED" />

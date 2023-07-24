@@ -1,13 +1,12 @@
 apply plugin: 'com.android.application'
 
-//repositories added for android annotations
 repositories {
     mavenCentral()
     mavenLocal()
 }
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 31
     useLibrary 'org.apache.http.legacy'
 
     compileOptions {
@@ -18,7 +17,7 @@ android {
     defaultConfig {
         applicationId "com.uksusoff.rock63"
         minSdkVersion 15
-        targetSdkVersion 28
+        targetSdkVersion 31
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments = ['library': 'true']
@@ -38,13 +37,13 @@ android {
 def AAVersion = '4.8.0'
 dependencies {
     implementation project(':urlImageViewHelper')
-    implementation 'com.android.support:support-v4:25.1.0'
-    implementation 'com.android.support:appcompat-v7:25.1.0'
+    implementation 'com.android.support:support-v4:28.0.0'
+    implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation files('libs/ormlite-android-4.48.jar')
     implementation files('libs/ormlite-core-4.48.jar')
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     annotationProcessor "org.androidannotations:androidannotations:$AAVersion"
     implementation "org.androidannotations:androidannotations-api:$AAVersion"
-    implementation 'com.android.support:design:25.1.0'
+    implementation 'com.android.support:design:28.0.0'
     implementation 'com.evernote:android-job:1.1.2'
 }
