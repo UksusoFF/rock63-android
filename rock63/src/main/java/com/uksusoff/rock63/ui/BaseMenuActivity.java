@@ -6,7 +6,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
-import androidx.appcompat.widget.ViewStubCompat;
+import android.view.ViewStub;
 import android.view.MenuItem;
 
 import com.uksusoff.rock63.R;
@@ -50,7 +50,7 @@ public abstract class BaseMenuActivity extends BaseActivity implements Navigatio
 
     public void setContentView(@IdRes int layoutResID) {
         super.setContentView(R.layout.a_base_with_menu);
-        ViewStubCompat stub = ((ViewStubCompat)findViewById(R.id.content_stub));
+        ViewStub stub = ((ViewStub)findViewById(R.id.content_stub));
         stub.setLayoutResource(layoutResID);
         stub.inflate();
     }

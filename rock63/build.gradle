@@ -6,7 +6,7 @@ repositories {
 }
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 34
     useLibrary 'org.apache.http.legacy'
 
     compileOptions {
@@ -17,7 +17,7 @@ android {
     defaultConfig {
         applicationId "com.uksusoff.rock63"
         minSdkVersion 15
-        targetSdkVersion 31
+        targetSdkVersion 34
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments = ['library': 'true']
@@ -38,12 +38,12 @@ def AAVersion = '4.8.0'
 dependencies {
     implementation project(':urlImageViewHelper')
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation files('libs/ormlite-android-4.48.jar')
     implementation files('libs/ormlite-core-4.48.jar')
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     annotationProcessor "org.androidannotations:androidannotations:$AAVersion"
     implementation "org.androidannotations:androidannotations-api:$AAVersion"
-    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'com.google.android.material:material:1.9.0'
     implementation 'com.evernote:android-job:1.1.2'
 }
