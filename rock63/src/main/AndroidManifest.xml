@@ -48,7 +48,7 @@
             android:screenOrientation="portrait" />
 
         <service
-            android:name=".services.RadioPlayingService"
+            android:name=".services.RadioPlayingService_"
             android:enabled="true"
             android:exported="true">
             <intent-filter>

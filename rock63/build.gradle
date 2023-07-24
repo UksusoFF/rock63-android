@@ -19,6 +19,11 @@ android {
         applicationId "com.uksusoff.rock63"
         minSdkVersion 15
         targetSdkVersion 28
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ['library': 'true']
+            }
+        }
     }
 
     buildTypes {
@@ -30,7 +35,7 @@ android {
     namespace 'com.uksusoff.rock63'
 }
 
-def AAVersion = '4.6.0'
+def AAVersion = '4.8.0'
 dependencies {
     implementation project(':urlImageViewHelper')
     implementation 'com.android.support:support-v4:25.1.0'
@@ -38,7 +43,7 @@ dependencies {
     implementation files('libs/ormlite-android-4.48.jar')
     implementation files('libs/ormlite-core-4.48.jar')
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    //apt "org.androidannotations:androidannotations:$AAVersion"
+    annotationProcessor "org.androidannotations:androidannotations:$AAVersion"
     implementation "org.androidannotations:androidannotations-api:$AAVersion"
     implementation 'com.android.support:design:25.1.0'
     implementation 'com.evernote:android-job:1.1.2'
