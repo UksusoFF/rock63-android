@@ -29,11 +29,11 @@
 			- возможность удобно слушать самарское радио «Время Звучать!».<br>
 			<br>
 			Контактная информация: <br>
-			<a href="http://rock63.ru">http://rock63.ru</a><br>
+			<a href="https://rock63.ru">https://rock63.ru</a><br>
 			<a href="mailto:info@rock63.ru">info@rock63.ru</a><br>
 			<br>
 			Радио «Время Звучать!»<br>
-			<a href="http://vzradio.ru">http://vzradio.ru</a><br>
+			<a href="https://vzradio.ru">http://vzradio.ru</a><br>
 			<a href="mailto:info@vzradio.ru">info@vzradio.ru</a><br>
 			<br>
 			Разработка приложения:<br>
@@ -57,7 +57,7 @@
     <string name="notification_text">Радио «Время Звучать!»</string>
     
     <string name="share_radio_title">Радио «Время Звучать!»</string>
-    <string name="share_radio_body">Я слушаю %s на радио «Время Звучать!». http://vzradio.ru</string>
+    <string name="share_radio_body">Я слушаю %s на радио «Время Звучать!». https://vzradio.ru</string>
 
     <string name="error_no_internet">Интернет недоступен</string>
 

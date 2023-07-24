@@ -37,7 +37,7 @@ import java.util.TimerTask;
 @OptionsMenu(R.menu.menu_detail)
 public class RadioPlayerActivity extends BaseMenuActivity {
 
-    private static final String RADIO_INFO_URL = "http://rock63.ru/a/vz/play.json";
+    private static final String RADIO_INFO_URL = "https://rock63.ru/a/vz/play.json";
 
     private RadioPlayingService mBoundService = null;
     private boolean mIsBound = false;

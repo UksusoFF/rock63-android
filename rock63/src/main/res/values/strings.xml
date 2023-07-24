@@ -39,7 +39,7 @@
     <string name="notification_text">Radio «VZRadio!»</string>
 
     <string name="share_radio_title">Radio</string>
-    <string name="share_radio_body">I\'m listening to %s on «VZRadio!». http://vzradio.ru</string>
+    <string name="share_radio_body">I\'m listening to %s on «VZRadio!». https://vzradio.ru</string>
     <string name="title_activity_main2">Main2Activity</string>
 
     <string name="title_section1">Section 1</string>
