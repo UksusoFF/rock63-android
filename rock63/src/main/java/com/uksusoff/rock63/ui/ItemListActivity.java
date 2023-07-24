@@ -15,9 +15,6 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 
-/**
- * Created by User on 16.05.2016.
- */
 @EActivity(R.layout.a_list)
 public abstract class ItemListActivity extends BaseMenuActivity {
 

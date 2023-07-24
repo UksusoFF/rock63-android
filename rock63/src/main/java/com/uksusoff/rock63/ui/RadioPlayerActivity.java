@@ -31,9 +31,6 @@ import java.net.URL;
 import java.util.Timer;
 import java.util.TimerTask;
 
-/**
- * Created by User on 16.05.2016.
- */
 @EActivity(R.layout.a_radio_player)
 @OptionsMenu(R.menu.menu_detail)
 public class RadioPlayerActivity extends BaseMenuActivity {

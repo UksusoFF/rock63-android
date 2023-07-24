@@ -22,9 +22,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by User on 13.05.2016.
- */
 @EActivity(R.layout.a_list)
 public class NewsListActivity extends ItemListActivity {
 

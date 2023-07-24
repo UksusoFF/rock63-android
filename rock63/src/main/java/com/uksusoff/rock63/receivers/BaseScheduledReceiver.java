@@ -11,9 +11,6 @@ import org.androidannotations.annotations.EReceiver;
 import org.androidannotations.annotations.ReceiverAction;
 import org.androidannotations.annotations.SystemService;
 
-/**
- * Created by User on 18.06.2016.
- */
 @EReceiver
 public abstract class BaseScheduledReceiver extends BroadcastReceiver {
 

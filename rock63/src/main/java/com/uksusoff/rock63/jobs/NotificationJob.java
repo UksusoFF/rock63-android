@@ -27,9 +27,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-/**
- * Created by User on 28.08.2016.
- */
 public class NotificationJob extends Job {
 
     public static final String TAG = "event_notification_job";

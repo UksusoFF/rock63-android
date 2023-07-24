@@ -9,9 +9,6 @@ import com.uksusoff.rock63.jobs.NotificationJob;
 
 import org.androidannotations.annotations.EReceiver;
 
-/**
- * Created by User on 18.06.2016.
- */
 @EReceiver
 public class RemindersReceiver extends BaseScheduledReceiver {
 

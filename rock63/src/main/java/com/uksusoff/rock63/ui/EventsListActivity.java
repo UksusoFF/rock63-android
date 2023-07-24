@@ -23,9 +23,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-/**
- * Created by User on 13.05.2016.
- */
 @EActivity(R.layout.a_list)
 @OptionsMenu(R.menu.menu_search_list)
 public class EventsListActivity extends ItemListActivity {
