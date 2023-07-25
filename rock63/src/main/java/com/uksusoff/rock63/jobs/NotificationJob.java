@@ -21,6 +21,8 @@ import com.uksusoff.rock63.exceptions.NoInternetException;
 import com.uksusoff.rock63.ui.EventDetailActivity_;
 import com.uksusoff.rock63.utils.DateUtils;
 
+import org.androidannotations.annotations.EBean;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -29,6 +31,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+@EBean()
 public class NotificationJob extends Job {
 
     public static final String TAG = "event_notification_job";
