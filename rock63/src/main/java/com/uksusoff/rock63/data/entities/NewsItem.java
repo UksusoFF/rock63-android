@@ -2,8 +2,6 @@ package com.uksusoff.rock63.data.entities;
 
 import com.j256.ormlite.field.DatabaseField;
 
-import java.util.Date;
-
 public class NewsItem {
 
     @DatabaseField(id = true)
@@ -12,8 +10,6 @@ public class NewsItem {
     String title;
     @DatabaseField
     String body;
-    @DatabaseField
-    Date date;
     @DatabaseField
     String smallThumbUrl;
     @DatabaseField
@@ -47,10 +43,6 @@ public class NewsItem {
         this.isNew = isNew;
     }
 
-    public String getImageCacheName() {
-        return "news_" + id;
-    }
-
     public int getId() {
         return id;
     }
@@ -73,14 +65,6 @@ public class NewsItem {
 
     public void setBody(String body) {
         this.body = body;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
     }
 
     public String getUrl() {

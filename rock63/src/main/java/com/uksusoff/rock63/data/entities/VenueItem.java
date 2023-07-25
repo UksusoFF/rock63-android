@@ -16,16 +16,6 @@ public class VenueItem {
     String phone;
     @DatabaseField
     String vkUrl;
-    @DatabaseField
-    String mapImageUrl;
-
-    public String getMapImageUrl() {
-        return mapImageUrl;
-    }
-
-    public void setMapImageUrl(String mapImageUrl) {
-        this.mapImageUrl = mapImageUrl;
-    }
 
     public String getVkUrl() {
         return vkUrl;
