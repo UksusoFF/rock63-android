@@ -120,11 +120,11 @@ public class NotificationJob extends Job {
 
         Date start = getTodayMidnight();
         for (EventItem event : events) {
-            if (!event.isNotify()) {
+            if (!event.notify) {
                 continue;
             }
 
-            long diff = event.getStart().getTime() - start.getTime();
+            long diff = event.start.getTime() - start.getTime();
             if (weeklyReminder &&
                     diff < getWeekInterval() &&
                     diff > getWeekInterval() - INTERVAL) {
@@ -152,28 +152,28 @@ public class NotificationJob extends Job {
             place = event.getVenueItem().title + " ";
         }
 
-        place += (new SimpleDateFormat("HH:mm", Locale.getDefault())).format(event.getStart());
+        place += (new SimpleDateFormat("HH:mm", Locale.getDefault())).format(event.start);
 
         NotificationCompat.Builder mBuilder = (NotificationCompat.Builder)
                 new NotificationCompat.Builder(getContext())
                         .setSmallIcon(R.drawable.ic_launcher)
                         .setAutoCancel(true)
-                        .setContentTitle(getContext().getString(contentResId, event.getTitle()))
+                        .setContentTitle(getContext().getString(contentResId, event.title))
                         .setContentText(place);
 
-        Intent resultIntent = EventDetailActivity_.intent(getContext()).eventId(event.getId()).get();
+        Intent resultIntent = EventDetailActivity_.intent(getContext()).eventId(event.id).get();
 
         PendingIntent resultPendingIntent =
                 PendingIntent.getActivity(
                         getContext(),
-                        event.getId(),
+                        event.id,
                         resultIntent,
                         PendingIntent.FLAG_UPDATE_CURRENT
                 );
 
         mBuilder.setContentIntent(resultPendingIntent);
 
-        notificationManager.notify(event.getId(), mBuilder.build());
+        notificationManager.notify(event.id, mBuilder.build());
     }
 
 }

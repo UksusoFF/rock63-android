@@ -98,8 +98,8 @@ public class EventsListActivity extends ItemListActivity {
             Map<String, Object> datum = new HashMap<>(3);
             SimpleDateFormat f = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
 
-            datum.put("title", eventItem.getTitle());
-            datum.put("date", f.format(eventItem.getStart()));
+            datum.put("title", eventItem.title);
+            datum.put("date", f.format(eventItem.start));
             datum.put("place", eventItem.getVenueItem() != null
                     ? eventItem.getVenueItem().title
                     : getText(R.string.events_no_venue_text)
@@ -129,7 +129,7 @@ public class EventsListActivity extends ItemListActivity {
 
     @ItemClick(R.id.list)
     public void eventItemClicked(Map<String, Object> item) {
-        EventDetailActivity_.intent(this).eventId(((EventItem) item.get("obj")).getId()).start();
+        EventDetailActivity_.intent(this).eventId(((EventItem) item.get("obj")).id).start();
     }
 
 }

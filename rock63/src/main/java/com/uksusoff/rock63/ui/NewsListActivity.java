@@ -112,7 +112,7 @@ public class NewsListActivity extends ItemListActivity {
         if (related == null) {
             NewsDetailActivity_.intent(this).newsItemId(newsItem.getId()).start();
         } else {
-            EventDetailActivity_.intent(this).eventId(related.getId()).start();
+            EventDetailActivity_.intent(this).eventId(related.id).start();
         }
     }
 

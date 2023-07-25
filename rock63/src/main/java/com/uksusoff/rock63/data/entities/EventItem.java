@@ -2,36 +2,30 @@ package com.uksusoff.rock63.data.entities;
 
 import com.j256.ormlite.field.DatabaseField;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class EventItem {
 
     @DatabaseField(id = true)
-    int id;
+    public int id;
     @DatabaseField
-    String title;
+    public String title;
     @DatabaseField
-    String body;
+    public String body;
     @DatabaseField
-    Date start;
+    public Date start;
     @DatabaseField
-    Date end;
+    public Date end;
     @DatabaseField
-    String mediumThumbUrl;
+    public String imageUrl;
     @DatabaseField
-    String url;
+    public String url;
+    @DatabaseField
+    public boolean notify;
     @DatabaseField(foreign = true, foreignAutoCreate = true, foreignAutoRefresh = true)
     VenueItem venueItem;
-    @DatabaseField
-    boolean notify;
-
-    public String getMediumThumbUrl() {
-        return mediumThumbUrl;
-    }
-
-    public void setMediumThumbUrl(String mediumThumbUrl) {
-        this.mediumThumbUrl = mediumThumbUrl;
-    }
 
     public VenueItem getVenueItem() {
         return venueItem;
@@ -41,65 +35,30 @@ public class EventItem {
         this.venueItem = venueItem;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getBody() {
-        return body;
-    }
-
-    public void setBody(String body) {
-        this.body = body;
-    }
-
-    public Date getStart() {
-        return start;
-    }
-
-    public void setStart(Date start) {
-        this.start = start;
-    }
-
-    public Date getEnd() {
-        return end;
-    }
-
-    public void setEnd(Date end) {
-        this.end = end;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public boolean isNotify() {
-        return notify;
-    }
-
-    public void setNotify(boolean notify) {
-        this.notify = notify;
-    }
-
     public String getShareText() {
         return this.getVenueItem() != null
-                ? String.format("%s @ %s", this.getTitle(), this.getVenueItem().title)
-                : this.getTitle();
+                ? String.format("%s @ %s", this.title, this.getVenueItem().title)
+                : this.title;
+    }
+
+    public String getDateRange() {
+        SimpleDateFormat fDate = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+        SimpleDateFormat fTime = new SimpleDateFormat("HH:mm", Locale.getDefault());
+
+        if (this.end == null) {
+            return String.format(
+                    "%s %s",
+                    fDate.format(this.start),
+                    fTime.format(this.start)
+            );
+        }
+
+        return String.format(
+                "%s %s - %s %s",
+                fDate.format(this.start),
+                fTime.format(this.start),
+                fDate.format(this.end),
+                fTime.format(this.end)
+        );
     }
 }

@@ -53,15 +53,8 @@ public class EventDetailActivity extends BaseMenuActivity {
             throw new RuntimeException(e);
         }
 
-        ((TextView) findViewById(R.id.event_detail_title)).setText(event.getTitle());
-        SimpleDateFormat fDate = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
-        SimpleDateFormat fTime = new SimpleDateFormat("HH:mm", Locale.getDefault());
-        if (event.getEnd() != null) {
-            ((TextView) findViewById(R.id.event_detail_date_and_time)).setText(String.format("%s %s - %s %s", fDate.format(event.getStart()), fTime.format(event.getStart()), fDate.format(event.getEnd()),
-                    fTime.format(event.getEnd())));
-        } else {
-            ((TextView) findViewById(R.id.event_detail_date_and_time)).setText(String.format("%s %s", fDate.format(event.getStart()), fTime.format(event.getStart())));
-        }
+        ((TextView) findViewById(R.id.event_detail_title)).setText(event.title);
+        ((TextView) findViewById(R.id.event_detail_date_and_time)).setText(event.getDateRange());
 
         if (event.getVenueItem() != null) {
             ((TextView) findViewById(R.id.event_detail_venue_name)).setText(event.getVenueItem().title);
@@ -115,10 +108,14 @@ public class EventDetailActivity extends BaseMenuActivity {
         }
 
         ((TextView) findViewById(R.id.event_detail_description)).setMovementMethod(LinkMovementMethod.getInstance());
-        ((TextView) findViewById(R.id.event_detail_description)).setText(StringUtils.fromHtml(event.getBody()));
+        ((TextView) findViewById(R.id.event_detail_description)).setText(StringUtils.fromHtml(event.body));
 
-        if (event.getMediumThumbUrl() != null) {
-            UrlImageViewHelper.setUrlDrawable((ImageView) findViewById(R.id.event_detail_image), event.getMediumThumbUrl(), R.drawable.news_medium_placeholder);
+        if (event.imageUrl != null) {
+            UrlImageViewHelper.setUrlDrawable(
+                    (ImageView) findViewById(R.id.event_detail_image),
+                    event.imageUrl,
+                    R.drawable.news_medium_placeholder
+            );
         } else {
             ((ImageView) findViewById(R.id.event_detail_image)).setVisibility(View.GONE);
         }
@@ -129,7 +126,7 @@ public class EventDetailActivity extends BaseMenuActivity {
         startActivity(ShareCompat.IntentBuilder.from(this)
                 .setType("text/plain")
                 .setSubject(event.getShareText())
-                .setText(event.getUrl())
+                .setText(event.url)
                 .getIntent()
         );
     }

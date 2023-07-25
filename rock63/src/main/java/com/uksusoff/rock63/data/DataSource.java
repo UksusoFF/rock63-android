@@ -158,30 +158,29 @@ public class DataSource {
                     }
                 }
 
+                JSONObject jsonDate = eventJson.getJSONObject("date");
+
                 EventItem eventItem = new EventItem();
-                eventItem.setId(eventJson.getInt("id"));
-                eventItem.setTitle(eventJson.getString("title"));
-                if (eventJson.has("desc")) {
-                    eventItem.setBody(eventJson.getString("desc"));
-                } else {
-                    eventItem.setBody("");
+                eventItem.id = eventJson.getInt("id");
+                eventItem.title = eventJson.getString("title");
+                eventItem.url = eventJson.getString("url");
+                eventItem.body = eventJson.has("desc") ? eventJson.getString("desc") : "";
+                eventItem.notify = eventJson.has("notify");
+                eventItem.start = DateUtils.fromTimestamp(jsonDate.getInt("s"));
+                if (jsonDate.has("e")) {
+                    eventItem.end = DateUtils.fromTimestamp(jsonDate.getInt("e"));
                 }
                 if (eventJson.has("ext_url")) {
-                    eventItem.setBody(eventItem.getBody() + eventJson.getString("ext_url"));
+                    eventItem.body = eventItem.body + eventJson.getString("ext_url");
                 }
-                eventItem.setStart(DateUtils.fromTimestamp(eventJson.getJSONObject("date").getInt("s")));
                 if (eventJson.has("img")) {
-                    eventItem.setMediumThumbUrl(eventJson.getJSONObject("img").getString("img_m"));
+                    eventItem.imageUrl = eventJson.getJSONObject("img").getString("img_m");
                 }
-                if (eventJson.getJSONObject("date").has("e"))
-                    eventItem.setEnd(DateUtils.fromTimestamp(eventJson.getJSONObject("date").getInt("e")));
                 if (eventJson.has("v_id")) {
                     eventItem.setVenueItem(database.getVenueItemsDao().queryForId(eventJson.getInt("v_id")));
                 } else {
                     eventItem.setVenueItem(null);
                 }
-                eventItem.setUrl(eventJson.getString("url"));
-                eventItem.setNotify(eventJson.has("notify"));
 
                 database.getEventItemsDao().create(eventItem);
             }
