@@ -15,6 +15,11 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="com.bugsnag.android.API_KEY"
+            android:value="940c734f038cea8fed20cfb9786c7998"/>
+
         <activity
             android:name=".ui.NewsListActivity_"
             android:screenOrientation="portrait"
