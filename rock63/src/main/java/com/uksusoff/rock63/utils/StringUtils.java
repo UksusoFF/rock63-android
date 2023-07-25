@@ -1,8 +1,5 @@
 package com.uksusoff.rock63.utils;
 
-import android.os.Build;
-import android.text.Html;
-
 import androidx.core.text.HtmlCompat;
 
 import java.io.BufferedReader;

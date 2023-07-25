@@ -8,7 +8,6 @@ import android.widget.TextView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.uksusoff.rock63.R;
-import com.uksusoff.rock63.data.DataSource;
 import com.uksusoff.rock63.exceptions.NoContentException;
 import com.uksusoff.rock63.exceptions.NoInternetException;
 

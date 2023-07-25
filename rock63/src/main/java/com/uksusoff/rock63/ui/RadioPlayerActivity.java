@@ -4,7 +4,6 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
-import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.widget.ImageButton;
 import android.widget.SeekBar;

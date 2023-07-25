@@ -1,6 +1,5 @@
 package com.uksusoff.rock63.ui;
 
-import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.Button;
