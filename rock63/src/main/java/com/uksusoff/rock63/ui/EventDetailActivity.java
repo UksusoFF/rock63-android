@@ -20,8 +20,6 @@ import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
 
 @EActivity(R.layout.a_event_detail)
 @OptionsMenu(R.menu.menu_detail)

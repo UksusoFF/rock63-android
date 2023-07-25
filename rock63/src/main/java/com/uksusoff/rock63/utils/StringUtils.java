@@ -1,6 +1,5 @@
 package com.uksusoff.rock63.utils;
 
-import android.text.Spannable;
 import android.text.Spanned;
 
 import androidx.core.text.HtmlCompat;

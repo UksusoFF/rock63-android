@@ -11,7 +11,6 @@ import com.uksusoff.rock63.data.entities.EventItem;
 import com.uksusoff.rock63.data.entities.NewsItem;
 import com.uksusoff.rock63.exceptions.NoContentException;
 import com.uksusoff.rock63.exceptions.NoInternetException;
-import com.uksusoff.rock63.utils.StringUtils;
 
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
