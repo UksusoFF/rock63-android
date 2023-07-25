@@ -8,91 +8,37 @@ import java.util.Date;
 public class NewsItem {
 
     @DatabaseField(id = true)
-    int id;
+    public int id;
     @DatabaseField
-    String title;
+    public String title;
     @DatabaseField
-    String body;
+    public String body;
     @DatabaseField
-    Date date;
+    public String ext;
     @DatabaseField
-    String smallThumbUrl;
+    public Date date;
     @DatabaseField
-    String mediumThumbUrl;
+    public String thumbnailSmall;
     @DatabaseField
-    boolean isNew;
+    public String thumbnailMiddle;
     @DatabaseField
-    String url;
+    public boolean isNew;
+    @DatabaseField
+    public String url;
 
-    public String getSmallThumbUrl() {
-        return smallThumbUrl;
+    public String getShortDescriptionText() {
+        return StringUtils.crop(StringUtils.cleanHtml(this.body), 50, true);
     }
 
-    public void setSmallThumbUrl(String smallThumbUrl) {
-        this.smallThumbUrl = smallThumbUrl;
-    }
-
-    public String getMediumThumbUrl() {
-        return mediumThumbUrl;
-    }
-
-    public void setMediumThumbUrl(String mediumThumbUrl) {
-        this.mediumThumbUrl = mediumThumbUrl;
-    }
-
-    public boolean isNew() {
-        return isNew;
-    }
-
-    public void setNew(boolean isNew) {
-        this.isNew = isNew;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getBody() {
-        return body;
-    }
-
-    public void setBody(String body) {
-        this.body = body;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
+    public String getDescriptionText() {
+        return this.body + this.ext;
     }
 
     public String getShareText() {
-        String body = StringUtils.fromHtml(this.getBody()).toString();
+        String body = StringUtils.fromHtml(this.body).toString();
 
-        if (this.getUrl() != null) {
-            body += "\n\n" + this.getUrl();
+        if (this.url != null) {
+            body += "\n\n" + this.url;
         }
 
         return body;

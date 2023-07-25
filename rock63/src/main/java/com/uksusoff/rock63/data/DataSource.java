@@ -81,8 +81,8 @@ public class DataSource {
             newsCleanUp();
 
             List<Integer> ids = new LinkedList<>();
-            for (NewsItem item : database.getNewsItemsDao().queryForAll()) {
-                ids.add(item.getId());
+            for (NewsItem newsItem : database.getNewsItemsDao().queryForAll()) {
+                ids.add(newsItem.id);
             }
 
             for (int i = 0; i < news.length(); i++) {
@@ -97,26 +97,15 @@ public class DataSource {
                     newsItem = new NewsItem();
                 }
 
-                newsItem.setId(id);
-                newsItem.setDate(DateUtils.fromTimestamp(newsItemJson.getInt("date_p")));
-                if (newsItemJson.has("img")) {
-                    newsItem.setSmallThumbUrl(newsItemJson.getJSONObject("img").getString("img_s"));
-                    newsItem.setMediumThumbUrl(newsItemJson.getJSONObject("img").getString("img_m"));
-                }
-                newsItem.setTitle(newsItemJson.getString("title"));
-                String body = null;
-                if (newsItemJson.has("desc")) {
-                    body = newsItemJson.getString("desc");
-                }
-                if (newsItemJson.has("ext_url")) {
-                    body = body == null ? "" : body + " ";
-                    body += newsItemJson.getString("ext_url");
-                }
-                newsItem.setBody(body);
-                if (newsItemJson.has("url")) {
-                    newsItem.setUrl(newsItemJson.getString("url"));
-                }
-                newsItem.setNew(true);
+                newsItem.id = newsItemJson.getInt("id");
+                newsItem.title = newsItemJson.getString("title");
+                newsItem.url = newsItemJson.getString("url");
+                newsItem.body = newsItemJson.has("desc") ? newsItemJson.getString("desc") : null;
+                newsItem.ext = newsItemJson.has("ext_url") ? newsItemJson.getString("ext_url") : null;
+                newsItem.date = DateUtils.fromTimestamp(newsItemJson.getInt("date_p"));
+                newsItem.thumbnailSmall = newsItemJson.has("img") ? newsItemJson.getJSONObject("img").getString("img_s") : null;
+                newsItem.thumbnailMiddle = newsItemJson.has("img") ? newsItemJson.getJSONObject("img").getString("img_m") : null;
+                newsItem.isNew = true;
 
                 database.getNewsItemsDao().createOrUpdate(newsItem);
             }
@@ -188,9 +177,9 @@ public class DataSource {
         }
     }
 
-    public EventItem eventGetRelated(NewsItem item) {
+    public EventItem eventGetRelated(NewsItem newsItem) {
         try {
-            return database.getEventItemsDao().queryForId(item.getId());
+            return database.getEventItemsDao().queryForId(newsItem.id);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

@@ -56,18 +56,18 @@ public class NewsDetailActivity extends BaseMenuActivity {
             throw new RuntimeException(e);
         }
 
-        title.setText(newsItem.getTitle());
+        title.setText(newsItem.title);
         body.setMovementMethod(LinkMovementMethod.getInstance());
-        body.setText(StringUtils.fromHtml(newsItem.getBody()));
+        body.setText(StringUtils.fromHtml(newsItem.getDescriptionText()));
 
-        UrlImageViewHelper.setUrlDrawable(image, newsItem.getMediumThumbUrl(), R.drawable.news_medium_placeholder);
+        UrlImageViewHelper.setUrlDrawable(image, newsItem.thumbnailMiddle, R.drawable.news_medium_placeholder);
     }
 
     @OptionsItem(R.id.menu_share)
     void menuShare() {
         startActivity(ShareCompat.IntentBuilder.from(this)
                 .setType("text/plain")
-                .setSubject(newsItem.getTitle())
+                .setSubject(newsItem.title)
                 .setText(newsItem.getShareText())
                 .getIntent()
         );

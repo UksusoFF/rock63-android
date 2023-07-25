@@ -63,9 +63,9 @@ public class NewsListActivity extends ItemListActivity {
         for (NewsItem newsItem : source.getAllNews()) {
             Map<String, Object> datum = new HashMap<>(3);
 
-            datum.put("title", newsItem.getTitle());
-            datum.put("text", StringUtils.crop(StringUtils.cleanHtml(newsItem.getBody()), 50, true));
-            datum.put("imageUrl", newsItem.getSmallThumbUrl());
+            datum.put("title", newsItem.title);
+            datum.put("text", newsItem.getShortDescriptionText());
+            datum.put("imageUrl", newsItem.thumbnailSmall);
             datum.put("obj", newsItem);
 
             data.add(datum);
@@ -110,7 +110,7 @@ public class NewsListActivity extends ItemListActivity {
         NewsItem newsItem = (NewsItem) item.get("obj");
         EventItem related = source.eventGetRelated(newsItem);
         if (related == null) {
-            NewsDetailActivity_.intent(this).newsItemId(newsItem.getId()).start();
+            NewsDetailActivity_.intent(this).newsItemId(newsItem.id).start();
         } else {
             EventDetailActivity_.intent(this).eventId(related.id).start();
         }
