@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 
 import com.evernote.android.job.Job;
 import com.uksusoff.rock63.data.DataSource;
+import com.uksusoff.rock63.exceptions.NoContentException;
 import com.uksusoff.rock63.exceptions.NoInternetException;
 
 import org.androidannotations.annotations.Bean;
@@ -22,7 +23,7 @@ public class DataUpdateJob extends Job {
             source.venuesRefresh();
             source.eventsRefresh();
             source.newsRefresh();
-        } catch (NoInternetException e) {
+        } catch (NoInternetException | NoContentException e) {
             //Just not this time
         }
 

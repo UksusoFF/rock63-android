@@ -10,6 +10,7 @@ import com.uksusoff.rock63.R;
 import com.uksusoff.rock63.data.DataSource;
 import com.uksusoff.rock63.data.entities.Event;
 import com.uksusoff.rock63.data.entities.NewsItem;
+import com.uksusoff.rock63.exceptions.NoContentException;
 import com.uksusoff.rock63.exceptions.NoInternetException;
 import com.uksusoff.rock63.utils.StringUtils;
 
@@ -102,7 +103,7 @@ public class NewsListActivity extends ItemListActivity {
     }
 
     @Override
-    protected void refreshItemStorage() throws NoInternetException {
+    protected void refreshItemStorage() throws NoInternetException, NoContentException {
         source.newsRefresh();
     }
 

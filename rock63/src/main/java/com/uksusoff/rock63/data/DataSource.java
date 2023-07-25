@@ -8,6 +8,7 @@ import com.j256.ormlite.stmt.DeleteBuilder;
 import com.uksusoff.rock63.data.entities.Event;
 import com.uksusoff.rock63.data.entities.NewsItem;
 import com.uksusoff.rock63.data.entities.Place;
+import com.uksusoff.rock63.exceptions.NoContentException;
 import com.uksusoff.rock63.exceptions.NoInternetException;
 import com.uksusoff.rock63.utils.DateUtils;
 import com.uksusoff.rock63.utils.StringUtils;
@@ -69,7 +70,7 @@ public class DataSource {
         builder.delete();
     }
 
-    public void newsRefresh() throws NoInternetException {
+    public void newsRefresh() throws NoInternetException, NoContentException {
         String contents;
         URLConnection conn;
 
@@ -84,64 +85,65 @@ public class DataSource {
             throw new NoInternetException();
         }
 
-        if (!contents.isEmpty()) {
+        if (contents.isEmpty()) {
+            throw new NoContentException();
+        }
 
-            final SQLiteDatabase db = database.getWritableDatabase();
-            db.beginTransaction();
+        final SQLiteDatabase db = database.getWritableDatabase();
+        db.beginTransaction();
 
-            try {
-                JSONArray news = new JSONArray(contents);
+        try {
+            JSONArray news = new JSONArray(contents);
 
-                newsCleanUp();
+            newsCleanUp();
 
-                List<Integer> ids = new LinkedList<>();
-                for (NewsItem item : database.getNewsItemDao().queryForAll()) {
-                    ids.add(item.getId());
-                }
-
-                for (int i = 0; i < news.length(); i++) {
-                    JSONObject newsItemJson = news.getJSONObject(i);
-
-                    int id = newsItemJson.getInt("id");
-
-                    NewsItem newsItem;
-                    if (ids.contains(id)) {
-                        newsItem = database.getNewsItemDao().queryForId(id);
-                    } else {
-                        newsItem = new NewsItem();
-                    }
-
-                    newsItem.setId(id);
-                    newsItem.setDate(DateUtils.fromTimestamp(newsItemJson.getInt("date_p")));
-                    if (newsItemJson.has("img")) {
-                        newsItem.setSmallThumbUrl(newsItemJson.getJSONObject("img").getString("img_s"));
-                        newsItem.setMediumThumbUrl(newsItemJson.getJSONObject("img").getString("img_m"));
-                    }
-                    newsItem.setTitle(newsItemJson.getString("title"));
-                    String body = null;
-                    if (newsItemJson.has("desc")) {
-                        body = newsItemJson.getString("desc");
-                    }
-                    if (newsItemJson.has("ext_url")) {
-                        body = body == null ? "" : body + " ";
-                        body += newsItemJson.getString("ext_url");
-                    }
-                    newsItem.setBody(body);
-                    if (newsItemJson.has("url")) {
-                        newsItem.setUrl(newsItemJson.getString("url"));
-                    }
-                    newsItem.setNew(true);
-
-                    database.getNewsItemDao().createOrUpdate(newsItem);
-                }
-
-                db.setTransactionSuccessful();
-
-            } catch (JSONException | SQLException e) {
-                throw new RuntimeException(e);
-            } finally {
-                db.endTransaction();
+            List<Integer> ids = new LinkedList<>();
+            for (NewsItem item : database.getNewsItemDao().queryForAll()) {
+                ids.add(item.getId());
             }
+
+            for (int i = 0; i < news.length(); i++) {
+                JSONObject newsItemJson = news.getJSONObject(i);
+
+                int id = newsItemJson.getInt("id");
+
+                NewsItem newsItem;
+                if (ids.contains(id)) {
+                    newsItem = database.getNewsItemDao().queryForId(id);
+                } else {
+                    newsItem = new NewsItem();
+                }
+
+                newsItem.setId(id);
+                newsItem.setDate(DateUtils.fromTimestamp(newsItemJson.getInt("date_p")));
+                if (newsItemJson.has("img")) {
+                    newsItem.setSmallThumbUrl(newsItemJson.getJSONObject("img").getString("img_s"));
+                    newsItem.setMediumThumbUrl(newsItemJson.getJSONObject("img").getString("img_m"));
+                }
+                newsItem.setTitle(newsItemJson.getString("title"));
+                String body = null;
+                if (newsItemJson.has("desc")) {
+                    body = newsItemJson.getString("desc");
+                }
+                if (newsItemJson.has("ext_url")) {
+                    body = body == null ? "" : body + " ";
+                    body += newsItemJson.getString("ext_url");
+                }
+                newsItem.setBody(body);
+                if (newsItemJson.has("url")) {
+                    newsItem.setUrl(newsItemJson.getString("url"));
+                }
+                newsItem.setNew(true);
+
+                database.getNewsItemDao().createOrUpdate(newsItem);
+            }
+
+            db.setTransactionSuccessful();
+
+        } catch (JSONException | SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            db.endTransaction();
         }
     }
 
@@ -153,7 +155,7 @@ public class DataSource {
         }
     }
 
-    public void eventsRefresh() throws NoInternetException {
+    public void eventsRefresh() throws NoInternetException, NoContentException {
 
         String contents;
         URLConnection conn;
@@ -170,63 +172,64 @@ public class DataSource {
             throw new NoInternetException();
         }
 
-        if (!contents.isEmpty()) {
+        if (contents.isEmpty()) {
+            throw new NoContentException();
+        }
 
-            final SQLiteDatabase db = database.getWritableDatabase();
-            db.beginTransaction();
+        final SQLiteDatabase db = database.getWritableDatabase();
+        db.beginTransaction();
 
-            try {
+        try {
 
-                database.getEventDao().deleteBuilder().delete();
+            database.getEventDao().deleteBuilder().delete();
 
-                JSONArray events = new JSONArray(contents);
+            JSONArray events = new JSONArray(contents);
 
-                for (int i = 0; i < events.length(); i++) {
-                    JSONObject eventJson = events.getJSONObject(i);
+            for (int i = 0; i < events.length(); i++) {
+                JSONObject eventJson = events.getJSONObject(i);
 
-                    if (eventJson.has("venues_up")) {
-                        long lastPlacesUpdate = eventJson.getLong("venues_up");
-                        if (intPrefs.lastUpdatedPlaces().get() != lastPlacesUpdate) {
-                            venuesRefresh();
-                            intPrefs.lastUpdatedPlaces().put(lastPlacesUpdate);
-                        }
+                if (eventJson.has("venues_up")) {
+                    long lastPlacesUpdate = eventJson.getLong("venues_up");
+                    if (intPrefs.lastUpdatedPlaces().get() != lastPlacesUpdate) {
+                        venuesRefresh();
+                        intPrefs.lastUpdatedPlaces().put(lastPlacesUpdate);
                     }
-
-                    Event e = new Event();
-                    e.setId(eventJson.getInt("id"));
-                    e.setTitle(eventJson.getString("title"));
-                    if (eventJson.has("desc")) {
-                        e.setBody(eventJson.getString("desc"));
-                    } else {
-                        e.setBody("");
-                    }
-                    if (eventJson.has("ext_url")) {
-                        e.setBody(e.getBody() + eventJson.getString("ext_url"));
-                    }
-                    e.setStart(DateUtils.fromTimestamp(eventJson.getJSONObject("date").getInt("s")));
-                    if (eventJson.has("img")) {
-                        e.setMediumThumbUrl(eventJson.getJSONObject("img").getString("img_m"));
-                    }
-                    if (eventJson.getJSONObject("date").has("e"))
-                        e.setEnd(DateUtils.fromTimestamp(eventJson.getJSONObject("date").getInt("e")));
-                    if (eventJson.has("v_id")) {
-                        e.setPlace(database.getPlaceDao().queryForId(eventJson.getInt("v_id")));
-                    } else {
-                        e.setPlace(null);
-                    }
-                    e.setUrl(eventJson.getString("url"));
-                    e.setNotify(eventJson.has("notify"));
-
-                    database.getEventDao().create(e);
                 }
 
-                db.setTransactionSuccessful();
+                Event e = new Event();
+                e.setId(eventJson.getInt("id"));
+                e.setTitle(eventJson.getString("title"));
+                if (eventJson.has("desc")) {
+                    e.setBody(eventJson.getString("desc"));
+                } else {
+                    e.setBody("");
+                }
+                if (eventJson.has("ext_url")) {
+                    e.setBody(e.getBody() + eventJson.getString("ext_url"));
+                }
+                e.setStart(DateUtils.fromTimestamp(eventJson.getJSONObject("date").getInt("s")));
+                if (eventJson.has("img")) {
+                    e.setMediumThumbUrl(eventJson.getJSONObject("img").getString("img_m"));
+                }
+                if (eventJson.getJSONObject("date").has("e"))
+                    e.setEnd(DateUtils.fromTimestamp(eventJson.getJSONObject("date").getInt("e")));
+                if (eventJson.has("v_id")) {
+                    e.setPlace(database.getPlaceDao().queryForId(eventJson.getInt("v_id")));
+                } else {
+                    e.setPlace(null);
+                }
+                e.setUrl(eventJson.getString("url"));
+                e.setNotify(eventJson.has("notify"));
 
-            } catch (JSONException | SQLException e) {
-                throw new RuntimeException(e);
-            } finally {
-                db.endTransaction();
+                database.getEventDao().create(e);
             }
+
+            db.setTransactionSuccessful();
+
+        } catch (JSONException | SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            db.endTransaction();
         }
     }
 
@@ -238,7 +241,7 @@ public class DataSource {
         }
     }
 
-    public void venuesRefresh() throws NoInternetException {
+    public void venuesRefresh() throws NoInternetException, NoContentException {
         String contents;
         URLConnection conn;
 
@@ -254,37 +257,37 @@ public class DataSource {
             throw new NoInternetException();
         }
 
-        if (!contents.isEmpty()) {
+        if (contents.isEmpty()) {
+            throw new NoContentException();
+        }
 
-            try {
-                JSONArray places = new JSONArray(contents);
+        try {
+            JSONArray places = new JSONArray(contents);
 
-                database.getPlaceDao().deleteBuilder().delete();
+            database.getPlaceDao().deleteBuilder().delete();
 
-                for (int i = 0; i < places.length(); i++) {
-                    JSONObject placeJson = places.getJSONObject(i);
+            for (int i = 0; i < places.length(); i++) {
+                JSONObject placeJson = places.getJSONObject(i);
 
-                    Place place = new Place();
-                    place.setId(placeJson.getInt("id"));
-                    place.setName(placeJson.getString("title"));
-                    place.setAddress(placeJson.getString("address"));
-                    if (placeJson.has("site")) {
-                        place.setUrl(placeJson.getString("site"));
-                    }
-                    if (placeJson.has("phone")) {
-                        place.setPhone(placeJson.getString("phone"));
-                    }
-                    if (placeJson.has("vk")) {
-                        place.setVkUrl(placeJson.getString("vk"));
-                    }
-
-                    database.getPlaceDao().create(place);
+                Place place = new Place();
+                place.setId(placeJson.getInt("id"));
+                place.setName(placeJson.getString("title"));
+                place.setAddress(placeJson.getString("address"));
+                if (placeJson.has("site")) {
+                    place.setUrl(placeJson.getString("site"));
+                }
+                if (placeJson.has("phone")) {
+                    place.setPhone(placeJson.getString("phone"));
+                }
+                if (placeJson.has("vk")) {
+                    place.setVkUrl(placeJson.getString("vk"));
                 }
 
-            } catch (JSONException | SQLException e) {
-                throw new RuntimeException(e);
+                database.getPlaceDao().create(place);
             }
 
+        } catch (JSONException | SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 }

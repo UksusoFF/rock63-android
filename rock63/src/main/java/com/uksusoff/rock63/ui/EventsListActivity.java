@@ -9,6 +9,7 @@ import androidx.core.view.MenuItemCompat;
 import com.uksusoff.rock63.R;
 import com.uksusoff.rock63.data.DataSource;
 import com.uksusoff.rock63.data.entities.Event;
+import com.uksusoff.rock63.exceptions.NoContentException;
 import com.uksusoff.rock63.exceptions.NoInternetException;
 import com.uksusoff.rock63.ui.adapters.AdvSimpleAdapter;
 
@@ -122,7 +123,7 @@ public class EventsListActivity extends ItemListActivity {
     }
 
     @Override
-    protected void refreshItemStorage() throws NoInternetException {
+    protected void refreshItemStorage() throws NoInternetException, NoContentException {
         source.eventsRefresh();
     }
 
