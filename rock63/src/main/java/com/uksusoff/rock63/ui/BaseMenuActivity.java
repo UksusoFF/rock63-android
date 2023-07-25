@@ -53,7 +53,6 @@ public abstract class BaseMenuActivity extends BaseActivity implements Navigatio
         stub.inflate();
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
 
