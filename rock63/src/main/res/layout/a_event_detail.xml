@@ -58,7 +58,7 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_alignStart="@+id/event_detail_date_and_time"
-	        android:layout_below="@+id/event_detail_venue_name"
+	        android:layout_below="@+id/event_detail_venue_title"
 	        android:layout_marginTop="14dp"
 	        android:orientation="vertical"
 	        android:visibility="gone"
@@ -91,7 +91,7 @@
 	    </LinearLayout>
 	
 	    <TextView
-	        android:id="@+id/event_detail_venue_name"
+	        android:id="@+id/event_detail_venue_title"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_alignStart="@+id/event_detail_venue_description"
@@ -109,8 +109,8 @@
 	        style="?android:attr/buttonStyleSmall"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:layout_alignBaseline="@+id/event_detail_venue_name"
-	        android:layout_alignBottom="@+id/event_detail_venue_name"
+	        android:layout_alignBaseline="@+id/event_detail_venue_title"
+	        android:layout_alignBottom="@+id/event_detail_venue_title"
 	        android:layout_alignParentEnd="true"
 			android:layout_alignParentRight="true"
 	        android:layout_marginEnd="24dp"

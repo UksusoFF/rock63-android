@@ -30,6 +30,24 @@ public class EventDetailActivity extends BaseMenuActivity {
     @Extra(EXTRA_ITEM_ID)
     int eventId;
 
+    @ViewById(R.id.event_detail_title)
+    TextView title;
+
+    @ViewById(R.id.event_detail_date_and_time)
+    TextView dateRange;
+
+    @ViewById(R.id.event_detail_infdetailbtn)
+    Button detailButton;
+
+    @ViewById(R.id.event_detail_description)
+    TextView description;
+
+    @ViewById(R.id.event_detail_venue_title)
+    TextView venueTitle;
+
+    @ViewById(R.id.event_detail_venue_address)
+    TextView venueAddress;
+
     @ViewById(R.id.event_detail_venue_phone)
     TextView venuePhone;
 
@@ -51,12 +69,12 @@ public class EventDetailActivity extends BaseMenuActivity {
             throw new RuntimeException(e);
         }
 
-        ((TextView) findViewById(R.id.event_detail_title)).setText(event.title);
-        ((TextView) findViewById(R.id.event_detail_date_and_time)).setText(event.getDateRange());
+        title.setText(event.title);
+        dateRange.setText(event.getDateRange());
 
         if (event.getVenueItem() != null) {
-            ((TextView) findViewById(R.id.event_detail_venue_name)).setText(event.getVenueItem().title);
-            ((TextView) findViewById(R.id.event_detail_venue_address)).setText(event.getVenueItem().address);
+            venueTitle.setText(event.getVenueItem().title);
+            venueAddress.setText(event.getVenueItem().address);
 
             if (event.getVenueItem().phone != null) {
                 venuePhone.setVisibility(View.VISIBLE);
@@ -82,31 +100,27 @@ public class EventDetailActivity extends BaseMenuActivity {
                 venueVk.setVisibility(View.GONE);
             }
 
-            ((Button) findViewById(R.id.event_detail_infdetailbtn)).setOnClickListener(new View.OnClickListener() {
+            detailButton.setOnClickListener(v -> {
+                View inf = EventDetailActivity.this.findViewById(R.id.event_detail_venue_description);
 
-                @Override
-                public void onClick(View v) {
-                    View inf = EventDetailActivity.this.findViewById(R.id.event_detail_venue_description);
-                    if (inf.getVisibility() == View.VISIBLE) {
-                        inf.setVisibility(View.GONE);
-                        ((Button) findViewById(R.id.event_detail_infdetailbtn)).setText(R.string.event_show_info_button_title);
-                    } else {
-                        inf.setVisibility(View.VISIBLE);
-                        ((Button) findViewById(R.id.event_detail_infdetailbtn)).setText(R.string.event_hide_info_button_title);
-                    }
+                if (inf.getVisibility() == View.VISIBLE) {
+                    inf.setVisibility(View.GONE);
+                    detailButton.setText(R.string.event_show_info_button_title);
+                } else {
+                    inf.setVisibility(View.VISIBLE);
+                    detailButton.setText(R.string.event_hide_info_button_title);
                 }
-
             });
 
-            ((Button) findViewById(R.id.event_detail_infdetailbtn)).setText(R.string.event_show_info_button_title);
+            detailButton.setText(R.string.event_show_info_button_title);
 
         } else {
-            ((TextView) findViewById(R.id.event_detail_venue_name)).setVisibility(View.GONE);
-            ((Button) findViewById(R.id.event_detail_infdetailbtn)).setVisibility(View.GONE);
+            venueTitle.setVisibility(View.GONE);
+            detailButton.setVisibility(View.GONE);
         }
 
-        ((TextView) findViewById(R.id.event_detail_description)).setMovementMethod(LinkMovementMethod.getInstance());
-        ((TextView) findViewById(R.id.event_detail_description)).setText(StringUtils.fromHtml(event.getDescriptionText()));
+        description.setMovementMethod(LinkMovementMethod.getInstance());
+        description.setText(StringUtils.fromHtml(event.getDescriptionText()));
 
         if (event.thumbnailMiddle != null) {
             UrlImageViewHelper.setUrlDrawable(
