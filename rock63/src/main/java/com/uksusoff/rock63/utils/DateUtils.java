@@ -5,13 +5,7 @@ import java.util.Date;
 
 public class DateUtils {
 
-    public static int getDateMonthDay(Date date) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        return cal.get(Calendar.DAY_OF_MONTH);
-    }
-
-    public static long getDelayToHour(int hour) {
+    public static long delayToHour(int hour) {
         long now = System.currentTimeMillis();
         Calendar c = Calendar.getInstance();
         c.set(Calendar.HOUR_OF_DAY, hour);
@@ -24,4 +18,11 @@ public class DateUtils {
         return c.getTimeInMillis() - now;
     }
 
+    public static Date fromTimestamp(int ts) {
+
+        if (ts == -1)
+            return null;
+
+        return new Date(((long) ts) * 1000);
+    }
 }

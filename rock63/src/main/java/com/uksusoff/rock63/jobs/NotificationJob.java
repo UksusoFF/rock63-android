@@ -43,8 +43,8 @@ public class NotificationJob extends Job {
     private DataSource dataSource;
 
     public static long[] getNextExecutionWindow() {
-        long start = DateUtils.getDelayToHour(17);
-        long end = DateUtils.getDelayToHour(19);
+        long start = DateUtils.delayToHour(17);
+        long end = DateUtils.delayToHour(19);
 
         if (start > end) {
             end += AlarmManager.INTERVAL_DAY;

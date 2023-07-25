@@ -9,7 +9,8 @@ import com.j256.ormlite.stmt.DeleteBuilder;
 import com.uksusoff.rock63.data.entities.Event;
 import com.uksusoff.rock63.data.entities.NewsItem;
 import com.uksusoff.rock63.data.entities.Place;
-import com.uksusoff.rock63.utils.CommonUtils;
+import com.uksusoff.rock63.utils.StringUtils;
+import com.uksusoff.rock63.utils.DateUtils;
 
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.EBean;
@@ -88,7 +89,7 @@ public class DataSource {
         try {
             URL url;
             if (lastNewsUpdate != 0) {
-                Date d = CommonUtils.getDateFromTimestamp(lastNewsUpdate);
+                Date d = DateUtils.fromTimestamp(lastNewsUpdate);
                 url = new URL(String.format(NEWS_SOURCE_URL_FROM_DATE, (new SimpleDateFormat("yyyyy/MM/dd", Locale.getDefault())).format(d)));
             } else {
                 url = new URL(NEWS_SOURCE_URL);
@@ -96,7 +97,7 @@ public class DataSource {
             conn = url.openConnection();
 
             InputStream in = conn.getInputStream();
-            contents = CommonUtils.convertStreamToString(in);
+            contents = StringUtils.fromStream(in);
 
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
@@ -132,7 +133,7 @@ public class DataSource {
                     }
 
                     newsItem.setId(id);
-                    newsItem.setDate(CommonUtils.getDateFromTimestamp(newsItemJson.getInt("date_p")));
+                    newsItem.setDate(DateUtils.fromTimestamp(newsItemJson.getInt("date_p")));
                     if (newsItemJson.has("img")) {
                         newsItem.setSmallThumbUrl(newsItemJson.getJSONObject("img").getString("img_s"));
                         newsItem.setMediumThumbUrl(newsItemJson.getJSONObject("img").getString("img_m"));
@@ -190,7 +191,7 @@ public class DataSource {
             conn = new URL(EVENTS_SOURCE_URL).openConnection();
 
             InputStream in = conn.getInputStream();
-            contents = CommonUtils.convertStreamToString(in);
+            contents = StringUtils.fromStream(in);
 
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
@@ -231,12 +232,12 @@ public class DataSource {
                     if (eventJson.has("ext_url")) {
                         e.setBody(e.getBody() + eventJson.getString("ext_url"));
                     }
-                    e.setStart(CommonUtils.getDateFromTimestamp(eventJson.getJSONObject("date").getInt("s")));
+                    e.setStart(DateUtils.fromTimestamp(eventJson.getJSONObject("date").getInt("s")));
                     if (eventJson.has("img")) {
                         e.setMediumThumbUrl(eventJson.getJSONObject("img").getString("img_m"));
                     }
                     if (eventJson.getJSONObject("date").has("e"))
-                        e.setEnd(CommonUtils.getDateFromTimestamp(eventJson.getJSONObject("date").getInt("e")));
+                        e.setEnd(DateUtils.fromTimestamp(eventJson.getJSONObject("date").getInt("e")));
                     if (eventJson.has("v_id")) {
                         e.setPlace(database.getPlaceDao().queryForId(eventJson.getInt("v_id")));
                     } else {
@@ -275,7 +276,7 @@ public class DataSource {
             conn = new URL(PLACES_SOURCE_URL).openConnection();
 
             InputStream in = conn.getInputStream();
-            contents = CommonUtils.convertStreamToString(in);
+            contents = StringUtils.fromStream(in);
 
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);

@@ -16,7 +16,7 @@ import com.uksusoff.rock63.R;
 import com.uksusoff.rock63.services.IRadioPlayerServiceListener;
 import com.uksusoff.rock63.services.RadioPlayingService;
 import com.uksusoff.rock63.services.RadioPlayingService_;
-import com.uksusoff.rock63.utils.CommonUtils;
+import com.uksusoff.rock63.utils.StringUtils;
 
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
@@ -221,7 +221,7 @@ public class RadioPlayerActivity extends BaseMenuActivity {
 
     public void loadTitle() {
         try {
-            String jsonString = CommonUtils.convertStreamToString(
+            String jsonString = StringUtils.fromStream(
                     (new URL(RADIO_INFO_URL)).openConnection().getInputStream()
             );
 

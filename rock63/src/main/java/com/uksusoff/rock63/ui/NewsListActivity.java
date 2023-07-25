@@ -10,7 +10,7 @@ import com.uksusoff.rock63.R;
 import com.uksusoff.rock63.data.DataSource;
 import com.uksusoff.rock63.data.entities.Event;
 import com.uksusoff.rock63.data.entities.NewsItem;
-import com.uksusoff.rock63.utils.CommonUtils;
+import com.uksusoff.rock63.utils.StringUtils;
 
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
@@ -71,7 +71,7 @@ public class NewsListActivity extends ItemListActivity {
             NewsItem item = news.get(i);
             Map<String, Object> datum = new HashMap<>(3);
             datum.put("title", item.getTitle());
-            datum.put("text", CommonUtils.getCroppedString(CommonUtils.getTextFromHtml(item.getBody()), 50, true));
+            datum.put("text", StringUtils.crop(StringUtils.fromHtml(item.getBody()), 50, true));
             datum.put("imageUrl", item.getSmallThumbUrl());
             datum.put("obj", item);
 
