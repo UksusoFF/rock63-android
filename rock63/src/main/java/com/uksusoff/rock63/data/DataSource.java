@@ -98,6 +98,7 @@ public class DataSource {
                 }
 
                 newsItem.setId(id);
+                newsItem.setDate(DateUtils.fromTimestamp(newsItemJson.getInt("date_p")));
                 if (newsItemJson.has("img")) {
                     newsItem.setSmallThumbUrl(newsItemJson.getJSONObject("img").getString("img_s"));
                     newsItem.setMediumThumbUrl(newsItemJson.getJSONObject("img").getString("img_m"));
