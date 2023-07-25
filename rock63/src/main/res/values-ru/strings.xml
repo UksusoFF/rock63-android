@@ -24,16 +24,19 @@
 			- возможность удобно слушать самарское радио «Время Звучать!».<br>
 			<br>
 			Контактная информация: <br>
-			<a href="https://rock63.ru">https://rock63.ru</a><br>
+			<a href="https://rock63.ru">rock63.ru</a><br>
 			<a href="mailto:info@rock63.ru">info@rock63.ru</a><br>
 			<br>
 			Радио «Время Звучать!»<br>
-			<a href="https://vzradio.ru">http://vzradio.ru</a><br>
+			<a href="https://vzradio.ru">vzradio.ru</a><br>
 			<a href="mailto:info@vzradio.ru">info@vzradio.ru</a><br>
 			<br>
 			Разработка приложения:<br>
-			AmazedEvil<br>
-			<a href="mailto:cpiteam@yandex.ru">cpiteam@yandex.ru</a><br>
+			<a href="https://github.com/amazedevil">AmazedEvil</a><br>
+			<a href="https://github.com/UksusoFF">UksusoFF</a><br>
+			<br>
+			Политика обработки персональных данных:<br>
+			<a href="https://github.com/UksusoFF/rock63-android/blob/master/docs/privacy-policy.md">https://github.com/UksusoFF/rock63-android/blob/master/docs/privacy-policy.md</a><br>
         ]]>
     </string>
     <string name="news_no_item_text">Нет новостей</string>
