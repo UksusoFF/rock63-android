@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import com.evernote.android.job.Job;
 import com.uksusoff.rock63.data.DataSource;
 import com.uksusoff.rock63.data.DataSource_;
+import com.uksusoff.rock63.exceptions.NoInternetException;
 
 public class DataUpdateJob extends Job {
 
@@ -19,7 +20,7 @@ public class DataUpdateJob extends Job {
         try {
             dataSource.refreshEvents();
             dataSource.refreshNews();
-        } catch (DataSource.NoInternetException e) {
+        } catch (NoInternetException e) {
             //Just not this time
         }
 

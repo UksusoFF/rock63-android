@@ -16,6 +16,7 @@ import com.uksusoff.rock63.data.DataSource;
 import com.uksusoff.rock63.data.DataSource_;
 import com.uksusoff.rock63.data.UserPrefs_;
 import com.uksusoff.rock63.data.entities.Event;
+import com.uksusoff.rock63.exceptions.NoInternetException;
 import com.uksusoff.rock63.ui.EventDetailActivity_;
 import com.uksusoff.rock63.utils.DateUtils;
 
@@ -100,7 +101,7 @@ public class NotificationJob extends Job {
             try {
                 dataSource.refreshEvents();
                 events = dataSource.getAllEvents(false);
-            } catch (DataSource.NoInternetException e) {
+            } catch (NoInternetException e) {
                 //Well, till next time
                 return;
             }

@@ -9,6 +9,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.uksusoff.rock63.R;
 import com.uksusoff.rock63.data.DataSource;
+import com.uksusoff.rock63.exceptions.NoInternetException;
 
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.EActivity;
@@ -37,7 +38,7 @@ public abstract class ItemListActivity extends BaseMenuActivity {
 
     protected abstract ListAdapter createAdapterFromStorageItems();
 
-    protected abstract void refreshItemStorage() throws DataSource.NoInternetException;
+    protected abstract void refreshItemStorage() throws NoInternetException;
 
     protected abstract int getEmptyListTextResId();
 
@@ -87,7 +88,7 @@ public abstract class ItemListActivity extends BaseMenuActivity {
             setRefreshing(true);
             refreshItemStorage();
             getActiveActivity().loadNewsFromDatabase();
-        } catch (DataSource.NoInternetException e) {
+        } catch (NoInternetException e) {
             showWarning(R.string.error_no_internet);
         } finally {
             setRefreshing(false);
