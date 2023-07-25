@@ -96,4 +96,10 @@ public class EventItem {
     public void setNotify(boolean notify) {
         this.notify = notify;
     }
+
+    public String getShareText() {
+        return this.getVenueItem() != null
+                ? String.format("%s @ %s", this.getTitle(), this.getVenueItem().getName())
+                : this.getTitle();
+    }
 }

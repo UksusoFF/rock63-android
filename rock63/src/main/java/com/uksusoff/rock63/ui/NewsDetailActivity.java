@@ -65,27 +65,16 @@ public class NewsDetailActivity extends BaseMenuActivity {
 
     @OptionsItem(R.id.menu_share)
     void menuShare() {
-        shareNews();
+        startActivity(ShareCompat.IntentBuilder.from(this)
+                .setType("text/plain")
+                .setSubject(newsItem.getTitle())
+                .setText(newsItem.getShareText())
+                .getIntent()
+        );
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         return super.onOptionsItemSelected(item);
     }
-
-    private void shareNews() {
-        String body = StringUtils.fromHtml(newsItem.getBody());
-
-        if (newsItem.getUrl() != null) {
-            body += "\n\n" + newsItem.getUrl();
-        }
-
-        startActivity(ShareCompat.IntentBuilder.from(this)
-                .setType("text/plain")
-                .setSubject(newsItem.getTitle())
-                .setText(body)
-                .getIntent()
-        );
-    }
-
 }

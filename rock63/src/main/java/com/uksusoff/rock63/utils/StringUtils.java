@@ -1,5 +1,8 @@
 package com.uksusoff.rock63.utils;
 
+import android.text.Spannable;
+import android.text.Spanned;
+
 import androidx.core.text.HtmlCompat;
 
 import java.io.BufferedReader;
@@ -19,8 +22,8 @@ public class StringUtils {
                 : source.substring(0, places - postfix.length()) + postfix;
     }
 
-    public static String fromHtml(String s) {
-        return HtmlCompat.fromHtml(s, HtmlCompat.FROM_HTML_MODE_LEGACY).toString();
+    public static Spanned fromHtml(String s) {
+        return HtmlCompat.fromHtml(s, HtmlCompat.FROM_HTML_MODE_LEGACY);
     }
 
     public static String cleanHtml(String s) {

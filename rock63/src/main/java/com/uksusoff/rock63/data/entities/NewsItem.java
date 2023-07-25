@@ -1,6 +1,7 @@
 package com.uksusoff.rock63.data.entities;
 
 import com.j256.ormlite.field.DatabaseField;
+import com.uksusoff.rock63.utils.StringUtils;
 
 import java.util.Date;
 
@@ -85,5 +86,15 @@ public class NewsItem {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getShareText() {
+        String body = StringUtils.fromHtml(this.getBody()).toString();
+
+        if (this.getUrl() != null) {
+            body += "\n\n" + this.getUrl();
+        }
+
+        return body;
     }
 }

@@ -126,23 +126,11 @@ public class EventDetailActivity extends BaseMenuActivity {
 
     @OptionsItem(R.id.menu_share)
     void menuShare() {
-        shareEvent();
-    }
-
-    private void shareEvent() {
-        String subject;
-        if (event.getVenueItem() != null) {
-            subject = String.format("%s @ %s", event.getTitle(), event.getVenueItem().getName());
-        } else {
-            subject = event.getTitle();
-        }
-
         startActivity(ShareCompat.IntentBuilder.from(this)
                 .setType("text/plain")
-                .setSubject(subject)
+                .setSubject(event.getShareText())
                 .setText(event.getUrl())
                 .getIntent()
         );
     }
-
 }

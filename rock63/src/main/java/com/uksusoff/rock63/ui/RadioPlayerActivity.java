@@ -237,7 +237,7 @@ public class RadioPlayerActivity extends BaseMenuActivity {
                 @Override
                 public void run() {
                     trackTitle.setText(StringUtils.fromHtml(res));
-                    lastLoadedTrackName = StringUtils.fromHtml(res);
+                    lastLoadedTrackName = StringUtils.fromHtml(res).toString();
                 }
 
             });
