@@ -7,10 +7,8 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Binder;
-import android.os.Build;
 import android.os.IBinder;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.RemoteViews;
 
 import androidx.core.app.NotificationCompat;
@@ -45,24 +43,19 @@ public class RadioPlayingService extends Service {
     private boolean notificationPlaced = false;
     private final List<IRadioPlayerServiceListener> listeners = new LinkedList<>();
 
-    public boolean addListener(IRadioPlayerServiceListener object) {
-        return listeners.add(object);
+    public void addListener(IRadioPlayerServiceListener object) {
+        listeners.add(object);
     }
 
-    public boolean removeListener(IRadioPlayerServiceListener object) {
-        return listeners.remove(object);
+    public void removeListener(IRadioPlayerServiceListener object) {
+        listeners.remove(object);
     }
-
-    /*
-     * public static RadioPlayingService getInstance() { return instance; }
-     */
 
     public static boolean isServiceRunning() {
         return mRunning;
     }
 
-    public RadioPlayingService() {
-    }
+    public RadioPlayingService() {}
 
     public class RadioBinder extends Binder {
         public RadioPlayingService getService() {
@@ -87,7 +80,6 @@ public class RadioPlayingService extends Service {
 
     @Override
     public void onDestroy() {
-
         mRunning = false;
 
         super.onDestroy();
@@ -119,7 +111,6 @@ public class RadioPlayingService extends Service {
     }
 
     public int onStartCommand(Intent intent, int flags, int startId) {
-
         if (intent != null) {
             String action = intent.getAction();
             if (!TextUtils.isEmpty(action)) {
@@ -182,16 +173,6 @@ public class RadioPlayingService extends Service {
                 .setWhen(System.currentTimeMillis())
                 .build();
 
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1) {
-            notification.contentView = remoteView;
-        }
-
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
-            remoteView.setViewVisibility(R.id.pause_btn, View.INVISIBLE);
-            remoteView.setViewVisibility(R.id.stop_btn, View.INVISIBLE);
-            remoteView.setViewVisibility(R.id.play_btn, View.INVISIBLE);
-        }
-
         startForeground(NOTIFICATION_ID, notification);
 
         notificationPlaced = true;
@@ -205,17 +186,13 @@ public class RadioPlayingService extends Service {
     private void initMediaPlayer() {
         mediaPlayer = new MediaPlayer();
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-        mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            public void onPrepared(MediaPlayer mp) {
-                mediaPlayer.start();
-            }
-        });
+        mediaPlayer.setOnPreparedListener(mp -> mediaPlayer.start());
     }
 
     private MediaPlayer getPlayer() {
-
-        if (mediaPlayer == null)
+        if (mediaPlayer == null) {
             initMediaPlayer();
+        }
 
         return mediaPlayer;
     }
@@ -230,7 +207,6 @@ public class RadioPlayingService extends Service {
     }
 
     private void playStream() {
-
         try {
             if (!getPlayer().isPlaying()) {
                 startForegroundPlayer();
@@ -249,7 +225,6 @@ public class RadioPlayingService extends Service {
     }
 
     private void stopStream(boolean stopForeground) {
-
         if (stopForeground) {
             stopForegroundPlayer();
         }
