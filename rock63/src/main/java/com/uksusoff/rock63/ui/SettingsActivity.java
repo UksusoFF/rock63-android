@@ -1,8 +1,6 @@
 package com.uksusoff.rock63.ui;
 
-import android.text.Html;
 import android.text.method.LinkMovementMethod;
-import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -39,23 +37,8 @@ public class SettingsActivity extends BaseMenuActivity {
         dailyReminder.setChecked(userPrefs.remindDayBefore().get());
         weeklyReminder.setChecked(userPrefs.remindWeekBefore().get());
 
-        dailyReminder.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                userPrefs.edit().remindDayBefore().put(isChecked).apply();
-            }
-
-        });
-
-        weeklyReminder.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                userPrefs.edit().remindWeekBefore().put(isChecked).apply();
-            }
-
-        });
+        dailyReminder.setOnCheckedChangeListener((buttonView, isChecked) -> userPrefs.edit().remindDayBefore().put(isChecked).apply());
+        weeklyReminder.setOnCheckedChangeListener((buttonView, isChecked) -> userPrefs.edit().remindWeekBefore().put(isChecked).apply());
     }
 
 }
