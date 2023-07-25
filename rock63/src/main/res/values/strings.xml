@@ -26,7 +26,7 @@
     <string name="about_body">rock63 - application</string>
     <string name="news_no_item_text">No news</string>
     <string name="events_no_item_text">No events</string>
-    <string name="events_no_place_text">Unknown place</string>
+    <string name="events_no_venue_text">Unknown venue</string>
     <string name="notification_title">@string/app_name</string>
     <string name="notification_text">Radio «VZRadio!»</string>
     <string name="share_radio_title">Radio «VZRadio!»</string>

@@ -41,7 +41,7 @@
     </string>
     <string name="news_no_item_text">Нет новостей</string>
     <string name="events_no_item_text">Нет событий</string>
-    <string name="events_no_place_text">Место проведения смотрите в описании</string>
+    <string name="events_no_venue_text">Место проведения смотрите в описании</string>
     <string name="menu_share">Поделиться</string>
     <string name="menu_news">Новости</string>
     <string name="menu_events">События</string>

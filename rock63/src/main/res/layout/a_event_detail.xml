@@ -33,7 +33,7 @@
 			android:contentDescription="@string/placeholder" />
 	    
 	    <TextView
-	        android:id="@+id/event_detail_datentime"
+	        android:id="@+id/event_detail_date_and_time"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_alignParentStart="true"
@@ -47,25 +47,25 @@
 	        android:id="@+id/event_detail_description"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:layout_alignStart="@+id/event_detail_placeinf"
-	        android:layout_below="@+id/event_detail_placeinf"
+	        android:layout_alignStart="@+id/event_detail_venue_description"
+	        android:layout_below="@+id/event_detail_venue_description"
 	        android:layout_marginTop="14dp"
 	        android:text="@string/placeholder"
 			tools:ignore="RtlCompat" />
 	
 	    <LinearLayout
-	        android:id="@+id/event_detail_placeinf"
+	        android:id="@+id/event_detail_venue_description"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:layout_alignStart="@+id/event_detail_datentime"
-	        android:layout_below="@+id/event_detail_placename"
+	        android:layout_alignStart="@+id/event_detail_date_and_time"
+	        android:layout_below="@+id/event_detail_venue_name"
 	        android:layout_marginTop="14dp"
 	        android:orientation="vertical"
 	        android:visibility="gone"
 			tools:ignore="RtlCompat">
 	
 	        <TextView
-	            android:id="@+id/event_detail_placeaddr"
+	            android:id="@+id/event_detail_venue_address"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
 	            android:text="@string/placeholder" />
@@ -91,12 +91,12 @@
 	    </LinearLayout>
 	
 	    <TextView
-	        android:id="@+id/event_detail_placename"
+	        android:id="@+id/event_detail_venue_name"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:layout_alignStart="@+id/event_detail_placeinf"
-			android:layout_alignLeft="@+id/event_detail_placeinf"
-	        android:layout_below="@+id/event_detail_datentime"
+	        android:layout_alignStart="@+id/event_detail_venue_description"
+			android:layout_alignLeft="@+id/event_detail_venue_description"
+	        android:layout_below="@+id/event_detail_date_and_time"
 	        android:layout_marginTop="14dp"
 	        android:layout_toStartOf="@+id/event_detail_infdetailbtn"
 			android:layout_toLeftOf="@+id/event_detail_infdetailbtn"
@@ -109,8 +109,8 @@
 	        style="?android:attr/buttonStyleSmall"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:layout_alignBaseline="@+id/event_detail_placename"
-	        android:layout_alignBottom="@+id/event_detail_placename"
+	        android:layout_alignBaseline="@+id/event_detail_venue_name"
+	        android:layout_alignBottom="@+id/event_detail_venue_name"
 	        android:layout_alignParentEnd="true"
 			android:layout_alignParentRight="true"
 	        android:layout_marginEnd="24dp"

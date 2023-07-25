@@ -102,7 +102,7 @@ public class EventsListActivity extends ItemListActivity {
             datum.put("date", f.format(eventItem.getStart()));
             datum.put("place", eventItem.getVenueItem() != null
                     ? eventItem.getVenueItem().getName()
-                    : getText(R.string.events_no_place_text)
+                    : getText(R.string.events_no_venue_text)
             );
             datum.put("obj", eventItem);
 

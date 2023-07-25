@@ -57,15 +57,15 @@ public class EventDetailActivity extends BaseMenuActivity {
         SimpleDateFormat fDate = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
         SimpleDateFormat fTime = new SimpleDateFormat("HH:mm", Locale.getDefault());
         if (event.getEnd() != null) {
-            ((TextView) findViewById(R.id.event_detail_datentime)).setText(String.format("%s %s - %s %s", fDate.format(event.getStart()), fTime.format(event.getStart()), fDate.format(event.getEnd()),
+            ((TextView) findViewById(R.id.event_detail_date_and_time)).setText(String.format("%s %s - %s %s", fDate.format(event.getStart()), fTime.format(event.getStart()), fDate.format(event.getEnd()),
                     fTime.format(event.getEnd())));
         } else {
-            ((TextView) findViewById(R.id.event_detail_datentime)).setText(String.format("%s %s", fDate.format(event.getStart()), fTime.format(event.getStart())));
+            ((TextView) findViewById(R.id.event_detail_date_and_time)).setText(String.format("%s %s", fDate.format(event.getStart()), fTime.format(event.getStart())));
         }
 
         if (event.getVenueItem() != null) {
-            ((TextView) findViewById(R.id.event_detail_placename)).setText(event.getVenueItem().getName());
-            ((TextView) findViewById(R.id.event_detail_placeaddr)).setText(event.getVenueItem().getAddress());
+            ((TextView) findViewById(R.id.event_detail_venue_name)).setText(event.getVenueItem().getName());
+            ((TextView) findViewById(R.id.event_detail_venue_address)).setText(event.getVenueItem().getAddress());
 
             if (event.getVenueItem().getPhone() != null && !event.getVenueItem().getPhone().equals("")) {
                 venuePhone.setVisibility(View.VISIBLE);
@@ -95,7 +95,7 @@ public class EventDetailActivity extends BaseMenuActivity {
 
                 @Override
                 public void onClick(View v) {
-                    View inf = EventDetailActivity.this.findViewById(R.id.event_detail_placeinf);
+                    View inf = EventDetailActivity.this.findViewById(R.id.event_detail_venue_description);
                     if (inf.getVisibility() == View.VISIBLE) {
                         inf.setVisibility(View.GONE);
                         ((Button) findViewById(R.id.event_detail_infdetailbtn)).setText(R.string.event_show_info_button_title);
@@ -110,7 +110,7 @@ public class EventDetailActivity extends BaseMenuActivity {
             ((Button) findViewById(R.id.event_detail_infdetailbtn)).setText(R.string.event_show_info_button_title);
 
         } else {
-            ((TextView) findViewById(R.id.event_detail_placename)).setVisibility(View.GONE);
+            ((TextView) findViewById(R.id.event_detail_venue_name)).setVisibility(View.GONE);
             ((Button) findViewById(R.id.event_detail_infdetailbtn)).setVisibility(View.GONE);
         }
 
