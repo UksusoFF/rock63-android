@@ -74,7 +74,9 @@ public class EventDetailActivity extends BaseMenuActivity {
 
         if (event.getVenueItem() != null) {
             venueTitle.setText(event.getVenueItem().title);
-            venueAddress.setText(event.getVenueItem().address);
+
+            venueAddress.setMovementMethod(LinkMovementMethod.getInstance());
+            venueAddress.setText(event.getVenueItem().getMapAddress());
 
             if (event.getVenueItem().phone != null) {
                 venuePhone.setVisibility(View.VISIBLE);

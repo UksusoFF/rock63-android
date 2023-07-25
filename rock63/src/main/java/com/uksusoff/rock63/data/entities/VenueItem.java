@@ -1,6 +1,9 @@
 package com.uksusoff.rock63.data.entities;
 
+import android.text.Spanned;
+
 import com.j256.ormlite.field.DatabaseField;
+import com.uksusoff.rock63.utils.StringUtils;
 
 public class VenueItem {
 
@@ -20,4 +23,15 @@ public class VenueItem {
     public String latitude;
     @DatabaseField
     public String longitude;
+
+    public Spanned getMapAddress() {
+        String code = String.format(
+                "<a href=\"geo:%s,%s\" target=\"_blank\">%s</a>",
+                this.latitude,
+                this.longitude,
+                this.address
+        );
+
+        return StringUtils.fromHtml(code);
+    }
 }
