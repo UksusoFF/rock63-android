@@ -28,14 +28,14 @@
 			android:text="@string/settings_event_reminder_section_title"
 			android:textAppearance="?android:attr/textAppearanceMedium" />
 
-		<Switch
+		<androidx.appcompat.widget.SwitchCompat
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:text="@string/settings_daily_reminder_title"
 			android:layout_marginTop="6dp"
 			android:id="@+id/dailyReminder" />
 
-		<Switch
+		<androidx.appcompat.widget.SwitchCompat
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:text="@string/settings_weekly_reminder_title"

@@ -1,8 +1,9 @@
 package com.uksusoff.rock63.ui;
 
 import android.text.method.LinkMovementMethod;
-import android.widget.Switch;
 import android.widget.TextView;
+
+import androidx.appcompat.widget.SwitchCompat;
 
 import com.uksusoff.rock63.R;
 import com.uksusoff.rock63.data.UserPrefs_;
@@ -19,10 +20,10 @@ public class SettingsActivity extends BaseMenuActivity {
     TextView bodyText;
 
     @ViewById(R.id.dailyReminder)
-    Switch dailyReminder;
+    SwitchCompat dailyReminder;
 
     @ViewById(R.id.weeklyReminder)
-    Switch weeklyReminder;
+    SwitchCompat weeklyReminder;
 
     @Pref
     UserPrefs_ userPrefs;
