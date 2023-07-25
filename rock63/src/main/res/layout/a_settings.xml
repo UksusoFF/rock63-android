@@ -48,13 +48,13 @@
 	        android:text="@string/info_title"
 	        android:layout_marginTop="14dp"
 	        android:textAppearance="?android:attr/textAppearanceLarge" />
-	
+
 	    <TextView
 	        android:id="@+id/info_body_text"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_marginTop="14dp"
 	        android:text="Body" />
-	
+
 	</LinearLayout>
 </ScrollView>

@@ -58,4 +58,8 @@
     <string name="placeholder">Пусто</string>
     <string name="notification_weekly">Неделя до "%1$s"</string>
     <string name="notification_daily">Завтра "%1$s"</string>
+    <string name="pause">Пауза</string>
+    <string name="stop" >Стоп</string>
+    <string name="play" >Играть</string>
+    <string name="image">Изображение</string>
 </resources>

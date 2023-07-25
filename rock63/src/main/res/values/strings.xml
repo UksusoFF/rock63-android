@@ -29,7 +29,7 @@
     <string name="events_no_place_text">Unknown place</string>
     <string name="notification_title">@string/app_name</string>
     <string name="notification_text">Radio «VZRadio!»</string>
-    <string name="share_radio_title">Radio</string>
+    <string name="share_radio_title">Radio «VZRadio!»</string>
     <string name="share_radio_body">I\'m listening to %s on «VZRadio!». https://vzradio.ru</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -37,4 +37,8 @@
     <string name="placeholder">None</string>
     <string name="notification_weekly">Week before "%1$s"</string>
     <string name="notification_daily">Day before "%1$s"</string>
+    <string name="pause">Pause</string>
+    <string name="stop" >Stop</string>
+    <string name="play" >Play</string>
+    <string name="image">Image</string>
 </resources>

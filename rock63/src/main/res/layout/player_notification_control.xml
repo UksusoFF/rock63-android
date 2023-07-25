@@ -42,7 +42,8 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_gravity="center"
-	        android:src="@drawable/ic_media_play" />
+	        android:src="@drawable/ic_media_play"
+			android:contentDescription="@string/play" />
     </FrameLayout>
 
     <FrameLayout 
@@ -54,7 +55,8 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_gravity="center"
-	        android:src="@drawable/ic_media_pause" />
+	        android:src="@drawable/ic_media_pause"
+			android:contentDescription="@string/pause" />
     </FrameLayout>
 
     <FrameLayout 
@@ -66,7 +68,8 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_gravity="center"
-	        android:src="@drawable/ic_media_stop" />
+	        android:src="@drawable/ic_media_stop"
+			android:contentDescription="@string/stop" />
     </FrameLayout>
 
 </LinearLayout>
