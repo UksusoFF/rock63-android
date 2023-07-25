@@ -4,22 +4,24 @@ import androidx.annotation.NonNull;
 
 import com.evernote.android.job.Job;
 import com.uksusoff.rock63.data.DataSource;
-import com.uksusoff.rock63.data.DataSource_;
 import com.uksusoff.rock63.exceptions.NoInternetException;
+
+import org.androidannotations.annotations.Bean;
 
 public class DataUpdateJob extends Job {
 
     public static final String TAG = "data_update_job";
 
+    @Bean
+    DataSource source;
+
     @NonNull
     @Override
     protected Result onRunJob(Params params) {
-
-        DataSource dataSource = DataSource_.getInstance_(getContext());
-
         try {
-            dataSource.refreshEvents();
-            dataSource.refreshNews();
+            source.venuesRefresh();
+            source.eventsRefresh();
+            source.newsRefresh();
         } catch (NoInternetException e) {
             //Just not this time
         }

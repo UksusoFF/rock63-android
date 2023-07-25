@@ -59,18 +59,11 @@ public class NewsListActivity extends ItemListActivity {
 
     @Override
     protected ListAdapter createAdapterFromStorageItems() {
-
-        List<NewsItem> news;
-        try {
-            news = source.getAllNews();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
         List<Map<String, Object>> data = new ArrayList<>();
-        for (int i = 0; i < news.size(); i++) {
-            NewsItem item = news.get(i);
+
+        for (NewsItem item : source.getAllNews()) {
             Map<String, Object> datum = new HashMap<>(3);
+
             datum.put("title", item.getTitle());
             datum.put("text", StringUtils.crop(StringUtils.fromHtml(item.getBody()), 50, true));
             datum.put("imageUrl", item.getSmallThumbUrl());
@@ -79,27 +72,30 @@ public class NewsListActivity extends ItemListActivity {
             data.add(datum);
         }
 
-        SimpleAdapter adapter = new SimpleAdapter(this, data,
+        SimpleAdapter adapter = new SimpleAdapter(
+                this,
+                data,
                 com.uksusoff.rock63.R.layout.i_news_item,
                 new String[]{"title", "text", "imageUrl"},
-                new int[]{com.uksusoff.rock63.R.id.newsTitle,
+                new int[]{
+                        com.uksusoff.rock63.R.id.newsTitle,
                         com.uksusoff.rock63.R.id.newsDescription,
-                        com.uksusoff.rock63.R.id.newsImageView});
-
-        adapter.setViewBinder(new SimpleAdapter.ViewBinder() {
-            @Override
-            public boolean setViewValue(View view, Object data, String textRepresentation) {
-                if ((view instanceof ImageView) && (data instanceof String)) {
-                    UrlImageViewHelper.setUrlDrawable(
-                            (ImageView) view,
-                            (String) data,
-                            R.drawable.news_no_image
-                    );
-
-                    return true;
+                        com.uksusoff.rock63.R.id.newsImageView
                 }
-                return false;
+        );
+
+        adapter.setViewBinder((view, viewData, textRepresentation) -> {
+            if ((view instanceof ImageView) && (viewData instanceof String)) {
+                UrlImageViewHelper.setUrlDrawable(
+                        (ImageView) view,
+                        (String) viewData,
+                        R.drawable.news_no_image
+                );
+
+                return true;
             }
+
+            return false;
         });
 
         return adapter;
@@ -107,13 +103,13 @@ public class NewsListActivity extends ItemListActivity {
 
     @Override
     protected void refreshItemStorage() throws NoInternetException {
-        source.refreshNews();
+        source.newsRefresh();
     }
 
     @ItemClick(R.id.list)
     public void newsItemClicked(Map<String, Object> item) {
         NewsItem newsItem = (NewsItem) item.get("obj");
-        Event related = source.getRelatedEvent(newsItem);
+        Event related = source.eventGetRelated(newsItem);
         if (related == null) {
             NewsDetailActivity_.intent(this).newsItemId(newsItem.getId()).start();
         } else {

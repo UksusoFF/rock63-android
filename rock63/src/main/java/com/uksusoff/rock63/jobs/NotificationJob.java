@@ -95,12 +95,12 @@ public class NotificationJob extends Job {
     }
 
     private void checkScheduledJob() {
-        List<Event> events = dataSource.getAllEvents(false);
+        List<Event> events = dataSource.eventsGetAll(false);
 
         if (events.isEmpty()) {
             try {
-                dataSource.refreshEvents();
-                events = dataSource.getAllEvents(false);
+                dataSource.eventsRefresh();
+                events = dataSource.eventsGetAll(false);
             } catch (NoInternetException e) {
                 //Well, till next time
                 return;

@@ -91,36 +91,39 @@ public class EventsListActivity extends ItemListActivity {
     }
 
     protected ListAdapter createAdapterFromStorageItems() {
-
-        List<Event> events = source.getAllEvents();
-
         List<Map<String, Object>> data = new ArrayList<>();
-        for (int i = 0; i < events.size(); i++) {
-            Event item = events.get(i);
+
+        for (Event item : source.eventsGetAll(true)) {
             Map<String, Object> datum = new HashMap<>(3);
-            datum.put("title", item.getTitle());
             SimpleDateFormat f = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+
+            datum.put("title", item.getTitle());
             datum.put("date", f.format(item.getStart()));
-            if (item.getPlace() != null)
-                datum.put("place", item.getPlace().getName());
-            else
-                datum.put("place", getText(R.string.events_no_place_text));
+            datum.put("place", item.getPlace() != null
+                    ? item.getPlace().getName()
+                    : getText(R.string.events_no_place_text)
+            );
             datum.put("obj", item);
 
             data.add(datum);
         }
 
-        return new AdvSimpleAdapter(this, data,
+        return new AdvSimpleAdapter(
+                this,
+                data,
                 com.uksusoff.rock63.R.layout.i_event_item,
                 new String[]{"title", "date", "place"},
-                new int[]{com.uksusoff.rock63.R.id.event_item_title,
+                new int[]{
+                        com.uksusoff.rock63.R.id.event_item_title,
                         com.uksusoff.rock63.R.id.event_item_date,
-                        com.uksusoff.rock63.R.id.event_item_place});
+                        com.uksusoff.rock63.R.id.event_item_place,
+                }
+        );
     }
 
     @Override
     protected void refreshItemStorage() throws NoInternetException {
-        source.refreshEvents();
+        source.eventsRefresh();
     }
 
     @ItemClick(R.id.list)

@@ -50,11 +50,15 @@ public class DataSource {
         database = OpenHelperManager.getHelper(context, DBHelper.class);
     }
 
-    public List<NewsItem> getAllNews() throws SQLException {
-        return database.getNewsItemDao().queryBuilder().orderBy("date", false).query();
+    public List<NewsItem> getAllNews() {
+        try {
+            return database.getNewsItemDao().queryBuilder().orderBy("date", false).query();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public void clearOldNews() throws SQLException {
+    private void newsCleanUp() throws SQLException {
         Date before = new Date();
 
         before.setTime(before.getTime() - NEWS_LIFETIME_DAYS * 1000 * 60 * 60 * 24);
@@ -65,7 +69,7 @@ public class DataSource {
         builder.delete();
     }
 
-    public void refreshNews() throws NoInternetException {
+    public void newsRefresh() throws NoInternetException {
         String contents;
         URLConnection conn;
 
@@ -88,7 +92,7 @@ public class DataSource {
             try {
                 JSONArray news = new JSONArray(contents);
 
-                clearOldNews();
+                newsCleanUp();
 
                 List<Integer> ids = new LinkedList<>();
                 for (NewsItem item : database.getNewsItemDao().queryForAll()) {
@@ -141,7 +145,7 @@ public class DataSource {
         }
     }
 
-    public List<Event> getAllEvents(boolean ascending) {
+    public List<Event> eventsGetAll(boolean ascending) {
         try {
             return database.getEventDao().queryBuilder().orderBy("start", ascending).query();
         } catch (SQLException e) {
@@ -149,11 +153,7 @@ public class DataSource {
         }
     }
 
-    public List<Event> getAllEvents() {
-        return getAllEvents(true);
-    }
-
-    public void refreshEvents() throws NoInternetException {
+    public void eventsRefresh() throws NoInternetException {
 
         String contents;
         URLConnection conn;
@@ -187,7 +187,7 @@ public class DataSource {
                     if (eventJson.has("venues_up")) {
                         long lastPlacesUpdate = eventJson.getLong("venues_up");
                         if (intPrefs.lastUpdatedPlaces().get() != lastPlacesUpdate) {
-                            refreshPlacesSync();
+                            venuesRefresh();
                             intPrefs.lastUpdatedPlaces().put(lastPlacesUpdate);
                         }
                     }
@@ -230,7 +230,7 @@ public class DataSource {
         }
     }
 
-    public Event getRelatedEvent(NewsItem item) {
+    public Event eventGetRelated(NewsItem item) {
         try {
             return database.getEventDao().queryForId(item.getId());
         } catch (SQLException e) {
@@ -238,8 +238,7 @@ public class DataSource {
         }
     }
 
-    public boolean refreshPlacesSync() throws NoInternetException {
-
+    public void venuesRefresh() throws NoInternetException {
         String contents;
         URLConnection conn;
 
@@ -286,8 +285,6 @@ public class DataSource {
                 throw new RuntimeException(e);
             }
 
-            return true;
-        } else
-            return false;
+        }
     }
 }
