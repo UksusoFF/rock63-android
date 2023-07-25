@@ -71,29 +71,12 @@ public class DataSource {
     }
 
     public void newsRefresh() throws NoInternetException, NoContentException {
-        String contents;
-        URLConnection conn;
-
-        try {
-            conn = new URL(BASE_API_URL + "/news").openConnection();
-
-            InputStream in = conn.getInputStream();
-            contents = StringUtils.fromStream(in);
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new NoInternetException();
-        }
-
-        if (contents.isEmpty()) {
-            throw new NoContentException();
-        }
-
         final SQLiteDatabase db = database.getWritableDatabase();
+
         db.beginTransaction();
 
         try {
-            JSONArray news = new JSONArray(contents);
+            JSONArray news = getEntitiesArray("/news");
 
             newsCleanUp();
 
@@ -139,7 +122,6 @@ public class DataSource {
             }
 
             db.setTransactionSuccessful();
-
         } catch (JSONException | SQLException e) {
             throw new RuntimeException(e);
         } finally {
@@ -156,34 +138,14 @@ public class DataSource {
     }
 
     public void eventsRefresh() throws NoInternetException, NoContentException {
-
-        String contents;
-        URLConnection conn;
-
-        try {
-            conn = new URL(BASE_API_URL + "/events").openConnection();
-
-            InputStream in = conn.getInputStream();
-            contents = StringUtils.fromStream(in);
-
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new NoInternetException();
-        }
-
-        if (contents.isEmpty()) {
-            throw new NoContentException();
-        }
-
         final SQLiteDatabase db = database.getWritableDatabase();
+
         db.beginTransaction();
 
         try {
+            JSONArray events = getEntitiesArray("/events");
 
             database.getEventDao().deleteBuilder().delete();
-
-            JSONArray events = new JSONArray(contents);
 
             for (int i = 0; i < events.length(); i++) {
                 JSONObject eventJson = events.getJSONObject(i);
@@ -225,7 +187,6 @@ public class DataSource {
             }
 
             db.setTransactionSuccessful();
-
         } catch (JSONException | SQLException e) {
             throw new RuntimeException(e);
         } finally {
@@ -242,27 +203,8 @@ public class DataSource {
     }
 
     public void venuesRefresh() throws NoInternetException, NoContentException {
-        String contents;
-        URLConnection conn;
-
         try {
-            conn = new URL(BASE_API_URL + "/venues").openConnection();
-
-            InputStream in = conn.getInputStream();
-            contents = StringUtils.fromStream(in);
-
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new NoInternetException();
-        }
-
-        if (contents.isEmpty()) {
-            throw new NoContentException();
-        }
-
-        try {
-            JSONArray places = new JSONArray(contents);
+            JSONArray places = getEntitiesArray("/venues");
 
             database.getPlaceDao().deleteBuilder().delete();
 
@@ -285,8 +227,31 @@ public class DataSource {
 
                 database.getPlaceDao().create(place);
             }
-
         } catch (JSONException | SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private JSONArray getEntitiesArray(String endpoint) throws NoInternetException, NoContentException {
+        String contents;
+
+        try {
+            URLConnection conn = new URL(BASE_API_URL + endpoint).openConnection();
+            InputStream in = conn.getInputStream();
+            contents = StringUtils.fromStream(in);
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new NoInternetException();
+        }
+
+        if (contents.isEmpty()) {
+            throw new NoContentException();
+        }
+
+        try {
+            return new JSONArray(contents);
+        } catch (JSONException e) {
             throw new RuntimeException(e);
         }
     }
