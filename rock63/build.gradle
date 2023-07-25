@@ -1,10 +1,5 @@
 apply plugin: 'com.android.application'
 
-repositories {
-    mavenCentral()
-    mavenLocal()
-}
-
 android {
     compileSdkVersion 34
     useLibrary 'org.apache.http.legacy'
@@ -16,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId "com.uksusoff.rock63"
-        minSdkVersion 15
+        minSdkVersion 26
         targetSdkVersion 34
         javaCompileOptions {
             annotationProcessorOptions {
