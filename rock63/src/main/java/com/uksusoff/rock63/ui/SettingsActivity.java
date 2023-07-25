@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.uksusoff.rock63.R;
 import com.uksusoff.rock63.data.UserPrefs_;
+import com.uksusoff.rock63.utils.StringUtils;
 
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
@@ -33,7 +34,7 @@ public class SettingsActivity extends BaseMenuActivity {
         super.init();
 
         bodyText.setMovementMethod(LinkMovementMethod.getInstance());
-        bodyText.setText(Html.fromHtml(getString(R.string.about_body)));
+        bodyText.setText(StringUtils.fromHtml(getString(R.string.about_body)));
 
         dailyReminder.setChecked(userPrefs.remindDayBefore().get());
         weeklyReminder.setChecked(userPrefs.remindWeekBefore().get());

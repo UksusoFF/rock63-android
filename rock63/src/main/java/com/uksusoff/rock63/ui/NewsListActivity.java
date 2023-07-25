@@ -64,7 +64,7 @@ public class NewsListActivity extends ItemListActivity {
             Map<String, Object> datum = new HashMap<>(3);
 
             datum.put("title", newsItem.getTitle());
-            datum.put("text", StringUtils.crop(StringUtils.fromHtml(newsItem.getBody()), 50, true));
+            datum.put("text", StringUtils.crop(StringUtils.cleanHtml(newsItem.getBody()), 50, true));
             datum.put("imageUrl", newsItem.getSmallThumbUrl());
             datum.put("obj", newsItem);
 

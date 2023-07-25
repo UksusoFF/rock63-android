@@ -12,6 +12,7 @@ import androidx.core.app.ShareCompat;
 import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 import com.uksusoff.rock63.R;
 import com.uksusoff.rock63.data.entities.NewsItem;
+import com.uksusoff.rock63.utils.StringUtils;
 
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
@@ -58,7 +59,7 @@ public class NewsDetailActivity extends BaseMenuActivity {
 
         title.setText(newsItem.getTitle());
         body.setMovementMethod(LinkMovementMethod.getInstance());
-        body.setText(Html.fromHtml(newsItem.getBody()));
+        body.setText(StringUtils.fromHtml(newsItem.getBody()));
 
         UrlImageViewHelper.setUrlDrawable(image, newsItem.getMediumThumbUrl(), R.drawable.news_medium_placeholder);
     }
@@ -74,7 +75,8 @@ public class NewsDetailActivity extends BaseMenuActivity {
     }
 
     private void shareNews() {
-        String body = Html.fromHtml(newsItem.getBody()).toString();
+        String body = StringUtils.fromHtml(newsItem.getBody());
+
         if (newsItem.getUrl() != null) {
             body += "\n\n" + newsItem.getUrl();
         }

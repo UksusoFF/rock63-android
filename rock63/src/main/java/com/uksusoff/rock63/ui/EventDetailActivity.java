@@ -12,6 +12,7 @@ import androidx.core.app.ShareCompat;
 import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 import com.uksusoff.rock63.R;
 import com.uksusoff.rock63.data.entities.EventItem;
+import com.uksusoff.rock63.utils.StringUtils;
 
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
@@ -70,7 +71,7 @@ public class EventDetailActivity extends BaseMenuActivity {
             if (event.getVenueItem().getPhone() != null && !event.getVenueItem().getPhone().equals("")) {
                 venuePhone.setVisibility(View.VISIBLE);
                 venuePhone.setMovementMethod(LinkMovementMethod.getInstance());
-                venuePhone.setText(Html.fromHtml(event.getVenueItem().getPhone()));
+                venuePhone.setText(StringUtils.fromHtml(event.getVenueItem().getPhone()));
             } else {
                 venuePhone.setVisibility(View.GONE);
             }
@@ -78,7 +79,7 @@ public class EventDetailActivity extends BaseMenuActivity {
             if (event.getVenueItem().getUrl() != null && !event.getVenueItem().getUrl().equals("")) {
                 venueLink.setVisibility(View.VISIBLE);
                 venueLink.setMovementMethod(LinkMovementMethod.getInstance());
-                venueLink.setText(Html.fromHtml(event.getVenueItem().getUrl()));
+                venueLink.setText(StringUtils.fromHtml(event.getVenueItem().getUrl()));
             } else {
                 venueLink.setVisibility(View.GONE);
             }
@@ -86,7 +87,7 @@ public class EventDetailActivity extends BaseMenuActivity {
             if (event.getVenueItem().getVkUrl() != null && !event.getVenueItem().getVkUrl().equals("")) {
                 venueVk.setVisibility(View.VISIBLE);
                 venueVk.setMovementMethod(LinkMovementMethod.getInstance());
-                venueVk.setText(Html.fromHtml(event.getVenueItem().getVkUrl()));
+                venueVk.setText(StringUtils.fromHtml(event.getVenueItem().getVkUrl()));
             } else {
                 venueVk.setVisibility(View.GONE);
             }
@@ -115,7 +116,7 @@ public class EventDetailActivity extends BaseMenuActivity {
         }
 
         ((TextView) findViewById(R.id.event_detail_description)).setMovementMethod(LinkMovementMethod.getInstance());
-        ((TextView) findViewById(R.id.event_detail_description)).setText(Html.fromHtml(event.getBody()));
+        ((TextView) findViewById(R.id.event_detail_description)).setText(StringUtils.fromHtml(event.getBody()));
 
         if (event.getMediumThumbUrl() != null) {
             UrlImageViewHelper.setUrlDrawable((ImageView) findViewById(R.id.event_detail_image), event.getMediumThumbUrl(), R.drawable.news_medium_placeholder);

@@ -1,5 +1,10 @@
 package com.uksusoff.rock63.utils;
 
+import android.os.Build;
+import android.text.Html;
+
+import androidx.core.text.HtmlCompat;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,6 +23,10 @@ public class StringUtils {
     }
 
     public static String fromHtml(String s) {
+        return HtmlCompat.fromHtml(s, HtmlCompat.FROM_HTML_MODE_LEGACY).toString();
+    }
+
+    public static String cleanHtml(String s) {
         String noHTMLString = s.replaceAll("<(.|\n)*?>", "");
 
         noHTMLString = noHTMLString.replaceAll("&.*?;", "");
