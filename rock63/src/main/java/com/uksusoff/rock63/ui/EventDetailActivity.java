@@ -123,8 +123,8 @@ public class EventDetailActivity extends BaseMenuActivity {
     void menuShare() {
         startActivity(ShareCompat.IntentBuilder.from(this)
                 .setType("text/plain")
-                .setSubject(event.getShareText())
-                .setText(event.url)
+                .setSubject(event.getShareSubject())
+                .setText(event.getShareText())
                 .getIntent()
         );
     }

@@ -34,13 +34,11 @@ public class NewsItem {
         return this.body + this.ext;
     }
 
+    public String getShareSubject() {
+        return this.title + "\n\n" + StringUtils.fromHtml(this.body);
+    }
+
     public String getShareText() {
-        String body = StringUtils.fromHtml(this.body).toString();
-
-        if (this.url != null) {
-            body += "\n\n" + this.url;
-        }
-
-        return body;
+        return this.url;
     }
 }

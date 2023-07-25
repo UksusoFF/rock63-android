@@ -67,7 +67,7 @@ public class NewsDetailActivity extends BaseMenuActivity {
     void menuShare() {
         startActivity(ShareCompat.IntentBuilder.from(this)
                 .setType("text/plain")
-                .setSubject(newsItem.title)
+                .setSubject(newsItem.getShareSubject())
                 .setText(newsItem.getShareText())
                 .getIntent()
         );

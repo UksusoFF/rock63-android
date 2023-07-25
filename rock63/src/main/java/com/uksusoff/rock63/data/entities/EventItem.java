@@ -43,10 +43,14 @@ public class EventItem {
         return this.body + this.ext;
     }
 
-    public String getShareText() {
-        return this.getVenueItem() != null
-                ? String.format("%s @ %s", this.title, this.getVenueItem().title)
+    public String getShareSubject() {
+        return this.venueItem != null
+                ? String.format("%s @ %s", this.title, this.venueItem.title)
                 : this.title;
+    }
+
+    public String getShareText() {
+        return this.url;
     }
 
     public String getDateRange() {
