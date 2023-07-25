@@ -254,11 +254,13 @@ public class RadioPlayerActivity extends BaseMenuActivity {
 
     @OptionsItem(R.id.menu_share)
     void shareRadio() {
-        startActivity(ShareCompat.IntentBuilder.from(this)
-                .setType("text/plain")
-                .setSubject(getString(R.string.share_radio_title))
-                .setText(getString(R.string.share_radio_body, getLastLoadedTrackName()))
-                .getIntent()
+        startActivity(
+                new ShareCompat
+                        .IntentBuilder(this)
+                        .setType("text/plain")
+                        .setSubject(getString(R.string.share_radio_title))
+                        .setText(getString(R.string.share_radio_body, getLastLoadedTrackName()))
+                        .getIntent()
         );
     }
 

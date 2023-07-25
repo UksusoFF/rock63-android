@@ -137,11 +137,13 @@ public class EventDetailActivity extends BaseMenuActivity {
 
     @OptionsItem(R.id.menu_share)
     void menuShare() {
-        startActivity(ShareCompat.IntentBuilder.from(this)
-                .setType("text/plain")
-                .setSubject(event.getShareSubject())
-                .setText(event.getShareText())
-                .getIntent()
+        startActivity(
+                new ShareCompat
+                        .IntentBuilder(this)
+                        .setType("text/plain")
+                        .setSubject(event.getShareSubject())
+                        .setText(event.getShareText())
+                        .getIntent()
         );
     }
 }
