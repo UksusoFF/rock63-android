@@ -212,17 +212,21 @@ public class DataSource {
                 JSONObject venueJson = venues.getJSONObject(i);
 
                 VenueItem venueItem = new VenueItem();
-                venueItem.setId(venueJson.getInt("id"));
-                venueItem.setName(venueJson.getString("title"));
-                venueItem.setAddress(venueJson.getString("address"));
-                if (venueJson.has("site")) {
-                    venueItem.setUrl(venueJson.getString("site"));
+                venueItem.id = venueJson.getInt("id");
+                venueItem.title = venueJson.getString("title");
+                venueItem.address = venueJson.getString("address");
+                if (venueJson.has("site") && !venueJson.getString("site").isEmpty()) {
+                    venueItem.url = venueJson.getString("site");
                 }
                 if (venueJson.has("phone")) {
-                    venueItem.setPhone(venueJson.getString("phone"));
+                    venueItem.phone = venueJson.getString("phone");
                 }
-                if (venueJson.has("vk")) {
-                    venueItem.setVkUrl(venueJson.getString("vk"));
+                if (venueJson.has("vk") && !venueJson.getString("vk").isEmpty()) {
+                    venueItem.vk = venueJson.getString("vk");
+                }
+                if (venueJson.has("latitude") && venueJson.has("longitude")) {
+                    venueItem.latitude = venueJson.getString("latitude");
+                    venueItem.longitude = venueJson.getString("longitude");
                 }
 
                 database.getVenueItemsDao().create(venueItem);

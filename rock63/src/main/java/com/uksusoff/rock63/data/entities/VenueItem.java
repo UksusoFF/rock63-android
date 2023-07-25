@@ -5,63 +5,19 @@ import com.j256.ormlite.field.DatabaseField;
 public class VenueItem {
 
     @DatabaseField(id = true)
-    int id;
+    public int id;
     @DatabaseField
-    String name;
+    public String title;
     @DatabaseField
-    String address;
+    public String address;
     @DatabaseField
-    String url;
+    public String url;
     @DatabaseField
-    String phone;
+    public String phone;
     @DatabaseField
-    String vkUrl;
-
-    public String getVkUrl() {
-        return vkUrl;
-    }
-
-    public void setVkUrl(String vkUrl) {
-        this.vkUrl = vkUrl;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
+    public String vk;
+    @DatabaseField
+    public String latitude;
+    @DatabaseField
+    public String longitude;
 }

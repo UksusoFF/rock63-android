@@ -17,7 +17,7 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
 
     private static final String DATABASE_NAME = "rock63androidclient";
 
-    private static final int DATABASE_VERSION = 7;
+    private static final int DATABASE_VERSION = 8;
 
     private Dao<EventItem, Integer> eventItemsDao;
     private Dao<NewsItem, Integer> newsItemsDao;

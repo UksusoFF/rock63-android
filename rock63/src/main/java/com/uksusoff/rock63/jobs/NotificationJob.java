@@ -149,7 +149,7 @@ public class NotificationJob extends Job {
         int contentResId = contentMap.get(type);
 
         if (event.getVenueItem() != null) {
-            place = event.getVenueItem().getName() + " ";
+            place = event.getVenueItem().title + " ";
         }
 
         place += (new SimpleDateFormat("HH:mm", Locale.getDefault())).format(event.getStart());

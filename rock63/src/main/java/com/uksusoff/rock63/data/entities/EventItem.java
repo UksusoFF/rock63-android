@@ -99,7 +99,7 @@ public class EventItem {
 
     public String getShareText() {
         return this.getVenueItem() != null
-                ? String.format("%s @ %s", this.getTitle(), this.getVenueItem().getName())
+                ? String.format("%s @ %s", this.getTitle(), this.getVenueItem().title)
                 : this.getTitle();
     }
 }

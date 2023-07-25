@@ -64,29 +64,29 @@ public class EventDetailActivity extends BaseMenuActivity {
         }
 
         if (event.getVenueItem() != null) {
-            ((TextView) findViewById(R.id.event_detail_venue_name)).setText(event.getVenueItem().getName());
-            ((TextView) findViewById(R.id.event_detail_venue_address)).setText(event.getVenueItem().getAddress());
+            ((TextView) findViewById(R.id.event_detail_venue_name)).setText(event.getVenueItem().title);
+            ((TextView) findViewById(R.id.event_detail_venue_address)).setText(event.getVenueItem().address);
 
-            if (event.getVenueItem().getPhone() != null && !event.getVenueItem().getPhone().equals("")) {
+            if (event.getVenueItem().phone != null) {
                 venuePhone.setVisibility(View.VISIBLE);
                 venuePhone.setMovementMethod(LinkMovementMethod.getInstance());
-                venuePhone.setText(StringUtils.fromHtml(event.getVenueItem().getPhone()));
+                venuePhone.setText(StringUtils.fromHtml(event.getVenueItem().phone));
             } else {
                 venuePhone.setVisibility(View.GONE);
             }
 
-            if (event.getVenueItem().getUrl() != null && !event.getVenueItem().getUrl().equals("")) {
+            if (event.getVenueItem().url != null) {
                 venueLink.setVisibility(View.VISIBLE);
                 venueLink.setMovementMethod(LinkMovementMethod.getInstance());
-                venueLink.setText(StringUtils.fromHtml(event.getVenueItem().getUrl()));
+                venueLink.setText(StringUtils.fromHtml(event.getVenueItem().url));
             } else {
                 venueLink.setVisibility(View.GONE);
             }
 
-            if (event.getVenueItem().getVkUrl() != null && !event.getVenueItem().getVkUrl().equals("")) {
+            if (event.getVenueItem().vk != null) {
                 venueVk.setVisibility(View.VISIBLE);
                 venueVk.setMovementMethod(LinkMovementMethod.getInstance());
-                venueVk.setText(StringUtils.fromHtml(event.getVenueItem().getVkUrl()));
+                venueVk.setText(StringUtils.fromHtml(event.getVenueItem().vk));
             } else {
                 venueVk.setVisibility(View.GONE);
             }
