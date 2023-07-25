@@ -28,7 +28,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sendBroadcast(new Intent(ACTION_CHECK_ALARM));
+        Intent intent = new Intent(ACTION_CHECK_ALARM);
+        sendBroadcast(intent);
     }
 
     @Override
