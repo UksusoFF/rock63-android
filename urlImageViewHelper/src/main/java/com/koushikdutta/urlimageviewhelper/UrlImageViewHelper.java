@@ -1,17 +1,5 @@
 package com.koushikdutta.urlimageviewhelper;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Hashtable;
-
-import org.apache.http.NameValuePair;
-
 import android.annotation.TargetApi;
 import android.app.ActivityManager;
 import android.content.Context;
@@ -29,6 +17,16 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.WindowManager;
 import android.widget.ImageView;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Hashtable;
 
 public final class UrlImageViewHelper {
     static void clog(String format, Object... args) {
@@ -697,20 +695,6 @@ public final class UrlImageViewHelper {
         mDownloaders.add(mContactDownloader);
         mDownloaders.add(mContentDownloader);
         mDownloaders.add(mFileDownloader);
-    }
-    
-    public interface RequestPropertiesCallback {
-        ArrayList<NameValuePair> getHeadersForRequest(Context context, String url);
-    }
-
-    private static RequestPropertiesCallback mRequestPropertiesCallback;
-
-    public static RequestPropertiesCallback getRequestPropertiesCallback() {
-        return mRequestPropertiesCallback;
-    }
-
-    public static void setRequestPropertiesCallback(final RequestPropertiesCallback callback) {
-        mRequestPropertiesCallback = callback;
     }
 
     private static final DrawableCache mLiveCache = DrawableCache.getInstance();

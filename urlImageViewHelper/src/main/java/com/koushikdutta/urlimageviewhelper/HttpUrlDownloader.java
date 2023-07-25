@@ -1,28 +1,13 @@
 package com.koushikdutta.urlimageviewhelper;
 
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
-
-import org.apache.http.NameValuePair;
-
 import android.content.Context;
 import android.os.AsyncTask;
 
-import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper.RequestPropertiesCallback;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class HttpUrlDownloader implements UrlDownloader {
-    private RequestPropertiesCallback mRequestPropertiesCallback;
-
-    public RequestPropertiesCallback getRequestPropertiesCallback() {
-        return mRequestPropertiesCallback;
-    }
-
-    public void setRequestPropertiesCallback(final RequestPropertiesCallback callback) {
-        mRequestPropertiesCallback = callback;
-    }
-
 
     @Override
     public void download(final Context context, final String url, final String filename, final UrlDownloaderCallback callback, final Runnable completion) {
@@ -38,15 +23,6 @@ public class HttpUrlDownloader implements UrlDownloader {
                         final URL u = new URL(thisUrl);
                         urlConnection = (HttpURLConnection)u.openConnection();
                         urlConnection.setInstanceFollowRedirects(true);
-
-                        if (mRequestPropertiesCallback != null) {
-                            final ArrayList<NameValuePair> props = mRequestPropertiesCallback.getHeadersForRequest(context, url);
-                            if (props != null) {
-                                for (final NameValuePair pair: props) {
-                                    urlConnection.addRequestProperty(pair.getName(), pair.getValue());
-                                }
-                            }
-                        }
 
                         if (urlConnection.getResponseCode() != HttpURLConnection.HTTP_MOVED_TEMP && urlConnection.getResponseCode() != HttpURLConnection.HTTP_MOVED_PERM)
                             break;
