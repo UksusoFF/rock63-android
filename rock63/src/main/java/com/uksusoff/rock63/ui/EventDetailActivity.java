@@ -108,12 +108,12 @@ public class EventDetailActivity extends BaseMenuActivity {
         }
 
         ((TextView) findViewById(R.id.event_detail_description)).setMovementMethod(LinkMovementMethod.getInstance());
-        ((TextView) findViewById(R.id.event_detail_description)).setText(StringUtils.fromHtml(event.body));
+        ((TextView) findViewById(R.id.event_detail_description)).setText(StringUtils.fromHtml(event.getDescriptionText()));
 
-        if (event.imageUrl != null) {
+        if (event.thumbnailMiddle != null) {
             UrlImageViewHelper.setUrlDrawable(
                     (ImageView) findViewById(R.id.event_detail_image),
-                    event.imageUrl,
+                    event.thumbnailMiddle,
                     R.drawable.news_medium_placeholder
             );
         } else {

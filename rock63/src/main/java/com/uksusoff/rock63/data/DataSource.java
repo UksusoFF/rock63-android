@@ -158,24 +158,19 @@ public class DataSource {
                     }
                 }
 
-                JSONObject jsonDate = eventJson.getJSONObject("date");
+                JSONObject date = eventJson.getJSONObject("date");
 
                 EventItem eventItem = new EventItem();
                 eventItem.id = eventJson.getInt("id");
                 eventItem.title = eventJson.getString("title");
                 eventItem.url = eventJson.getString("url");
-                eventItem.body = eventJson.has("desc") ? eventJson.getString("desc") : "";
+                eventItem.body = eventJson.has("desc") ? eventJson.getString("desc") : null;
+                eventItem.ext = eventJson.has("ext_url") ? eventJson.getString("ext_url") : null;
                 eventItem.notify = eventJson.has("notify");
-                eventItem.start = DateUtils.fromTimestamp(jsonDate.getInt("s"));
-                if (jsonDate.has("e")) {
-                    eventItem.end = DateUtils.fromTimestamp(jsonDate.getInt("e"));
-                }
-                if (eventJson.has("ext_url")) {
-                    eventItem.body = eventItem.body + eventJson.getString("ext_url");
-                }
-                if (eventJson.has("img")) {
-                    eventItem.imageUrl = eventJson.getJSONObject("img").getString("img_m");
-                }
+                eventItem.start = DateUtils.fromTimestamp(date.getInt("s"));
+                eventItem.end = date.has("e") ? DateUtils.fromTimestamp(date.getInt("e")) : null;
+                eventItem.thumbnailSmall = eventJson.has("img") ? eventJson.getJSONObject("img").getString("img_s") : null;
+                eventItem.thumbnailMiddle = eventJson.has("img") ? eventJson.getJSONObject("img").getString("img_m") : null;
                 if (eventJson.has("v_id")) {
                     eventItem.setVenueItem(database.getVenueItemsDao().queryForId(eventJson.getInt("v_id")));
                 } else {

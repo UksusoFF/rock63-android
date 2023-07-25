@@ -15,11 +15,15 @@ public class EventItem {
     @DatabaseField
     public String body;
     @DatabaseField
+    public String ext;
+    @DatabaseField
     public Date start;
     @DatabaseField
     public Date end;
     @DatabaseField
-    public String imageUrl;
+    public String thumbnailSmall;
+    @DatabaseField
+    public String thumbnailMiddle;
     @DatabaseField
     public String url;
     @DatabaseField
@@ -33,6 +37,10 @@ public class EventItem {
 
     public void setVenueItem(VenueItem venueItem) {
         this.venueItem = venueItem;
+    }
+
+    public String getDescriptionText() {
+        return this.body + this.ext;
     }
 
     public String getShareText() {
