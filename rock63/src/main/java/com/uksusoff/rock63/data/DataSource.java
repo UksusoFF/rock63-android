@@ -1,7 +1,6 @@
 package com.uksusoff.rock63.data;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
@@ -9,8 +8,9 @@ import com.j256.ormlite.stmt.DeleteBuilder;
 import com.uksusoff.rock63.data.entities.Event;
 import com.uksusoff.rock63.data.entities.NewsItem;
 import com.uksusoff.rock63.data.entities.Place;
-import com.uksusoff.rock63.utils.StringUtils;
+import com.uksusoff.rock63.exceptions.NoInternetException;
 import com.uksusoff.rock63.utils.DateUtils;
+import com.uksusoff.rock63.utils.StringUtils;
 
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.EBean;
@@ -26,30 +26,16 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
 
 @EBean(scope = EBean.Scope.Singleton)
 public class DataSource {
 
-    private static final String TAG = "DataSource";
-
-    private static final String NEWS_SOURCE_URL = "https://rock63.ru/api/news";
-    private static final String NEWS_SOURCE_URL_FROM_DATE = "https://rock63.ru/api/news";
-
-    private static final String EVENTS_SOURCE_URL = "https://rock63.ru/api/events";
-
-    private static final String PLACES_SOURCE_URL = "https://rock63.ru/api/venues";
-
-    public static final int NO_PLACE_ID = -1;
+    private static final String BASE_API_URL = "https://rock63.ru/api";
 
     private static final long NEWS_LIFETIME_DAYS = 60;
-
-    public static final String ROCK63_OPTIONS_STORE = "rock63_options_store";
-    public static final String ROCK63_OPTION_LAST_NEWS_UPDATE = "rock63_options_last_news_update";
 
     private DBHelper database;
 
@@ -69,36 +55,25 @@ public class DataSource {
     }
 
     public void clearOldNews() throws SQLException {
-
         Date before = new Date();
+
         before.setTime(before.getTime() - NEWS_LIFETIME_DAYS * 1000 * 60 * 60 * 24);
 
         DeleteBuilder<NewsItem, Integer> builder = database.getNewsItemDao().deleteBuilder();
+
         builder.where().le("date", before);
         builder.delete();
     }
 
     public void refreshNews() throws NoInternetException {
-
-        SharedPreferences optstore = context.getSharedPreferences(ROCK63_OPTIONS_STORE, 0);
-        int lastNewsUpdate = optstore.getInt(ROCK63_OPTION_LAST_NEWS_UPDATE, 0);
-
         String contents;
         URLConnection conn;
 
         try {
-            URL url;
-            if (lastNewsUpdate != 0) {
-                Date d = DateUtils.fromTimestamp(lastNewsUpdate);
-                url = new URL(String.format(NEWS_SOURCE_URL_FROM_DATE, (new SimpleDateFormat("yyyyy/MM/dd", Locale.getDefault())).format(d)));
-            } else {
-                url = new URL(NEWS_SOURCE_URL);
-            }
-            conn = url.openConnection();
+            conn = new URL(BASE_API_URL + "/news").openConnection();
 
             InputStream in = conn.getInputStream();
             contents = StringUtils.fromStream(in);
-
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
@@ -163,10 +138,6 @@ public class DataSource {
             } finally {
                 db.endTransaction();
             }
-
-            SharedPreferences.Editor editor = optstore.edit();
-            editor.putInt(ROCK63_OPTION_LAST_NEWS_UPDATE, lastNewsUpdate);
-            editor.apply();
         }
     }
 
@@ -188,7 +159,7 @@ public class DataSource {
         URLConnection conn;
 
         try {
-            conn = new URL(EVENTS_SOURCE_URL).openConnection();
+            conn = new URL(BASE_API_URL + "/events").openConnection();
 
             InputStream in = conn.getInputStream();
             contents = StringUtils.fromStream(in);
@@ -273,7 +244,7 @@ public class DataSource {
         URLConnection conn;
 
         try {
-            conn = new URL(PLACES_SOURCE_URL).openConnection();
+            conn = new URL(BASE_API_URL + "/venues").openConnection();
 
             InputStream in = conn.getInputStream();
             contents = StringUtils.fromStream(in);
@@ -319,8 +290,4 @@ public class DataSource {
         } else
             return false;
     }
-
-    public static class NoInternetException extends Exception {
-    }
-
 }
