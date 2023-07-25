@@ -137,7 +137,7 @@ public class NotificationJob extends Job {
     private void showReminderNotification(Event event, ReminderType type) {
 
         Map<ReminderType, Integer> contentMap = new HashMap<>();
-        contentMap.put(ReminderType.DAILY, R.string.notification_dayly);
+        contentMap.put(ReminderType.DAILY, R.string.notification_daily);
         contentMap.put(ReminderType.WEEKLY, R.string.notification_weekly);
 
         String place = "";

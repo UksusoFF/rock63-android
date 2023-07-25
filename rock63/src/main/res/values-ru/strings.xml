@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="title_activity_news_detail">Новость подробно</string>
     <string name="title_activity_event_detail">Событие подробно</string>
     <string name="title_activity_settings">Настройки</string>
-    
     <string name="tab_name_news">Новости</string>
     <string name="tab_name_events">Афиша</string>
     <string name="tab_name_radio">Радио</string>
@@ -15,12 +13,9 @@
     <string name="settings_event_reminder_section_title">Напоминания о событии</string>
     <string name="settings_weekly_reminder_title">За неделю</string>
     <string name="settings_daily_reminder_title">За день</string>
-    
     <string name="settings_theme_dark">Темная тема</string>
     <string name="settings_theme_light">Светлая тема</string>
-    
     <string name="settings_restart_alert">Изменение темы вступит в силу после перезагрузки приложения</string>
-    
     <string name="about_body">
         <![CDATA[ 
             Приложение rock63.ru это:<br>
@@ -41,27 +36,23 @@
 			<a href="mailto:cpiteam@yandex.ru">cpiteam@yandex.ru</a><br>
         ]]>
     </string>
-
     <string name="news_no_item_text">Нет новостей</string>
     <string name="events_no_item_text">Нет событий</string>
     <string name="events_no_place_text">Место проведения смотрите в описании</string>
-    
     <string name="menu_share">Поделиться</string>
-
     <string name="menu_news">Новости</string>
     <string name="menu_events">События</string>
     <string name="menu_radio">Радио</string>
     <string name="menu_radio_vz">«Время Звучать!»</string>
     <string name="menu_info">Настройки</string>
-    
+    <string name="notification_title">\@string/app_name</string>
     <string name="notification_text">Радио «Время Звучать!»</string>
-    
     <string name="share_radio_title">Радио «Время Звучать!»</string>
     <string name="share_radio_body">Я слушаю %s на радио «Время Звучать!». https://vzradio.ru</string>
-
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="error_no_internet">Интернет недоступен</string>
-
+    <string name="placeholder">Пусто</string>
     <string name="notification_weekly">Неделя до "%1$s"</string>
-    <string name="notification_dayly">Завтра "%1$s"</string>
-    
+    <string name="notification_daily">Завтра "%1$s"</string>
 </resources>
