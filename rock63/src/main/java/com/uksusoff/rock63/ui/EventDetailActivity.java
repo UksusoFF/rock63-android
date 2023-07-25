@@ -11,7 +11,7 @@ import androidx.core.app.ShareCompat;
 
 import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 import com.uksusoff.rock63.R;
-import com.uksusoff.rock63.data.entities.Event;
+import com.uksusoff.rock63.data.entities.EventItem;
 
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
@@ -32,23 +32,23 @@ public class EventDetailActivity extends BaseMenuActivity {
     @Extra(EXTRA_ITEM_ID)
     int eventId;
 
-    @ViewById(R.id.event_detail_placephone)
-    TextView placePhone;
+    @ViewById(R.id.event_detail_venue_phone)
+    TextView venuePhone;
 
-    @ViewById(R.id.event_detail_placelink)
-    TextView placeLink;
+    @ViewById(R.id.event_detail_venue_link)
+    TextView venueLink;
 
-    @ViewById(R.id.event_detail_placevklink)
-    TextView placeVkLink;
+    @ViewById(R.id.event_detail_venue_vk)
+    TextView venueVk;
 
-    private Event event;
+    private EventItem event;
 
     @Override
     protected void init() {
         super.init();
 
         try {
-            event = getHelper().getEventDao().queryForId(eventId);
+            event = getHelper().getEventItemsDao().queryForId(eventId);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -63,32 +63,32 @@ public class EventDetailActivity extends BaseMenuActivity {
             ((TextView) findViewById(R.id.event_detail_datentime)).setText(String.format("%s %s", fDate.format(event.getStart()), fTime.format(event.getStart())));
         }
 
-        if (event.getPlace() != null) {
-            ((TextView) findViewById(R.id.event_detail_placename)).setText(event.getPlace().getName());
-            ((TextView) findViewById(R.id.event_detail_placeaddr)).setText(event.getPlace().getAddress());
+        if (event.getVenueItem() != null) {
+            ((TextView) findViewById(R.id.event_detail_placename)).setText(event.getVenueItem().getName());
+            ((TextView) findViewById(R.id.event_detail_placeaddr)).setText(event.getVenueItem().getAddress());
 
-            if (event.getPlace().getPhone() != null && !event.getPlace().getPhone().equals("")) {
-                placePhone.setVisibility(View.VISIBLE);
-                placePhone.setMovementMethod(LinkMovementMethod.getInstance());
-                placePhone.setText(Html.fromHtml(event.getPlace().getPhone()));
+            if (event.getVenueItem().getPhone() != null && !event.getVenueItem().getPhone().equals("")) {
+                venuePhone.setVisibility(View.VISIBLE);
+                venuePhone.setMovementMethod(LinkMovementMethod.getInstance());
+                venuePhone.setText(Html.fromHtml(event.getVenueItem().getPhone()));
             } else {
-                placePhone.setVisibility(View.GONE);
+                venuePhone.setVisibility(View.GONE);
             }
 
-            if (event.getPlace().getUrl() != null && !event.getPlace().getUrl().equals("")) {
-                placeLink.setVisibility(View.VISIBLE);
-                placeLink.setMovementMethod(LinkMovementMethod.getInstance());
-                placeLink.setText(Html.fromHtml(event.getPlace().getUrl()));
+            if (event.getVenueItem().getUrl() != null && !event.getVenueItem().getUrl().equals("")) {
+                venueLink.setVisibility(View.VISIBLE);
+                venueLink.setMovementMethod(LinkMovementMethod.getInstance());
+                venueLink.setText(Html.fromHtml(event.getVenueItem().getUrl()));
             } else {
-                placeLink.setVisibility(View.GONE);
+                venueLink.setVisibility(View.GONE);
             }
 
-            if (event.getPlace().getVkUrl() != null && !event.getPlace().getVkUrl().equals("")) {
-                placeVkLink.setVisibility(View.VISIBLE);
-                placeVkLink.setMovementMethod(LinkMovementMethod.getInstance());
-                placeVkLink.setText(Html.fromHtml(event.getPlace().getVkUrl()));
+            if (event.getVenueItem().getVkUrl() != null && !event.getVenueItem().getVkUrl().equals("")) {
+                venueVk.setVisibility(View.VISIBLE);
+                venueVk.setMovementMethod(LinkMovementMethod.getInstance());
+                venueVk.setText(Html.fromHtml(event.getVenueItem().getVkUrl()));
             } else {
-                placeVkLink.setVisibility(View.GONE);
+                venueVk.setVisibility(View.GONE);
             }
 
             ((Button) findViewById(R.id.event_detail_infdetailbtn)).setOnClickListener(new View.OnClickListener() {
@@ -131,8 +131,8 @@ public class EventDetailActivity extends BaseMenuActivity {
 
     private void shareEvent() {
         String subject;
-        if (event.getPlace() != null) {
-            subject = String.format("%s @ %s", event.getTitle(), event.getPlace().getName());
+        if (event.getVenueItem() != null) {
+            subject = String.format("%s @ %s", event.getTitle(), event.getVenueItem().getName());
         } else {
             subject = event.getTitle();
         }

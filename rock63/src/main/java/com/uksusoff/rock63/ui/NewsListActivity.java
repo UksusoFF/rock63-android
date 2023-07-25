@@ -1,6 +1,5 @@
 package com.uksusoff.rock63.ui;
 
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.SimpleAdapter;
@@ -8,7 +7,7 @@ import android.widget.SimpleAdapter;
 import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 import com.uksusoff.rock63.R;
 import com.uksusoff.rock63.data.DataSource;
-import com.uksusoff.rock63.data.entities.Event;
+import com.uksusoff.rock63.data.entities.EventItem;
 import com.uksusoff.rock63.data.entities.NewsItem;
 import com.uksusoff.rock63.exceptions.NoContentException;
 import com.uksusoff.rock63.exceptions.NoInternetException;
@@ -18,7 +17,6 @@ import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ItemClick;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -62,13 +60,13 @@ public class NewsListActivity extends ItemListActivity {
     protected ListAdapter createAdapterFromStorageItems() {
         List<Map<String, Object>> data = new ArrayList<>();
 
-        for (NewsItem item : source.getAllNews()) {
+        for (NewsItem newsItem : source.getAllNews()) {
             Map<String, Object> datum = new HashMap<>(3);
 
-            datum.put("title", item.getTitle());
-            datum.put("text", StringUtils.crop(StringUtils.fromHtml(item.getBody()), 50, true));
-            datum.put("imageUrl", item.getSmallThumbUrl());
-            datum.put("obj", item);
+            datum.put("title", newsItem.getTitle());
+            datum.put("text", StringUtils.crop(StringUtils.fromHtml(newsItem.getBody()), 50, true));
+            datum.put("imageUrl", newsItem.getSmallThumbUrl());
+            datum.put("obj", newsItem);
 
             data.add(datum);
         }
@@ -110,7 +108,7 @@ public class NewsListActivity extends ItemListActivity {
     @ItemClick(R.id.list)
     public void newsItemClicked(Map<String, Object> item) {
         NewsItem newsItem = (NewsItem) item.get("obj");
-        Event related = source.eventGetRelated(newsItem);
+        EventItem related = source.eventGetRelated(newsItem);
         if (related == null) {
             NewsDetailActivity_.intent(this).newsItemId(newsItem.getId()).start();
         } else {

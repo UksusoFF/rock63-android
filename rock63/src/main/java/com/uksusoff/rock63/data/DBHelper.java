@@ -7,31 +7,32 @@ import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
-import com.uksusoff.rock63.data.entities.Event;
+import com.uksusoff.rock63.data.entities.EventItem;
 import com.uksusoff.rock63.data.entities.NewsItem;
-import com.uksusoff.rock63.data.entities.Place;
+import com.uksusoff.rock63.data.entities.VenueItem;
 
 import java.sql.SQLException;
 
 public class DBHelper extends OrmLiteSqliteOpenHelper {
 
     private static final String DATABASE_NAME = "rock63androidclient";
-    private static final int DATABASE_VERSION = 6;
-    private Dao<Event, Integer> eventDao;
-    private Dao<NewsItem, Integer> newsItemDao;
-    private Dao<Place, Integer> placeDao;
+
+    private static final int DATABASE_VERSION = 7;
+
+    private Dao<EventItem, Integer> eventItemsDao;
+    private Dao<NewsItem, Integer> newsItemsDao;
+    private Dao<VenueItem, Integer> venueItemsDao;
 
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-
     @Override
     public void onCreate(SQLiteDatabase db, ConnectionSource connectionSource) {
         try {
-            TableUtils.createTable(connectionSource, Event.class);
+            TableUtils.createTable(connectionSource, EventItem.class);
             TableUtils.createTable(connectionSource, NewsItem.class);
-            TableUtils.createTable(connectionSource, Place.class);
+            TableUtils.createTable(connectionSource, VenueItem.class);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -40,34 +41,33 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, ConnectionSource connectionSource, int oldVersion, int newVersion) {
         try {
-            TableUtils.dropTable(connectionSource, Event.class, true);
+            TableUtils.dropTable(connectionSource, EventItem.class, true);
             TableUtils.dropTable(connectionSource, NewsItem.class, true);
-            TableUtils.dropTable(connectionSource, Place.class, true);
+            TableUtils.dropTable(connectionSource, VenueItem.class, true);
             onCreate(db);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public Dao<Event, Integer> getEventDao() throws SQLException {
-        if (eventDao == null) {
-            eventDao = getDao(Event.class);
+    public Dao<EventItem, Integer> getEventItemsDao() throws SQLException {
+        if (eventItemsDao == null) {
+            eventItemsDao = getDao(EventItem.class);
         }
-        return eventDao;
+        return eventItemsDao;
     }
 
-    public Dao<NewsItem, Integer> getNewsItemDao() throws SQLException {
-        if (newsItemDao == null) {
-            newsItemDao = getDao(NewsItem.class);
+    public Dao<NewsItem, Integer> getNewsItemsDao() throws SQLException {
+        if (newsItemsDao == null) {
+            newsItemsDao = getDao(NewsItem.class);
         }
-        return newsItemDao;
+        return newsItemsDao;
     }
 
-    public Dao<Place, Integer> getPlaceDao() throws SQLException {
-        if (placeDao == null) {
-            placeDao = getDao(Place.class);
+    public Dao<VenueItem, Integer> getVenueItemsDao() throws SQLException {
+        if (venueItemsDao == null) {
+            venueItemsDao = getDao(VenueItem.class);
         }
-        return placeDao;
+        return venueItemsDao;
     }
-
 }

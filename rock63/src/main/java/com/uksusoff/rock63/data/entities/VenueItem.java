@@ -2,7 +2,7 @@ package com.uksusoff.rock63.data.entities;
 
 import com.j256.ormlite.field.DatabaseField;
 
-public class Place {
+public class VenueItem {
 
     @DatabaseField(id = true)
     int id;

@@ -15,7 +15,7 @@ import com.uksusoff.rock63.R;
 import com.uksusoff.rock63.data.DataSource;
 import com.uksusoff.rock63.data.DataSource_;
 import com.uksusoff.rock63.data.UserPrefs_;
-import com.uksusoff.rock63.data.entities.Event;
+import com.uksusoff.rock63.data.entities.EventItem;
 import com.uksusoff.rock63.exceptions.NoContentException;
 import com.uksusoff.rock63.exceptions.NoInternetException;
 import com.uksusoff.rock63.ui.EventDetailActivity_;
@@ -96,7 +96,7 @@ public class NotificationJob extends Job {
     }
 
     private void checkScheduledJob() {
-        List<Event> events = dataSource.eventsGetAll(false);
+        List<EventItem> events = dataSource.eventsGetAll(false);
 
         if (events.isEmpty()) {
             try {
@@ -116,7 +116,7 @@ public class NotificationJob extends Job {
         }
 
         Date start = getTodayMidnight();
-        for (Event event : events) {
+        for (EventItem event : events) {
             if (!event.isNotify()) {
                 continue;
             }
@@ -136,7 +136,7 @@ public class NotificationJob extends Job {
         }
     }
 
-    private void showReminderNotification(Event event, ReminderType type) {
+    private void showReminderNotification(EventItem event, ReminderType type) {
 
         Map<ReminderType, Integer> contentMap = new HashMap<>();
         contentMap.put(ReminderType.DAILY, R.string.notification_daily);
@@ -145,8 +145,8 @@ public class NotificationJob extends Job {
         String place = "";
         int contentResId = contentMap.get(type);
 
-        if (event.getPlace() != null) {
-            place = event.getPlace().getName() + " ";
+        if (event.getVenueItem() != null) {
+            place = event.getVenueItem().getName() + " ";
         }
 
         place += (new SimpleDateFormat("HH:mm", Locale.getDefault())).format(event.getStart());

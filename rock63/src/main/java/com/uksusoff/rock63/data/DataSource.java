@@ -5,9 +5,9 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.stmt.DeleteBuilder;
-import com.uksusoff.rock63.data.entities.Event;
+import com.uksusoff.rock63.data.entities.EventItem;
 import com.uksusoff.rock63.data.entities.NewsItem;
-import com.uksusoff.rock63.data.entities.Place;
+import com.uksusoff.rock63.data.entities.VenueItem;
 import com.uksusoff.rock63.exceptions.NoContentException;
 import com.uksusoff.rock63.exceptions.NoInternetException;
 import com.uksusoff.rock63.utils.DateUtils;
@@ -53,7 +53,7 @@ public class DataSource {
 
     public List<NewsItem> getAllNews() {
         try {
-            return database.getNewsItemDao().queryBuilder().orderBy("date", false).query();
+            return database.getNewsItemsDao().queryBuilder().orderBy("date", false).query();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -64,7 +64,7 @@ public class DataSource {
 
         before.setTime(before.getTime() - NEWS_LIFETIME_DAYS * 1000 * 60 * 60 * 24);
 
-        DeleteBuilder<NewsItem, Integer> builder = database.getNewsItemDao().deleteBuilder();
+        DeleteBuilder<NewsItem, Integer> builder = database.getNewsItemsDao().deleteBuilder();
 
         builder.where().le("date", before);
         builder.delete();
@@ -81,7 +81,7 @@ public class DataSource {
             newsCleanUp();
 
             List<Integer> ids = new LinkedList<>();
-            for (NewsItem item : database.getNewsItemDao().queryForAll()) {
+            for (NewsItem item : database.getNewsItemsDao().queryForAll()) {
                 ids.add(item.getId());
             }
 
@@ -92,7 +92,7 @@ public class DataSource {
 
                 NewsItem newsItem;
                 if (ids.contains(id)) {
-                    newsItem = database.getNewsItemDao().queryForId(id);
+                    newsItem = database.getNewsItemsDao().queryForId(id);
                 } else {
                     newsItem = new NewsItem();
                 }
@@ -118,7 +118,7 @@ public class DataSource {
                 }
                 newsItem.setNew(true);
 
-                database.getNewsItemDao().createOrUpdate(newsItem);
+                database.getNewsItemsDao().createOrUpdate(newsItem);
             }
 
             db.setTransactionSuccessful();
@@ -129,9 +129,9 @@ public class DataSource {
         }
     }
 
-    public List<Event> eventsGetAll(boolean ascending) {
+    public List<EventItem> eventsGetAll(boolean ascending) {
         try {
-            return database.getEventDao().queryBuilder().orderBy("start", ascending).query();
+            return database.getEventItemsDao().queryBuilder().orderBy("start", ascending).query();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -145,7 +145,7 @@ public class DataSource {
         try {
             JSONArray events = getEntitiesArray("/events");
 
-            database.getEventDao().deleteBuilder().delete();
+            database.getEventItemsDao().deleteBuilder().delete();
 
             for (int i = 0; i < events.length(); i++) {
                 JSONObject eventJson = events.getJSONObject(i);
@@ -158,32 +158,32 @@ public class DataSource {
                     }
                 }
 
-                Event e = new Event();
-                e.setId(eventJson.getInt("id"));
-                e.setTitle(eventJson.getString("title"));
+                EventItem eventItem = new EventItem();
+                eventItem.setId(eventJson.getInt("id"));
+                eventItem.setTitle(eventJson.getString("title"));
                 if (eventJson.has("desc")) {
-                    e.setBody(eventJson.getString("desc"));
+                    eventItem.setBody(eventJson.getString("desc"));
                 } else {
-                    e.setBody("");
+                    eventItem.setBody("");
                 }
                 if (eventJson.has("ext_url")) {
-                    e.setBody(e.getBody() + eventJson.getString("ext_url"));
+                    eventItem.setBody(eventItem.getBody() + eventJson.getString("ext_url"));
                 }
-                e.setStart(DateUtils.fromTimestamp(eventJson.getJSONObject("date").getInt("s")));
+                eventItem.setStart(DateUtils.fromTimestamp(eventJson.getJSONObject("date").getInt("s")));
                 if (eventJson.has("img")) {
-                    e.setMediumThumbUrl(eventJson.getJSONObject("img").getString("img_m"));
+                    eventItem.setMediumThumbUrl(eventJson.getJSONObject("img").getString("img_m"));
                 }
                 if (eventJson.getJSONObject("date").has("e"))
-                    e.setEnd(DateUtils.fromTimestamp(eventJson.getJSONObject("date").getInt("e")));
+                    eventItem.setEnd(DateUtils.fromTimestamp(eventJson.getJSONObject("date").getInt("e")));
                 if (eventJson.has("v_id")) {
-                    e.setPlace(database.getPlaceDao().queryForId(eventJson.getInt("v_id")));
+                    eventItem.setVenueItem(database.getVenueItemsDao().queryForId(eventJson.getInt("v_id")));
                 } else {
-                    e.setPlace(null);
+                    eventItem.setVenueItem(null);
                 }
-                e.setUrl(eventJson.getString("url"));
-                e.setNotify(eventJson.has("notify"));
+                eventItem.setUrl(eventJson.getString("url"));
+                eventItem.setNotify(eventJson.has("notify"));
 
-                database.getEventDao().create(e);
+                database.getEventItemsDao().create(eventItem);
             }
 
             db.setTransactionSuccessful();
@@ -194,9 +194,9 @@ public class DataSource {
         }
     }
 
-    public Event eventGetRelated(NewsItem item) {
+    public EventItem eventGetRelated(NewsItem item) {
         try {
-            return database.getEventDao().queryForId(item.getId());
+            return database.getEventItemsDao().queryForId(item.getId());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -204,28 +204,28 @@ public class DataSource {
 
     public void venuesRefresh() throws NoInternetException, NoContentException {
         try {
-            JSONArray places = getEntitiesArray("/venues");
+            JSONArray venues = getEntitiesArray("/venues");
 
-            database.getPlaceDao().deleteBuilder().delete();
+            database.getVenueItemsDao().deleteBuilder().delete();
 
-            for (int i = 0; i < places.length(); i++) {
-                JSONObject placeJson = places.getJSONObject(i);
+            for (int i = 0; i < venues.length(); i++) {
+                JSONObject venueJson = venues.getJSONObject(i);
 
-                Place place = new Place();
-                place.setId(placeJson.getInt("id"));
-                place.setName(placeJson.getString("title"));
-                place.setAddress(placeJson.getString("address"));
-                if (placeJson.has("site")) {
-                    place.setUrl(placeJson.getString("site"));
+                VenueItem venueItem = new VenueItem();
+                venueItem.setId(venueJson.getInt("id"));
+                venueItem.setName(venueJson.getString("title"));
+                venueItem.setAddress(venueJson.getString("address"));
+                if (venueJson.has("site")) {
+                    venueItem.setUrl(venueJson.getString("site"));
                 }
-                if (placeJson.has("phone")) {
-                    place.setPhone(placeJson.getString("phone"));
+                if (venueJson.has("phone")) {
+                    venueItem.setPhone(venueJson.getString("phone"));
                 }
-                if (placeJson.has("vk")) {
-                    place.setVkUrl(placeJson.getString("vk"));
+                if (venueJson.has("vk")) {
+                    venueItem.setVkUrl(venueJson.getString("vk"));
                 }
 
-                database.getPlaceDao().create(place);
+                database.getVenueItemsDao().create(venueItem);
             }
         } catch (JSONException | SQLException e) {
             throw new RuntimeException(e);

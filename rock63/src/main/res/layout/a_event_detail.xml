@@ -71,19 +71,19 @@
 	            android:text="@string/placeholder" />
 	
 	        <TextView
-	            android:id="@+id/event_detail_placephone"
+	            android:id="@+id/event_detail_venue_phone"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
 	            android:text="@string/placeholder" />
 	
 	        <TextView
-	            android:id="@+id/event_detail_placelink"
+	            android:id="@+id/event_detail_venue_link"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
 	            android:text="@string/placeholder" />
 	
 	        <TextView
-	            android:id="@+id/event_detail_placevklink"
+	            android:id="@+id/event_detail_venue_vk"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
 	            android:text="@string/placeholder" />

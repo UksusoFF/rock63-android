@@ -4,7 +4,7 @@ import com.j256.ormlite.field.DatabaseField;
 
 import java.util.Date;
 
-public class Event {
+public class EventItem {
 
     @DatabaseField(id = true)
     int id;
@@ -21,7 +21,7 @@ public class Event {
     @DatabaseField
     String url;
     @DatabaseField(foreign = true, foreignAutoCreate = true, foreignAutoRefresh = true)
-    Place place;
+    VenueItem venueItem;
     @DatabaseField
     boolean notify;
 
@@ -33,12 +33,12 @@ public class Event {
         this.mediumThumbUrl = mediumThumbUrl;
     }
 
-    public Place getPlace() {
-        return place;
+    public VenueItem getVenueItem() {
+        return venueItem;
     }
 
-    public void setPlace(Place place) {
-        this.place = place;
+    public void setVenueItem(VenueItem venueItem) {
+        this.venueItem = venueItem;
     }
 
     public int getId() {

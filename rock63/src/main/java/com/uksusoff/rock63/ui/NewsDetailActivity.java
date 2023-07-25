@@ -51,7 +51,7 @@ public class NewsDetailActivity extends BaseMenuActivity {
         }
 
         try {
-            newsItem = getHelper().getNewsItemDao().queryForId(newsItemId);
+            newsItem = getHelper().getNewsItemsDao().queryForId(newsItemId);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

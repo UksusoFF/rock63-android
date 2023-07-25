@@ -8,7 +8,7 @@ import androidx.core.view.MenuItemCompat;
 
 import com.uksusoff.rock63.R;
 import com.uksusoff.rock63.data.DataSource;
-import com.uksusoff.rock63.data.entities.Event;
+import com.uksusoff.rock63.data.entities.EventItem;
 import com.uksusoff.rock63.exceptions.NoContentException;
 import com.uksusoff.rock63.exceptions.NoInternetException;
 import com.uksusoff.rock63.ui.adapters.AdvSimpleAdapter;
@@ -94,17 +94,17 @@ public class EventsListActivity extends ItemListActivity {
     protected ListAdapter createAdapterFromStorageItems() {
         List<Map<String, Object>> data = new ArrayList<>();
 
-        for (Event item : source.eventsGetAll(true)) {
+        for (EventItem eventItem : source.eventsGetAll(true)) {
             Map<String, Object> datum = new HashMap<>(3);
             SimpleDateFormat f = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
 
-            datum.put("title", item.getTitle());
-            datum.put("date", f.format(item.getStart()));
-            datum.put("place", item.getPlace() != null
-                    ? item.getPlace().getName()
+            datum.put("title", eventItem.getTitle());
+            datum.put("date", f.format(eventItem.getStart()));
+            datum.put("place", eventItem.getVenueItem() != null
+                    ? eventItem.getVenueItem().getName()
                     : getText(R.string.events_no_place_text)
             );
-            datum.put("obj", item);
+            datum.put("obj", eventItem);
 
             data.add(datum);
         }
@@ -117,7 +117,7 @@ public class EventsListActivity extends ItemListActivity {
                 new int[]{
                         com.uksusoff.rock63.R.id.event_item_title,
                         com.uksusoff.rock63.R.id.event_item_date,
-                        com.uksusoff.rock63.R.id.event_item_place,
+                        com.uksusoff.rock63.R.id.event_item_venue,
                 }
         );
     }
@@ -129,7 +129,7 @@ public class EventsListActivity extends ItemListActivity {
 
     @ItemClick(R.id.list)
     public void eventItemClicked(Map<String, Object> item) {
-        EventDetailActivity_.intent(this).eventId(((Event) item.get("obj")).getId()).start();
+        EventDetailActivity_.intent(this).eventId(((EventItem) item.get("obj")).getId()).start();
     }
 
 }
