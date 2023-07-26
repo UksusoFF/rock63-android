@@ -1,6 +1,7 @@
 package com.uksusoff.rock63.data.entities;
 
 import com.j256.ormlite.field.DatabaseField;
+import com.uksusoff.rock63.utils.StringUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -40,7 +41,7 @@ public class EventItem {
     }
 
     public String getDescriptionText() {
-        return this.body + this.ext;
+        return StringUtils.concat(this.body, this.ext);
     }
 
     public String getShareSubject() {

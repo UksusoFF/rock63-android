@@ -31,7 +31,7 @@ public class NewsItem {
     }
 
     public String getDescriptionText() {
-        return this.body + this.ext;
+        return StringUtils.concat(this.body, this.ext);
     }
 
     public String getShareSubject() {

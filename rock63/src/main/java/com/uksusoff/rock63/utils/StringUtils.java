@@ -13,6 +13,10 @@ import java.nio.charset.StandardCharsets;
 
 public class StringUtils {
 
+    public static String concat(String l, String r) {
+        return (l != null ? l : "") + (r != null ? r : "");
+    }
+
     public static String crop(String source, int places, boolean addDots) {
         String postfix = addDots ? "..." : "";
 
