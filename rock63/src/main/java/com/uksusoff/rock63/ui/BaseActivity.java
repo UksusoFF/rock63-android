@@ -8,6 +8,7 @@ import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.uksusoff.rock63.BuildConfig;
 import com.uksusoff.rock63.data.DBHelper;
 import com.uksusoff.rock63.data.InternalPrefs_;
 
@@ -29,6 +30,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = new Intent(ACTION_CHECK_ALARM);
+        intent.setPackage(BuildConfig.APPLICATION_ID);
         sendBroadcast(intent);
     }
 
