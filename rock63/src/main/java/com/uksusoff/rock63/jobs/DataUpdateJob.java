@@ -2,6 +2,7 @@ package com.uksusoff.rock63.jobs;
 
 import androidx.annotation.NonNull;
 
+import com.bugsnag.android.Bugsnag;
 import com.evernote.android.job.Job;
 import com.uksusoff.rock63.data.DataSource;
 import com.uksusoff.rock63.exceptions.NoContentException;
@@ -27,6 +28,9 @@ public class DataUpdateJob extends Job {
             source.newsRefresh();
         } catch (NoInternetException | NoContentException e) {
             //Just not this time
+            Bugsnag.notify(e);
+        } catch (Exception e) {
+            Bugsnag.notify(e);
         }
 
         return Result.SUCCESS;

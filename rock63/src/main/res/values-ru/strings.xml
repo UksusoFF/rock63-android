@@ -47,6 +47,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="error_no_internet">Интернет недоступен</string>
+    <string name="error_try_later">Ошибка, попробуйте позже</string>
     <string name="placeholder">Пусто</string>
     <string name="notification_weekly">Неделя до "%1$s"</string>
     <string name="notification_daily">Завтра "%1$s"</string>

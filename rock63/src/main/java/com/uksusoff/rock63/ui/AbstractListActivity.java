@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.bugsnag.android.Bugsnag;
 import com.uksusoff.rock63.R;
 import com.uksusoff.rock63.exceptions.NoContentException;
 import com.uksusoff.rock63.exceptions.NoInternetException;
@@ -51,20 +52,12 @@ public abstract class AbstractListActivity extends AbstractMenuActivity {
 
         loadNewsFromDatabase();
 
-        refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
+        refresh.setOnRefreshListener(this::refreshList);
+        refresh.post(() -> {
+            if (isRefreshing()) {
+                setRefreshIndicatorActive(true);
+            } else if (list.getAdapter().isEmpty()) {
                 refreshList();
-            }
-        });
-        refresh.post(new Runnable() {
-            @Override
-            public void run() {
-                if (isRefreshing()) {
-                    setRefreshIndicatorActive(true);
-                } else if (list.getAdapter().isEmpty()) {
-                    refreshList();
-                }
             }
         });
     }
@@ -90,6 +83,9 @@ public abstract class AbstractListActivity extends AbstractMenuActivity {
             getActiveActivity().loadNewsFromDatabase();
         } catch (NoInternetException | NoContentException e) {
             showWarning(R.string.error_no_internet);
+        } catch (Exception e) {
+            Bugsnag.notify(e);
+            showWarning(R.string.error_try_later);
         } finally {
             setRefreshing(false);
         }

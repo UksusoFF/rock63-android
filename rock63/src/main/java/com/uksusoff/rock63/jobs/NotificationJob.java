@@ -9,6 +9,7 @@ import android.content.Intent;
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 
+import com.bugsnag.android.Bugsnag;
 import com.evernote.android.job.Job;
 import com.evernote.android.job.JobRequest;
 import com.uksusoff.rock63.R;
@@ -107,6 +108,10 @@ public class NotificationJob extends Job {
                 events = dataSource.eventsGetAll(false);
             } catch (NoInternetException | NoContentException e) {
                 //Well, till next time
+                Bugsnag.notify(e);
+                return;
+            } catch (Exception e) {
+                Bugsnag.notify(e);
                 return;
             }
         }

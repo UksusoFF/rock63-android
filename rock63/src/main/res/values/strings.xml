@@ -26,6 +26,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="error_no_internet">No internet</string>
+    <string name="error_try_later">Error, try again later</string>
     <string name="placeholder">None</string>
     <string name="notification_weekly">Week before "%1$s"</string>
     <string name="notification_daily">Day before "%1$s"</string>
