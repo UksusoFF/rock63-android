@@ -14,7 +14,7 @@ import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 
 @EActivity(R.layout.a_settings)
-public class SettingsActivity extends BaseMenuActivity {
+public class SettingsActivity extends AbstractMenuActivity {
 
     @ViewById(R.id.info_body_text)
     TextView bodyText;

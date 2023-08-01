@@ -17,7 +17,7 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
 @EActivity
-public abstract class BaseMenuActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
+public abstract class AbstractMenuActivity extends AbstractBaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     @ViewById(R.id.drawer_layout)
     DrawerLayout drawer;

@@ -17,7 +17,7 @@ import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 
 @EActivity(R.layout.a_list)
-public abstract class ItemListActivity extends BaseMenuActivity {
+public abstract class AbstractListActivity extends AbstractMenuActivity {
 
     @ViewById(R.id.list)
     ListView list;
@@ -32,9 +32,9 @@ public abstract class ItemListActivity extends BaseMenuActivity {
 
     protected abstract void setRefreshing(boolean refreshing);
 
-    protected abstract ItemListActivity getActiveActivity();
+    protected abstract AbstractListActivity getActiveActivity();
 
-    protected abstract void setActiveActivity(ItemListActivity activity);
+    protected abstract void setActiveActivity(AbstractListActivity activity);
 
     protected abstract ListAdapter createAdapterFromStorageItems();
 

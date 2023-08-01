@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 @EActivity(R.layout.a_list)
-public class NewsListActivity extends ItemListActivity {
+public class NewsListActivity extends AbstractListActivity {
 
     @Bean
     DataSource source;
@@ -41,12 +41,12 @@ public class NewsListActivity extends ItemListActivity {
     }
 
     @Override
-    protected ItemListActivity getActiveActivity() {
+    protected AbstractListActivity getActiveActivity() {
         return activeActivity;
     }
 
     @Override
-    protected void setActiveActivity(ItemListActivity activity) {
+    protected void setActiveActivity(AbstractListActivity activity) {
         activeActivity = (NewsListActivity) activity;
     }
 

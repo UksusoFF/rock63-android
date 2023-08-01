@@ -5,7 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.uksusoff.rock63.ui.BaseActivity;
+import com.uksusoff.rock63.ui.AbstractBaseActivity;
 
 import org.androidannotations.annotations.EReceiver;
 import org.androidannotations.annotations.ReceiverAction;
@@ -31,7 +31,7 @@ public abstract class BaseScheduledReceiver extends BroadcastReceiver {
         createAlarmIfNeeded();
     }
 
-    @ReceiverAction(actions = BaseActivity.ACTION_CHECK_ALARM)
+    @ReceiverAction(actions = AbstractBaseActivity.ACTION_CHECK_ALARM)
     public void firstLaunch(Context context) {
         this.context = context;
         createAlarmIfNeeded();

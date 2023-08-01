@@ -23,7 +23,7 @@ import java.sql.SQLException;
 
 @EActivity(R.layout.a_event_detail)
 @OptionsMenu(R.menu.menu_detail)
-public class EventDetailActivity extends BaseMenuActivity {
+public class EventDetailActivity extends AbstractMenuActivity {
 
     public static final String EXTRA_ITEM_ID = "eventItem";
 

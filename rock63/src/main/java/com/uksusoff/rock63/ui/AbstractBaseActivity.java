@@ -17,7 +17,7 @@ import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 
 @EActivity
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class AbstractBaseActivity extends AppCompatActivity {
 
     public static final String ACTION_CHECK_ALARM = "com.uksusoff.rock63.ui.ACTION_CHECK_ALARM";
 

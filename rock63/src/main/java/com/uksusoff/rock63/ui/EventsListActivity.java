@@ -27,7 +27,7 @@ import java.util.Map;
 
 @EActivity(R.layout.a_list)
 @OptionsMenu(R.menu.menu_search_list)
-public class EventsListActivity extends ItemListActivity {
+public class EventsListActivity extends AbstractListActivity {
 
     @Bean
     DataSource source;
@@ -46,12 +46,12 @@ public class EventsListActivity extends ItemListActivity {
     }
 
     @Override
-    protected ItemListActivity getActiveActivity() {
+    protected AbstractListActivity getActiveActivity() {
         return activeActivity;
     }
 
     @Override
-    protected void setActiveActivity(ItemListActivity activity) {
+    protected void setActiveActivity(AbstractListActivity activity) {
         activeActivity = (EventsListActivity) activity;
     }
 
