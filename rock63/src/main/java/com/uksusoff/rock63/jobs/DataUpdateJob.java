@@ -23,9 +23,7 @@ public class DataUpdateJob extends Job {
     @Override
     protected Result onRunJob(Params params) {
         try {
-            source.venuesRefresh();
-            source.eventsRefresh();
-            source.newsRefresh();
+            source.sourcesRefresh();
         } catch (NoInternetException | NoContentException e) {
             //Just not this time
             Bugsnag.notify(e);

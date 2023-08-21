@@ -124,7 +124,7 @@ public class EventsListActivity extends AbstractListActivity {
 
     @Override
     protected void refreshItemStorage() throws NoInternetException, NoContentException {
-        source.eventsRefresh();
+        source.sourcesRefresh();
     }
 
     @ItemClick(R.id.list)

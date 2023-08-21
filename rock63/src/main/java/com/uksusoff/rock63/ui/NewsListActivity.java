@@ -101,7 +101,7 @@ public class NewsListActivity extends AbstractListActivity {
 
     @Override
     protected void refreshItemStorage() throws NoInternetException, NoContentException {
-        source.newsRefresh();
+        source.sourcesRefresh();
     }
 
     @ItemClick(R.id.list)

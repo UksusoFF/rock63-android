@@ -22,6 +22,7 @@ import com.uksusoff.rock63.exceptions.NoInternetException;
 import com.uksusoff.rock63.ui.EventDetailActivity_;
 import com.uksusoff.rock63.utils.DateUtils;
 
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
 
 import java.text.SimpleDateFormat;
@@ -46,7 +47,9 @@ public class NotificationJob extends Job {
 
     private UserPrefs_ userPrefs;
     private NotificationManager notificationManager;
-    private DataSource dataSource;
+
+    @Bean
+    DataSource source;
 
     public static long[] getNextExecutionWindow() {
         long start = DateUtils.delayToHour(17);
@@ -82,7 +85,6 @@ public class NotificationJob extends Job {
         notificationManager =
                 (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
         userPrefs = new UserPrefs_(getContext());
-        dataSource = DataSource_.getInstance_(getContext());
     }
 
     private static long getWeekInterval() {
@@ -100,12 +102,12 @@ public class NotificationJob extends Job {
     }
 
     private void checkScheduledJob() {
-        List<EventItem> events = dataSource.eventsGetAll(false);
+        List<EventItem> events = source.eventsGetAll(false);
 
         if (events.isEmpty()) {
             try {
-                dataSource.eventsRefresh();
-                events = dataSource.eventsGetAll(false);
+                source.sourcesRefresh();
+                events = source.eventsGetAll(false);
             } catch (NoInternetException | NoContentException e) {
                 //Well, till next time
                 Bugsnag.notify(e);

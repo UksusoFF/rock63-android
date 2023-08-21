@@ -70,7 +70,7 @@ public class DataSource {
         builder.delete();
     }
 
-    public void newsRefresh() throws NoInternetException, NoContentException {
+    private void newsRefresh() throws NoInternetException, NoContentException {
         final SQLiteDatabase db = database.getWritableDatabase();
 
         db.beginTransaction();
@@ -126,7 +126,7 @@ public class DataSource {
         }
     }
 
-    public void eventsRefresh() throws NoInternetException, NoContentException {
+    private void eventsRefresh() throws NoInternetException, NoContentException {
         final SQLiteDatabase db = database.getWritableDatabase();
 
         db.beginTransaction();
@@ -142,7 +142,7 @@ public class DataSource {
                 if (eventJson.has("venues_up")) {
                     long lastPlacesUpdate = eventJson.getLong("venues_up");
                     if (intPrefs.lastUpdatedPlaces().get() != lastPlacesUpdate) {
-                        venuesRefresh();
+                        this.venuesRefresh();
                         intPrefs.lastUpdatedPlaces().put(lastPlacesUpdate);
                     }
                 }
@@ -185,7 +185,7 @@ public class DataSource {
         }
     }
 
-    public void venuesRefresh() throws NoInternetException, NoContentException {
+    private void venuesRefresh() throws NoInternetException, NoContentException {
         try {
             JSONArray venues = getEntitiesArray("/venues");
 
@@ -241,5 +241,11 @@ public class DataSource {
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void sourcesRefresh() throws NoInternetException, NoContentException {
+        this.venuesRefresh();
+        this.eventsRefresh();
+        this.newsRefresh();
     }
 }
