@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: "com.bugsnag.android.gradle"
 
 android {
-    compileSdkVersion 34
+    compileSdk 34
     useLibrary 'org.apache.http.legacy'
 
     lintOptions {
