@@ -27,7 +27,9 @@ public class NewsItem {
     public String url;
 
     public String getShortDescriptionText() {
-        return StringUtils.crop(StringUtils.cleanHtml(this.body), 50, true);
+        return this.body != null
+                ? StringUtils.crop(StringUtils.cleanHtml(this.body), 50, true)
+                : "";
     }
 
     public String getDescriptionText() {
@@ -35,7 +37,7 @@ public class NewsItem {
     }
 
     public String getShareSubject() {
-        return this.title + "\n\n" + StringUtils.fromHtml(this.body);
+        return this.title + (this.body != null ? "\n\n" + StringUtils.fromHtml(this.body) : "");
     }
 
     public String getShareText() {
