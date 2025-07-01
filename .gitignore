@@ -6,3 +6,4 @@ local.properties
 *.hprof
 *.keystore
 .env
+problems-report.html

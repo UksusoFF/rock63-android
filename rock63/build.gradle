@@ -5,10 +5,6 @@ android {
     compileSdk 34
     useLibrary 'org.apache.http.legacy'
 
-    lintOptions {
-        disable 'NonConstantResourceId'
-        disable 'LockedOrientationActivity'
-    }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -33,6 +29,9 @@ android {
         }
     }
     namespace 'com.uksusoff.rock63'
+    lint {
+        disable 'NonConstantResourceId', 'LockedOrientationActivity'
+    }
 }
 
 def AAVersion = '4.8.0'
